@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  identity.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+    image: anteyasid/identity.api
+    build:
+      context: .
+      dockerfile: src/Services/Identity/Identity.API/Dockerfile
