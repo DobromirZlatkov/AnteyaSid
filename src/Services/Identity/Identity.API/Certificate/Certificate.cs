@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 
-namespace Identity.API.Certificate
+namespace AnteyaSidOnContainers.Services.Identity.API.Certificate
 {
     static class Certificate
     {

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
-namespace Identity.API.Data
+namespace AnteyaSidOnContainers.Services.Identity.API.Data
 {
     public class ConfigurationDbContextSeed
     {

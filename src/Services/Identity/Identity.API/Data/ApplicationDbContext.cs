@@ -1,8 +1,8 @@
-﻿using Identity.API.Models;
+﻿using AnteyaSidOnContainers.Services.Identity.API.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Identity.API.Data
+namespace AnteyaSidOnContainers.Services.Identity.API.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {

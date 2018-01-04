@@ -1,4 +1,4 @@
-﻿using Identity.API.Models;
+﻿using AnteyaSidOnContainers.Services.Identity.API.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Identity.API.Data
+namespace AnteyaSidOnContainers.Services.Identity.API.Data
 {
 
     public class ApplicationDbContextSeed

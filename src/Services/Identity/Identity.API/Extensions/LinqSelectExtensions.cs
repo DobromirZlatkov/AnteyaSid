@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Identity.API.Extensions
+namespace AnteyaSidOnContainers.Services.Identity.API.Extensions
 {
     public static class LinqSelectExtensions
     {

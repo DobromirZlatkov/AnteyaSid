@@ -2,7 +2,7 @@
 using IdentityServer4.Models;
 using System.Collections.Generic;
 
-namespace Identity.API.Configuration
+namespace AnteyaSidOnContainers.Services.Identity.API.Configuration
 {
     public class Config
     {
