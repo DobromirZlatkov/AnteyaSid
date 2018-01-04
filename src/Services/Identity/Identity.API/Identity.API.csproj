@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <Folder Include="Setup\" />
-    <Folder Include="Services\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

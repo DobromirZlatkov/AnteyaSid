@@ -13,7 +13,7 @@ namespace AnteyaSidOnContainers.Services.Identity.API
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.0.0-rtm-26452")
+                .HasAnnotation("ProductVersion", "1.0.0-rc3")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Identity.API.Models.ApplicationUser", b =>
@@ -23,12 +23,9 @@ namespace AnteyaSidOnContainers.Services.Identity.API
 
                 b.Property<int>("AccessFailedCount");
 
-     
-
                 b.Property<string>("ConcurrencyStamp")
                     .IsConcurrencyToken();
                 
-
                 b.Property<string>("Email")
                     .HasMaxLength(256);
 
