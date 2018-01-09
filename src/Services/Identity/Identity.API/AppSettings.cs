@@ -1,4 +1,4 @@
-﻿namespace Identity.API
+﻿namespace AnteyaSidOnContainers.Services.Identity.API
 {
     public class AppSettings
     {
