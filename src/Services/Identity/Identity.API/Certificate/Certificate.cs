@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 
-namespace AnteyaSidOnContainers.Services.Identity.API.Certificate
+namespace AnteyaSidOnContainers.Services.Identity.API.Certificates
 {
     static class Certificate
     {
@@ -10,8 +10,7 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Certificate
         {
             var assembly = typeof(Certificate).GetTypeInfo().Assembly;
             var names = assembly.GetManifestResourceNames();
-
-
+            string[] result = assembly.GetManifestResourceNames();
             using (var stream = assembly.GetManifestResourceStream("Identity.API.Certificate.idsrv3test.pfx"))
             {
                 return new X509Certificate2(ReadStream(stream), "idsrv3test");

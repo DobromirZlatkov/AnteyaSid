@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 
-namespace AnteyaSidOnContainers.BuildingBlocks.HealthChecks.Microsoft.Extensions.HealthChecks.Checks
+namespace AnteyaSidOnContainers.BuildingBlocks.HealthChecks.Microsoft.Extensions.HealthChecks
 {
     public static partial class HealthCheckBuilderExtensions
     {
