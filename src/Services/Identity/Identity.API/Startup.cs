@@ -1,17 +1,20 @@
-﻿using System;
-using System.Reflection;
-using AnteyaSidOnContainers.Services.Identity.API.Data;
+﻿using AnteyaSidOnContainers.Services.Identity.API.Data;
 using AnteyaSidOnContainers.Services.Identity.API.Models;
+
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.ApplicationInsights.ServiceFabric;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 using StackExchange.Redis;
+using System;
+using System.Reflection;
 
 namespace AnteyaSidOnContainers.Services.Identity.API
 {
@@ -52,10 +55,12 @@ namespace AnteyaSidOnContainers.Services.Identity.API
             {
                 services.AddDataProtection(opts =>
                 {
-                    opts.ApplicationDiscriminator = "anteyasid.identity"
+                    opts.ApplicationDiscriminator = "anteyasid.identity";
                 })
-                .PersistKeysToRedis.PersistKeysToRedis(ConnectionMultiplexer.Connect(Configuration["DPConnectionString"]), "DataProtection-Keys");
+                .PersistKeysToRedis(ConnectionMultiplexer.Connect(Configuration["DPConnectionString"]), "DataProtection-Keys");
             }
+
+            services.AddHealthChecks()
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
