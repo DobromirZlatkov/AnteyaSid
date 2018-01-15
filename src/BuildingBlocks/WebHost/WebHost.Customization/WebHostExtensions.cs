@@ -28,8 +28,6 @@ namespace AnteyaSidOnContainers.BuildingBlocks.WebHost.Customization
                         .WaitAndRetry(new TimeSpan[]
                         {
                             TimeSpan.FromSeconds(5),
-                            TimeSpan.FromSeconds(10),
-                            TimeSpan.FromSeconds(15),
                         });
 
                     retry.Execute(() =>

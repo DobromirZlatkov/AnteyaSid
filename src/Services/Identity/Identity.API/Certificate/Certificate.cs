@@ -10,8 +10,9 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Certificates
         {
             var assembly = typeof(Certificate).GetTypeInfo().Assembly;
             var names = assembly.GetManifestResourceNames();
+
             string[] result = assembly.GetManifestResourceNames();
-            using (var stream = assembly.GetManifestResourceStream("Identity.API.Certificate.idsrv3test.pfx"))
+            using (var stream = assembly.GetManifestResourceStream("AnteyaSidOnContainers.Services.Identity.API.Certificate.idsrv3test.pfx"))
             {
                 return new X509Certificate2(ReadStream(stream), "idsrv3test");
             }
