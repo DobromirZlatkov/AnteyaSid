@@ -11,7 +11,7 @@ using System;
 namespace AnteyaSidOnContainers.Services.Identity.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180115174446_InitialCreate")]
+    [Migration("20180117155214_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
