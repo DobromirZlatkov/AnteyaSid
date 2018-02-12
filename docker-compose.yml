@@ -10,3 +10,9 @@ services:
     build:
       context: .
       dockerfile: src/Services/Identity/Identity.API/Dockerfile
+
+  webmvc:
+    image: anteyasid/webmvc
+    build:
+      context: .
+      dockerfile: src/Web Apps/WebMVC/Dockerfile

@@ -24,15 +24,28 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebHost", "WebHost", "{BB9A5329-FB65-4631-9CB0-8741AB747DB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebHost.Customization", "src\BuildingBlocks\WebHost\WebHost.Customization\WebHost.Customization.csproj", "{DBEBC23C-F45E-4CDB-B8B8-E8F2EBD90674}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebHost.Customization", "src\BuildingBlocks\WebHost\WebHost.Customization\WebHost.Customization.csproj", "{DBEBC23C-F45E-4CDB-B8B8-E8F2EBD90674}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HealthChecks", "HealthChecks", "{297679D7-3B65-4649-AD00-35A6DE347BCF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AspNetCore.HealthChecks", "src\BuildingBlocks\HealthChecks\Microsoft.AspNetCore.HealthChecks\Microsoft.AspNetCore.HealthChecks.csproj", "{DEB5D7DE-2726-4061-8DF7-03728978AB8D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNetCore.HealthChecks", "src\BuildingBlocks\HealthChecks\Microsoft.AspNetCore.HealthChecks\Microsoft.AspNetCore.HealthChecks.csproj", "{DEB5D7DE-2726-4061-8DF7-03728978AB8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Extensions.HealthChecks", "src\BuildingBlocks\HealthChecks\Microsoft.Extensions.HealthChecks\Microsoft.Extensions.HealthChecks.csproj", "{4961B959-7F11-40E2-AC63-49B5839C995F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Extensions.HealthChecks", "src\BuildingBlocks\HealthChecks\Microsoft.Extensions.HealthChecks\Microsoft.Extensions.HealthChecks.csproj", "{4961B959-7F11-40E2-AC63-49B5839C995F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Extensions.HealthChecks.SqlServer", "src\BuildingBlocks\HealthChecks\Microsoft.Extensions.HealthChecks.SqlServer\Microsoft.Extensions.HealthChecks.SqlServer.csproj", "{10873F0C-A190-4C3F-B98C-A0117F18E2C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Extensions.HealthChecks.SqlServer", "src\BuildingBlocks\HealthChecks\Microsoft.Extensions.HealthChecks.SqlServer\Microsoft.Extensions.HealthChecks.SqlServer.csproj", "{10873F0C-A190-4C3F-B98C-A0117F18E2C8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{1C7BF2A7-A49A-4E98-95EF-28E1BAA39837}"
+	ProjectSection(SolutionItems) = preProject
+		docs\enableSqlServerTcpConnection.txt = docs\enableSqlServerTcpConnection.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web Apps", "Web Apps", "{E644C4DD-EDE4-4B89-B12A-D78669451E0D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebMVC", "src\Web Apps\WebMVC\WebMVC.csproj", "{C905D1B5-0E27-4D07-B746-7A02176A4785}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resilience", "Resilience", "{55BF9911-9971-4E3A-B2F3-A20624E90BF9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resilience.Http", "src\BuildingBlocks\Resilience\Resilience.Http\Resilience.Http.csproj", "{C75841D7-51C1-49BB-B7F2-9A8A5F6F0F6E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -64,6 +77,14 @@ Global
 		{10873F0C-A190-4C3F-B98C-A0117F18E2C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10873F0C-A190-4C3F-B98C-A0117F18E2C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10873F0C-A190-4C3F-B98C-A0117F18E2C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C905D1B5-0E27-4D07-B746-7A02176A4785}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C905D1B5-0E27-4D07-B746-7A02176A4785}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C905D1B5-0E27-4D07-B746-7A02176A4785}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C905D1B5-0E27-4D07-B746-7A02176A4785}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C75841D7-51C1-49BB-B7F2-9A8A5F6F0F6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C75841D7-51C1-49BB-B7F2-9A8A5F6F0F6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C75841D7-51C1-49BB-B7F2-9A8A5F6F0F6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C75841D7-51C1-49BB-B7F2-9A8A5F6F0F6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,6 +100,10 @@ Global
 		{DEB5D7DE-2726-4061-8DF7-03728978AB8D} = {297679D7-3B65-4649-AD00-35A6DE347BCF}
 		{4961B959-7F11-40E2-AC63-49B5839C995F} = {297679D7-3B65-4649-AD00-35A6DE347BCF}
 		{10873F0C-A190-4C3F-B98C-A0117F18E2C8} = {297679D7-3B65-4649-AD00-35A6DE347BCF}
+		{E644C4DD-EDE4-4B89-B12A-D78669451E0D} = {ECA86D3D-BCC8-4802-9270-8D61C1DAEA21}
+		{C905D1B5-0E27-4D07-B746-7A02176A4785} = {E644C4DD-EDE4-4B89-B12A-D78669451E0D}
+		{55BF9911-9971-4E3A-B2F3-A20624E90BF9} = {A9EBB35A-77A0-4A8B-A3C4-89F22469E571}
+		{C75841D7-51C1-49BB-B7F2-9A8A5F6F0F6E} = {55BF9911-9971-4E3A-B2F3-A20624E90BF9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8FEE6B85-5873-43C4-9122-E9050C652E7B}
