@@ -1,0 +1,10 @@
+1. Enable from SQL Server Configuration Manager -> SQL Server Network Configuration -> TCP/IP ( enable )
+2. Restart SQL Server service
+3. Connect To SQL Server by MSSQL Managment Studio -> left click on server -> properties -> connections > check "Allow remote connections to this server"
+4. Connect To SQL Server by MSSQL Managment Studio -> expand Security -> Logins -> sa -> right click -> SQL Server Authentication -> set some password -> OK
+5. Open cmd -> ipconfig -> copy IPv4 (default switch) and use as connection address.
+6. Get the TCP port number used by SQL Server. In most cases you are connecting to the Database Engine from another computer using the TCP protocol.
+	a. Using SQL Server Management Studio on the computer running SQL Server, connect to the instance of SQL Server. In Object Explorer, expand Management, expand SQL Server Logs, and then double-click the current log.
+    b. In the Log Viewer, click the Filter button on the toolbar. In the Message contains text box, type server is listening on, click Apply filter, and then click OK.
+    c. A message similar to Server is listening on [ 'any' <ipv4> 1433] should be listed. This message indicates that this instance of SQL Server is listening on all the IP addresses on this computer (for IP version 4) and is listening to TCP port 1433. (TCP port 1433 is usually the port used by the Database Engine. Only one instance of SQL Server can use a port, so if there is more than one instance of SQL Server installed, some instances must use other port numbers.) Make a note of the port number used by the instance of SQL Server that you are trying to connect to.
+Note
