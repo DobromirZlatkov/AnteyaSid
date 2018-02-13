@@ -50,20 +50,20 @@ namespace AnteyaSidOnContainers.WebApps.WebMVC
 
             services.Configure<AppSettings>(Configuration);
 
-            services.AddHealthChecks(checks =>
-            {
-                var minutes = 1;
-                if (int.TryParse(Configuration["HealthCheck:Timeout"], out var minutesParsed))
-                {
-                    minutes = minutesParsed;
-                }
+            //services.AddHealthChecks(checks =>
+            //{
+            //    var minutes = 1;
+            //    if (int.TryParse(Configuration["HealthCheck:Timeout"], out var minutesParsed))
+            //    {
+            //        minutes = minutesParsed;
+            //    }
 
-                checks.AddUrlCheck(Configuration["CatalogUrlHC"], TimeSpan.FromMinutes(minutes));
-                checks.AddUrlCheck(Configuration["OrderingUrlHC"], TimeSpan.FromMinutes(minutes));
-                checks.AddUrlCheck(Configuration["BasketUrlHC"], TimeSpan.Zero); //No cache for this HealthCheck, better just for demos 
-                checks.AddUrlCheck(Configuration["IdentityUrlHC"], TimeSpan.FromMinutes(minutes));
-                checks.AddUrlCheck(Configuration["MarketingUrlHC"], TimeSpan.FromMinutes(minutes));
-            });
+            //    //checks.AddUrlCheck(Configuration["CatalogUrlHC"], TimeSpan.FromMinutes(minutes));
+            //    //checks.AddUrlCheck(Configuration["OrderingUrlHC"], TimeSpan.FromMinutes(minutes));
+            //    //checks.AddUrlCheck(Configuration["BasketUrlHC"], TimeSpan.Zero); //No cache for this HealthCheck, better just for demos 
+            //    checks.AddUrlCheck(Configuration["IdentityUrlHC"], TimeSpan.FromMinutes(minutes));
+            //    //checks.AddUrlCheck(Configuration["MarketingUrlHC"], TimeSpan.FromMinutes(minutes));
+            //});
 
             // Add application services.
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -176,7 +176,7 @@ namespace AnteyaSidOnContainers.WebApps.WebMVC
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Catalog}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
 
                 routes.MapRoute(
                     name: "defaultError",
