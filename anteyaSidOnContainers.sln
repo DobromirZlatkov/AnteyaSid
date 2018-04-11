@@ -37,15 +37,16 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{1C7BF2A7-A49A-4E98-95EF-28E1BAA39837}"
 	ProjectSection(SolutionItems) = preProject
 		docs\enableSqlServerTcpConnection.txt = docs\enableSqlServerTcpConnection.txt
+		RoadMap.txt = RoadMap.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web Apps", "Web Apps", "{E644C4DD-EDE4-4B89-B12A-D78669451E0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebMVC", "src\Web Apps\WebMVC\WebMVC.csproj", "{C905D1B5-0E27-4D07-B746-7A02176A4785}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebMVC", "src\Web Apps\WebMVC\WebMVC.csproj", "{C905D1B5-0E27-4D07-B746-7A02176A4785}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resilience", "Resilience", "{55BF9911-9971-4E3A-B2F3-A20624E90BF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resilience.Http", "src\BuildingBlocks\Resilience\Resilience.Http\Resilience.Http.csproj", "{C75841D7-51C1-49BB-B7F2-9A8A5F6F0F6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Resilience.Http", "src\BuildingBlocks\Resilience\Resilience.Http\Resilience.Http.csproj", "{C75841D7-51C1-49BB-B7F2-9A8A5F6F0F6E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
