@@ -1,5 +1,3 @@
-using System;
-
 namespace AnteyaSidOnContainers.WebApps.WebMVC.WebMVC.Models
 {
     public class ErrorViewModel
