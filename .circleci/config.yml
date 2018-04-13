@@ -25,5 +25,5 @@ jobs:
          docker login --username=$HEROKU_USERNAME --password=$HEROKU_API_KEY registry.heroku.com
          docker tag anteyasid/webmvc registry.heroku.com/$HEROKU_IDENTITY_API_NAME/web
          docker push registry.heroku.com/$HEROKU_IDENTITY_API_NAME/web
-         docker tag anteyasid/webmvc registry.heroku.com/$HEROKU_WEB_MVC_NAME/web
+         docker tag anteyasid/identity.api registry.heroku.com/$HEROKU_WEB_MVC_NAME/web
          docker push registry.heroku.com/$HEROKU_WEB_MVC_NAME/web
