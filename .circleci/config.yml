@@ -1,10 +1,15 @@
 version: 2
+
+general:
+  branches:
+    only:
+     - master
+
 jobs:
   build:
     machine: true
     steps:
       - checkout
-
 
       # build image
       - run: |
