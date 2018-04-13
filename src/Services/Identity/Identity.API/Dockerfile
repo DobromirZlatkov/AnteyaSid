@@ -1,18 +1,21 @@
-FROM microsoft/aspnetcore-build:2.0 AS build-env
+FROM microsoft/aspnetcore:2.0 AS base
 WORKDIR /app
+EXPOSE 80
 
-# Copy csproj and restore as distinct layers
-COPY *.csproj ./
+FROM microsoft/aspnetcore-build:2.0 AS build
+WORKDIR /src
+COPY *.sln ./
+COPY src/Services/Identity/Identity.API/Identity.API.csproj src/Services/Identity/Identity.API/
 RUN dotnet restore
+COPY . .
+WORKDIR /src/src/Services/Identity/Identity.API
+RUN dotnet build -c Release -o /app
 
-# Copy everything else and build
-COPY . ./
+FROM build AS publish
+RUN dotnet publish -c Release -o /app
 
-
-RUN dotnet publish -c Release -o out
-
-# Build runtime image
-FROM microsoft/aspnetcore:2.0
+FROM base AS final
 WORKDIR /app
-COPY --from=build-env /app/out .
+COPY --from=publish /app .
+
 CMD ASPNETCORE_URLS=http://*:$PORT dotnet Identity.API.dll
