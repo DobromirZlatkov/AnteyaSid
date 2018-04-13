@@ -42,12 +42,14 @@ namespace AnteyaSidOnContainers.Services.Identity.API
         {
             RegisterAppInsights(services);
 
+
+            var currAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
             // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration["ConnectionString"],
                                         sqlServerOptionsAction: sqlOptions =>
                                         {
-                                            sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
+                                            sqlOptions.MigrationsAssembly(currAssembly);
                                             //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
                                             sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
                                         }));
@@ -64,7 +66,7 @@ namespace AnteyaSidOnContainers.Services.Identity.API
             {
                 services.AddDataProtection(opts =>
                 {
-                    opts.ApplicationDiscriminator = "anteyasid.identity";
+                    opts.ApplicationDiscriminator = "eshop.identity";
                 })
                 .PersistKeysToRedis(ConnectionMultiplexer.Connect(Configuration["DPConnectionString"]), "DataProtection-Keys");
             }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace AnteyaSidOnContainers.Services.Identity.API.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,19 +29,31 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Migrations
                 {
                     Id = table.Column<string>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
+                    CardHolderName = table.Column<string>(nullable: false),
+                    CardNumber = table.Column<string>(nullable: false),
+                    CardType = table.Column<int>(nullable: false),
+                    City = table.Column<string>(nullable: false),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
+                    Country = table.Column<string>(nullable: false),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
+                    Expiration = table.Column<string>(nullable: false),
+                    LastName = table.Column<string>(nullable: false),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
                     NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
                     PasswordHash = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    SecurityNumber = table.Column<string>(nullable: false),
                     SecurityStamp = table.Column<string>(nullable: true),
+                    State = table.Column<string>(nullable: false),
+                    Street = table.Column<string>(nullable: false),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 256, nullable: true)
+                    UserName = table.Column<string>(maxLength: 256, nullable: true),
+                    ZipCode = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {

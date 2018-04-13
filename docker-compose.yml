@@ -1,12 +1,8 @@
 version: '3'
 
 services:
-  identity.api:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    ports:
-      - "80"
-    image: anteyasid/identity.api
+  webmvc:
+    image: anteyasid/webmvc
     build:
       context: .
-      dockerfile: src/Services/Identity/Identity.API/Dockerfile
+      dockerfile: src/WebApps/WebMVC/Dockerfile.dev

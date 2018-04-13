@@ -27,17 +27,40 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
+                    b.Property<string>("CardHolderName")
+                        .IsRequired();
+
+                    b.Property<string>("CardNumber")
+                        .IsRequired();
+
+                    b.Property<int>("CardType");
+
+                    b.Property<string>("City")
+                        .IsRequired();
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
+
+                    b.Property<string>("Country")
+                        .IsRequired();
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
 
+                    b.Property<string>("Expiration")
+                        .IsRequired();
+
+                    b.Property<string>("LastName")
+                        .IsRequired();
+
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);
@@ -51,12 +74,24 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<string>("SecurityNumber")
+                        .IsRequired();
+
                     b.Property<string>("SecurityStamp");
+
+                    b.Property<string>("State")
+                        .IsRequired();
+
+                    b.Property<string>("Street")
+                        .IsRequired();
 
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
+
+                    b.Property<string>("ZipCode")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
