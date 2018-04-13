@@ -11,9 +11,13 @@ jobs:
          docker info
          docker-compose build
 
+      # print image
+      - run: |
+         docker images
+
       # deploy the image
       - run: |
          docker login --username=$HEROKU_USERNAME --password=$HEROKU_API_KEY registry.heroku.com
        
          docker tag anteyasid/webmvc registry.heroku.com/$HEROKU_WEB_MVC_NAME/web
-         docker push registry.heroku.com/$HEROKU_WEB_MVC_NAME/webdocke
+         docker push registry.heroku.com/$HEROKU_WEB_MVC_NAME/web
