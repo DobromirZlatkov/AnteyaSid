@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <RootNamespace>AnteyaSidOnContainers.Services.Identity.API</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Certificate\idsrv3test.pfx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Certificate\idsrv3test.pfx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Setup\" />
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+	<DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.2.0" />
+    <PackageReference Include="IdentityServer4.AspNetIdentity" Version="2.0.0" />
+    <PackageReference Include="IdentityServer4.EntityFramework" Version="2.1.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights.DependencyCollector" Version="2.4.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights.Kubernetes" Version="1.0.0-beta2" />
+    <PackageReference Include="Microsoft.ApplicationInsights.ServiceFabric" Version="2.0.1-beta1" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.Redis" Version="0.3.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Fabric.MSBuild" Version="1.6.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\HealthChecks\Microsoft.Extensions.HealthChecks.SqlServer\Microsoft.Extensions.HealthChecks.SqlServer.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\HealthChecks\Microsoft.Extensions.HealthChecks\Microsoft.Extensions.HealthChecks.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\WebHost\WebHost.Customization\WebHost.Customization.csproj" />
+  </ItemGroup>
+
+</Project>

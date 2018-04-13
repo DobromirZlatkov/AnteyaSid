@@ -1,0 +1,1 @@
+docker-compose -f .\docker-compose.ci.build.yml -p netcorebuild run ci-build
