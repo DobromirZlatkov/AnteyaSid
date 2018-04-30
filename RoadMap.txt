@@ -1,0 +1,13 @@
+1. Deploy to azure
+2. Deploy to heroku
+  - https://bartwullems.blogspot.bg/2018/03/aspnet-core-docker-build-error-copy.html
+  - https://devcenter.heroku.com/articles/container-registry-and-runtime#pushing-an-existing-image
+
+
+3. create CDI on heroku 
+  - https://blog.iamnguele.com/2018/02/21/continuous-delivery/
+  - https://circleci.com/gh/DobromirZlatkov/dotnetcore-sample/4
+
+4. Enable application to live in heroku
+
+5. Create database in appharbour.
