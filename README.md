@@ -13,4 +13,4 @@ microsoft proof of concept application - https://github.com/dotnet-architecture/
 
 >**Development tasks tracking:** https://www.meistertask.com/
 
->**hosting:** http://heroku.com
+>**Hosting:** http://heroku.com
