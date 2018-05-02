@@ -1,15 +1,10 @@
 version: '3'
 
 services:
-
-  webmvc:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    ports:
-      - "5100:80"
-
   identity.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "5105:80"
+    extra_hosts:
+      - "CESARDLSURFBOOK:54.75.228.188"

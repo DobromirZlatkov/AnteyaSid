@@ -7,12 +7,6 @@ services:
       context: .
       dockerfile: src/Services/Identity/Identity.API/Dockerfile
 
-  webmvc:
-    image: anteyasid/webmvc
-    build:
-      context: .
-      dockerfile: src/WebApps/WebMVC/Dockerfile
-
-    depends_on:
-      - identity.api
-
+networks:
+  hostnet:
+    external: true
