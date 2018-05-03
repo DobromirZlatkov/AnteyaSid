@@ -11,5 +11,7 @@ services:
   identity.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionString=${IDENTITY_API_CONNECTION_STRING:-Server=tcp:cavmwidgetdb.database.windows.net,1433;Initial Catalog=DobriTestDB;Persist Security Info=False;User ID=cavmwidgetdb;Password=ColHak16!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;}
+
     ports:
       - "5105:80"
