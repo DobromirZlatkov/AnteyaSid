@@ -7,6 +7,12 @@ services:
       context: .
       dockerfile: src/Services/Identity/Identity.API/Dockerfile
 
-networks:
-  hostnet:
-    external: true
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionString=${IDENTITY_API_CONNECTION_STRING:-Server=tcp:54.75.228.188,1433;Database=dbbac7ad03789c4069822ca8c000c703f7;User Id=nwghvecacbpgzink;Password=3B5ccmfHXny7M6U2PNukp5hDYgcR8EU32QJjRNKuVPBMTgvirRHp8uj6tzm5iwHr}
+    ports:
+      - "5105:80"
+
+    extra_hosts:
+      - "sqlserverhost:54.75.228.188"
+
