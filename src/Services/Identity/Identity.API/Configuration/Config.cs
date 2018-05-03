@@ -104,11 +104,9 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Configuration
                     ClientUri = $"{clientsUrl["Mvc"]}",                             // public uri of the client
                     AllowedGrantTypes = GrantTypes.Hybrid,
                     AllowAccessTokensViaBrowser = false,
-                    AllowRememberConsent = false,
                     RequireConsent = false,
                     AllowOfflineAccess = true,
                     AlwaysIncludeUserClaimsInIdToken = true,
-                    AuthorizationCodeLifetime = 1,
                     RedirectUris = new List<string>
                     {
                         $"{clientsUrl["Mvc"]}/signin-oidc"
