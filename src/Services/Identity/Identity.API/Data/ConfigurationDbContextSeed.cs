@@ -24,6 +24,14 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Data
             clientUrls.Add("MarketingApi", configuration.GetValue<string>("MarketingApiClient"));
             clientUrls.Add("BasketApi", configuration.GetValue<string>("BasketApiClient"));
             clientUrls.Add("OrderingApi", configuration.GetValue<string>("OrderingApiClient"));
+
+            var clientsToDelete = context.Clients;
+
+            foreach (var client in clientsToDelete)
+            {
+                context.Remove(client);
+                await context.SaveChangesAsync();
+            }
             
             if (!context.Clients.Any())
             {
