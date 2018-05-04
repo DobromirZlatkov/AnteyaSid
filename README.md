@@ -5,7 +5,7 @@ Anteya SID ETD business processes.
 microsoft proof of concept application - https://github.com/dotnet-architecture/eShopOnContainers
 
 # Tools
->**IDE:** Visual Studio Community - https://www.visualstudio.com/vs/community/
+>**IDE:** Visual  Studio Community - https://www.visualstudio.com/vs/community/
 
 >**Containers:** Docker for windows - https://www.docker.com/docker-windows
 
