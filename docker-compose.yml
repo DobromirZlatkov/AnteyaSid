@@ -1,12 +1,6 @@
 version: '3'
 
 services:
-  identity.api:
-    image: anteyasid/identity.api
-    build:
-      context: .
-      dockerfile: src/Services/Identity/Identity.API/Dockerfile
-
   webmvc:
     image: anteyasid/webmvc
     build:
@@ -15,3 +9,10 @@ services:
 
     depends_on:
       - identity.api
+
+  identity.api:
+    image: anteyasid/identity.api
+    build:
+      context: .
+      dockerfile: src/Services/Identity/Identity.API/Dockerfile
+
