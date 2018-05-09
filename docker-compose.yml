@@ -7,9 +7,11 @@ services:
       context: .
       dockerfile: src/Services/Identity/Identity.API/Dockerfile
 
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionString=${IDENTITY_API_CONNECTION_STRING:-Server=tcp:54.75.228.188,1433;Initial Catalog=dbbac7ad03789c4069822ca8c000c703f7;Persist Security Info=False;User ID=nwghvecacbpgzink;Password=3B5ccmfHXny7M6U2PNukp5hDYgcR8EU32QJjRNKuVPBMTgvirRHp8uj6tzm5iwHr;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;}
-    
-    ports:
-      - "5105:80"
+  webmvc:
+    image: anteyasid/webmvc
+    build:
+      context: .
+      dockerfile: src/WebApps/WebMVC/Dockerfile
+
+    depends_on:
+      - identity.api

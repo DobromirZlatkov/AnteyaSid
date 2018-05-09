@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AnteyaSidOnContainers.Services.Identity.API.Migrations.PersistedGrantDb
 {
-    public partial class Grants : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,12 +13,12 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Migrations.PersistedGrantD
                 columns: table => new
                 {
                     Key = table.Column<string>(maxLength: 200, nullable: false),
+                    Type = table.Column<string>(maxLength: 50, nullable: false),
+                    SubjectId = table.Column<string>(maxLength: 200, nullable: true),
                     ClientId = table.Column<string>(maxLength: 200, nullable: false),
                     CreationTime = table.Column<DateTime>(nullable: false),
-                    Data = table.Column<string>(maxLength: 50000, nullable: false),
                     Expiration = table.Column<DateTime>(nullable: true),
-                    SubjectId = table.Column<string>(maxLength: 200, nullable: true),
-                    Type = table.Column<string>(maxLength: 50, nullable: false)
+                    Data = table.Column<string>(maxLength: 50000, nullable: false)
                 },
                 constraints: table =>
                 {

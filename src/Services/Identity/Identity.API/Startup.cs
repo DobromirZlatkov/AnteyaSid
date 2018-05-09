@@ -102,10 +102,10 @@ namespace AnteyaSidOnContainers.Services.Identity.API
             //services.AddIdentityServer(x => x.IssuerUri = "null")
             //    .AddSigningCredential(Certificate.Get())
             //    .AddAspNetIdentity<ApplicationUser>()
-            //    .AddConfigurationStore(options => 
+            //    .AddConfigurationStore(options =>
             //    {
             //        options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString,
-            //                        sqlServerOptionsAction: sqlOptions => 
+            //                        sqlServerOptionsAction: sqlOptions =>
             //                        {
             //                            sqlOptions.MigrationsAssembly(migrationsAssembly);
             //                            //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
@@ -125,7 +125,9 @@ namespace AnteyaSidOnContainers.Services.Identity.API
             //    })
             //    .Services.AddTransient<IProfileService, ProfileService>();
 
-            services.AddIdentityServer(x => x.IssuerUri = "null")
+
+
+            services.AddEntityFrameworkNpgsql().AddIdentityServer(x => x.IssuerUri = "null")
                 .AddSigningCredential(Certificate.Get())
                 .AddAspNetIdentity<ApplicationUser>()
                 .AddConfigurationStore(options =>
