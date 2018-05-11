@@ -7,6 +7,10 @@ microsoft proof of concept application - https://github.com/dotnet-architecture/
 # Tools
 >**IDE:** Visual Studio Community - https://www.visualstudio.com/vs/community/
 
+>**Language:** C# .net Core
+
+>**Stores:** PostgreSQL - https://www.postgresql.org
+
 >**Containers:** Docker for windows - https://www.docker.com/docker-windows
 
 >**CDI:** http://circleci.com
@@ -14,3 +18,5 @@ microsoft proof of concept application - https://github.com/dotnet-architecture/
 >**Development tasks tracking:** https://www.meistertask.com/
 
 >**Hosting:** http://heroku.com
+
+
