@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+
+  webmvc:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - IdentityUrl=http://anteya-identity-api.herokuapp.com
+      - CallBackUrl=http://anteya-web-mvc.herokuapp.com
+    ports:
+      - "5100:80"
+
+  identity.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - NpgConnectionString=${ANTEYA_SID_IDENTITY_DB:-User ID = xrmpnarghogfdr;Password=d2184e0d31696c50040ea6f883f515f88f1096516fc506cf2ce087340970c47f;Server=ec2-54-246-96-76.eu-west-1.compute.amazonaws.com;Port=5432;Database=da7rmjmheg88d4;Integrated Security=true; Pooling=true; sslmode=Require;Trust Server Certificate=true}
+      - MvcClient=http://anteya-web-mvc.herokuapp.com
+    ports:
+      - "5105:80"
