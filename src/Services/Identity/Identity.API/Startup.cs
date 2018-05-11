@@ -46,6 +46,9 @@ namespace AnteyaSidOnContainers.Services.Identity.API
             var currAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
             // Add framework services.
 
+            Console.WriteLine(Configuration["NpgConnectionString"]);
+            Console.WriteLine("The connection string.");
+
             services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>(options => 
             options.UseNpgsql(Configuration["NpgConnectionString"], 
                 NpgsqlOptionsAction: npgsqlOption => {
