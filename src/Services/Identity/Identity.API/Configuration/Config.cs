@@ -97,7 +97,7 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Configuration
                 {
                     ClientId = "mvc",
                     ClientName = "MVC Client",
-                    AccessTokenType = AccessTokenType.Reference,
+                    //AccessTokenType = AccessTokenType.Reference,
                     ClientSecrets = new List<Secret>
                     {
                         new Secret("secret".Sha256())
