@@ -1,4 +1,5 @@
 ﻿using AnteyaSidOnContainers.WebApps.WebMVC.WebMVC.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -18,6 +19,7 @@ namespace AnteyaSidOnContainers.WebApps.WebMVC.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
