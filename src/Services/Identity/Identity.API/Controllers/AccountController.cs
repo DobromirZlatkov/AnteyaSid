@@ -284,21 +284,9 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
                 {
                     UserName = model.Email,
                     Email = model.Email,
-                    //CardHolderName = model.User.CardHolderName,
-                    //CardNumber = model.User.CardNumber,
-                    //CardType = model.User.CardType,
-                    //City = model.User.City,
-                    //Country = model.User.Country,
-                    //Expiration = model.User.Expiration,
-                    //LastName = model.User.LastName,
-                    //Name = model.User.Name,
-                    //Street = model.User.Street,
-                    //State = model.User.State,
-                    //ZipCode = model.User.ZipCode,
-                    //PhoneNumber = model.User.PhoneNumber,
-                    //SecurityNumber = model.User.SecurityNumber
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
+
                 if (result.Errors.Count() > 0)
                 {
                     AddErrors(result);
@@ -310,12 +298,29 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
             if (returnUrl != null)
             {
                 if (HttpContext.User.Identity.IsAuthenticated)
+                {
                     return Redirect(returnUrl);
-                else
-                    if (ModelState.IsValid)
+                }
+                else if (ModelState.IsValid)
+                {
+                    var user = await _loginService.FindByUsername(model.Email);
+                    if (await _loginService.ValidateCredentials(user, model.Password))
+                    { 
+                        await _loginService.SignIn(user);
+
+                        // make sure the returnUrl is still valid, and if yes - redirect back to authorize endpoint
+                        if (_interaction.IsValidReturnUrl(returnUrl))
+                        {
+                            return Redirect(returnUrl);
+                        }
+                    }
+                    
                     return RedirectToAction("login", "account", new { returnUrl = returnUrl });
+                }
                 else
+                {
                     return View(model);
+                }
             }
 
             return RedirectToAction("index", "home");
