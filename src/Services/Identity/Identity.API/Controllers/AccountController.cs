@@ -284,21 +284,9 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
                 {
                     UserName = model.Email,
                     Email = model.Email,
-                    //CardHolderName = model.User.CardHolderName,
-                    //CardNumber = model.User.CardNumber,
-                    //CardType = model.User.CardType,
-                    //City = model.User.City,
-                    //Country = model.User.Country,
-                    //Expiration = model.User.Expiration,
-                    //LastName = model.User.LastName,
-                    //Name = model.User.Name,
-                    //Street = model.User.Street,
-                    //State = model.User.State,
-                    //ZipCode = model.User.ZipCode,
-                    //PhoneNumber = model.User.PhoneNumber,
-                    //SecurityNumber = model.User.SecurityNumber
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
+                
                 if (result.Errors.Count() > 0)
                 {
                     AddErrors(result);
@@ -310,12 +298,17 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
             if (returnUrl != null)
             {
                 if (HttpContext.User.Identity.IsAuthenticated)
+                {
                     return Redirect(returnUrl);
-                else
-                    if (ModelState.IsValid)
+                }
+                else if (ModelState.IsValid)
+                {
                     return RedirectToAction("login", "account", new { returnUrl = returnUrl });
+                }
                 else
+                {
                     return View(model);
+                }
             }
 
             return RedirectToAction("index", "home");
