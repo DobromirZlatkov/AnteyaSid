@@ -19,7 +19,6 @@
     <Folder Include="Migrations\ConfigurationDb\" />
     <Folder Include="Migrations\PersistedGrantDb\" />
     <Folder Include="Setup\" />
-    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>

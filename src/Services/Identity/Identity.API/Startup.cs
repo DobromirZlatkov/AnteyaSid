@@ -45,10 +45,7 @@ namespace AnteyaSidOnContainers.Services.Identity.API
 
             var currAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
             // Add framework services.
-
-            Console.WriteLine(Configuration["NpgConnectionString"]);
-            Console.WriteLine("The connection string.");
-
+            
             services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>(options => 
             options.UseNpgsql(Configuration["NpgConnectionString"], 
                 NpgsqlOptionsAction: npgsqlOption => {
@@ -56,19 +53,15 @@ namespace AnteyaSidOnContainers.Services.Identity.API
                     npgsqlOption.EnableRetryOnFailure(maxRetryCount: 2, maxRetryDelay: TimeSpan.FromSeconds(5), errorCodesToAdd: null);
                 }));
 
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlServer(Configuration["ConnectionString"],
-            //                            sqlServerOptionsAction: sqlOptions =>
-            //                            {
-            //                                sqlOptions.MigrationsAssembly(currAssembly);
-            //                                //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
-            //                                sqlOptions.EnableRetryOnFailure(maxRetryCount: 2, maxRetryDelay: TimeSpan.FromSeconds(5), errorNumbersToAdd: null);
-            //                            }));
-
-
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            services.AddIdentity<ApplicationUser, IdentityRole>(options => {
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 3;
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
 
             services.Configure<AppSettings>(Configuration);
 
@@ -97,38 +90,9 @@ namespace AnteyaSidOnContainers.Services.Identity.API
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddTransient<ILoginService<ApplicationUser>, EFLoginService>();
             services.AddTransient<IRedirectService, RedirectService>();
-
-            //var connectionString = Configuration["ConnectionString"];
+            
             var connectionString = Configuration["NpgConnectionString"];
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
-
-            //services.AddIdentityServer(x => x.IssuerUri = "null")
-            //    .AddSigningCredential(Certificate.Get())
-            //    .AddAspNetIdentity<ApplicationUser>()
-            //    .AddConfigurationStore(options =>
-            //    {
-            //        options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString,
-            //                        sqlServerOptionsAction: sqlOptions =>
-            //                        {
-            //                            sqlOptions.MigrationsAssembly(migrationsAssembly);
-            //                            //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
-            //                            sqlOptions.EnableRetryOnFailure(maxRetryCount: 2, maxRetryDelay: TimeSpan.FromSeconds(5), errorNumbersToAdd: null);
-            //                        });
-            //    })
-            //    .AddOperationalStore(options =>
-            //    {
-            //        options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString,
-            //            sqlServerOptionsAction: sqlOptions =>
-            //            {
-
-            //                sqlOptions.MigrationsAssembly(migrationsAssembly);
-            //                //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
-            //                sqlOptions.EnableRetryOnFailure(maxRetryCount: 2, maxRetryDelay: TimeSpan.FromSeconds(5), errorNumbersToAdd: null);
-            //            });
-            //    })
-            //    .Services.AddTransient<IProfileService, ProfileService>();
-
-
 
             services.AddEntityFrameworkNpgsql().AddIdentityServer(x => x.IssuerUri = "null")
                 .AddSigningCredential(Certificate.Get())
@@ -136,19 +100,18 @@ namespace AnteyaSidOnContainers.Services.Identity.API
                 .AddConfigurationStore(options =>
                 {
                     options.ConfigureDbContext = builder => builder.UseNpgsql(connectionString,
-                                    NpgsqlOptionsAction: npgsqlOption =>
-                                    {
-                                        npgsqlOption.MigrationsAssembly(migrationsAssembly);
-                                        //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
-                                        npgsqlOption.EnableRetryOnFailure(maxRetryCount: 2, maxRetryDelay: TimeSpan.FromSeconds(5), errorCodesToAdd: null);
-                                    });
+                        NpgsqlOptionsAction: npgsqlOption =>
+                        {
+                            npgsqlOption.MigrationsAssembly(migrationsAssembly);
+                            //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
+                            npgsqlOption.EnableRetryOnFailure(maxRetryCount: 2, maxRetryDelay: TimeSpan.FromSeconds(5), errorCodesToAdd: null);
+                        });
                 })
                 .AddOperationalStore(options =>
                 {
                     options.ConfigureDbContext = builder => builder.UseNpgsql(connectionString,
                         NpgsqlOptionsAction: npgsqlOption =>
                         {
-
                             npgsqlOption.MigrationsAssembly(migrationsAssembly);
                             //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
                             npgsqlOption.EnableRetryOnFailure(maxRetryCount: 2, maxRetryDelay: TimeSpan.FromSeconds(5), errorCodesToAdd: null);
