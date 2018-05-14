@@ -286,7 +286,7 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
                     Email = model.Email,
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
-                
+
                 if (result.Errors.Count() > 0)
                 {
                     AddErrors(result);
@@ -303,6 +303,18 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
                 }
                 else if (ModelState.IsValid)
                 {
+                    var user = await _loginService.FindByUsername(model.Email);
+                    if (await _loginService.ValidateCredentials(user, model.Password))
+                    { 
+                        await _loginService.SignIn(user);
+
+                        // make sure the returnUrl is still valid, and if yes - redirect back to authorize endpoint
+                        if (_interaction.IsValidReturnUrl(returnUrl))
+                        {
+                            return Redirect(returnUrl);
+                        }
+                    }
+                    
                     return RedirectToAction("login", "account", new { returnUrl = returnUrl });
                 }
                 else
