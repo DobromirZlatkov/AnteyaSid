@@ -16,6 +16,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using IdentityServer4.Extensions;
 
 namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
 {
@@ -32,17 +33,20 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
         private readonly IClientStore _clientStore;
         private readonly ILogger<AccountController> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IPersistedGrantService _persistedGrantService;
 
         public AccountController(
 
             //InMemoryUserLoginService loginService,
             ILoginService<ApplicationUser> loginService,
             IIdentityServerInteractionService interaction,
+            IPersistedGrantService persistedGrantService,
             IClientStore clientStore,
             ILogger<AccountController> logger,
             UserManager<ApplicationUser> userManager)
         {
             _loginService = loginService;
+            _persistedGrantService = persistedGrantService;
             _interaction = interaction;
             _clientStore = clientStore;
             _logger = logger;
@@ -178,6 +182,7 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
         public async Task<IActionResult> Logout(LogoutViewModel model)
         {
             var idp = User?.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
+            var subjectId = HttpContext.User.Identity.GetSubjectId();
 
             if (idp != null && idp != IdentityServerConstants.LocalIdentityProvider)
             {
@@ -214,6 +219,9 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
 
             // get context information (client name, post logout redirect URI and iframe for federated signout)
             var logout = await _interaction.GetLogoutContextAsync(model.LogoutId);
+
+            //// full user logout. Every time new credentials will be required.
+            //await _persistedGrantService.RemoveAllGrantsAsync(subjectId, "mvc");
 
             return Redirect(logout?.PostLogoutRedirectUri);
         }
@@ -285,7 +293,7 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
                     //Street = model.User.Street,
                     //State = model.User.State,
                     //ZipCode = model.User.ZipCode,
-                    PhoneNumber = model.User.PhoneNumber,
+                    //PhoneNumber = model.User.PhoneNumber,
                     //SecurityNumber = model.User.SecurityNumber
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
