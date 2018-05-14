@@ -223,6 +223,7 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
             //// full user logout. Every time new credentials will be required.
             //await _persistedGrantService.RemoveAllGrantsAsync(subjectId, "mvc");
 
+
             return Redirect(logout?.PostLogoutRedirectUri);
         }
 
