@@ -5,7 +5,7 @@ Services:
 	Identity.Api - authotization server
 	AccessControl.Api - services for giving access of customers to companies, admins etc.
 	Documents.Api - api responsible for containing and generating customer documents( invoices, stock notes, etc. )
-	Stocks.Api - api responsible for listing, creating, editting, deleting and holding stocks ( dovodnici )
+	Items.Api - api responsible for listing, creating, editting, deleting and holding stocks ( dovodnici ) warehouse receipt
 	Company.Api - company details inviting employees and etc.
 
 Building Blocks:

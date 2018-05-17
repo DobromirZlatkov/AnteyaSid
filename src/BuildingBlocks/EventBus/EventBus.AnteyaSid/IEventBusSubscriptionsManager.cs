@@ -2,12 +2,13 @@
 using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Events;
 using System;
 using System.Collections.Generic;
+using static AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.InMemoryEventBusSubscriptionsManager;
 
 namespace AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid
 {
     public interface IEventBusSubscriptionsManager
     {
-        bool isEmpty { get; }
+        bool IsEmpty { get; }
 
         event EventHandler<string> OnEventRemoved;
 

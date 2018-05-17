@@ -14,3 +14,9 @@ services:
     build:
       context: .
       dockerfile: src/Services/Identity/Identity.API/Dockerfile
+  items.api:
+    image: items.api
+    build:
+      context: .
+      dockerfile: src/Services/Items/Items.API/Dockerfile
+
