@@ -19,4 +19,11 @@ microsoft proof of concept application - https://github.com/dotnet-architecture/
 
 >**Hosting:** http://heroku.com
 
+# Hosts infrastructure
+>**WebMVC service:** http://anteya-web-mvc.herokuapp.com/
+
+>**Identity Api service:** http://anteya-identity-api.herokuapp.com/
+
+
+
 

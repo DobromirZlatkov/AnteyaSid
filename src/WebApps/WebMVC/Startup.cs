@@ -114,6 +114,7 @@ namespace AnteyaSidOnContainers.WebApps.WebMVC
             .AddCookie()
             .AddOpenIdConnect(options => {
                 options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+
                 options.Authority = identityUrl.ToString();
                 options.SignedOutRedirectUri = callBackUrl.ToString();
                 options.ClientId = useLoadTest ? "mvctest" : "mvc";
@@ -124,10 +125,10 @@ namespace AnteyaSidOnContainers.WebApps.WebMVC
                 options.RequireHttpsMetadata = false;
                 options.Scope.Add("openid");
                 options.Scope.Add("profile");
-                options.Scope.Add("orders");
-                options.Scope.Add("basket");
-                options.Scope.Add("marketing");
-                options.Scope.Add("locations");
+                //options.Scope.Add("orders");
+                //options.Scope.Add("basket");
+                //options.Scope.Add("marketing");
+                //options.Scope.Add("locations");
             });
         }
 

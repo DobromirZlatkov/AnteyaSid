@@ -16,6 +16,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using IdentityServer4.Extensions;
 
 namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
 {
@@ -32,17 +33,20 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
         private readonly IClientStore _clientStore;
         private readonly ILogger<AccountController> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IPersistedGrantService _persistedGrantService;
 
         public AccountController(
 
             //InMemoryUserLoginService loginService,
             ILoginService<ApplicationUser> loginService,
             IIdentityServerInteractionService interaction,
+            IPersistedGrantService persistedGrantService,
             IClientStore clientStore,
             ILogger<AccountController> logger,
             UserManager<ApplicationUser> userManager)
         {
             _loginService = loginService;
+            _persistedGrantService = persistedGrantService;
             _interaction = interaction;
             _clientStore = clientStore;
             _logger = logger;
@@ -178,6 +182,7 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
         public async Task<IActionResult> Logout(LogoutViewModel model)
         {
             var idp = User?.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
+            var subjectId = HttpContext.User.Identity.GetSubjectId();
 
             if (idp != null && idp != IdentityServerConstants.LocalIdentityProvider)
             {
@@ -208,12 +213,17 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
 
             // delete authentication cookie
             await HttpContext.SignOutAsync();
+            await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
 
             // set this so UI rendering sees an anonymous user
             HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity());
 
             // get context information (client name, post logout redirect URI and iframe for federated signout)
             var logout = await _interaction.GetLogoutContextAsync(model.LogoutId);
+
+            //// full user logout. Every time new credentials will be required.
+            //await _persistedGrantService.RemoveAllGrantsAsync(subjectId, "mvc");
+
 
             return Redirect(logout?.PostLogoutRedirectUri);
         }
@@ -274,21 +284,9 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
                 {
                     UserName = model.Email,
                     Email = model.Email,
-                    //CardHolderName = model.User.CardHolderName,
-                    //CardNumber = model.User.CardNumber,
-                    //CardType = model.User.CardType,
-                    //City = model.User.City,
-                    //Country = model.User.Country,
-                    //Expiration = model.User.Expiration,
-                    //LastName = model.User.LastName,
-                    //Name = model.User.Name,
-                    //Street = model.User.Street,
-                    //State = model.User.State,
-                    //ZipCode = model.User.ZipCode,
-                   // PhoneNumber = model.User.PhoneNumber,
-                    //SecurityNumber = model.User.SecurityNumber
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
+
                 if (result.Errors.Count() > 0)
                 {
                     AddErrors(result);
@@ -300,12 +298,29 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
             if (returnUrl != null)
             {
                 if (HttpContext.User.Identity.IsAuthenticated)
+                {
                     return Redirect(returnUrl);
-                else
-                    if (ModelState.IsValid)
+                }
+                else if (ModelState.IsValid)
+                {
+                    var user = await _loginService.FindByUsername(model.Email);
+                    if (await _loginService.ValidateCredentials(user, model.Password))
+                    { 
+                        await _loginService.SignIn(user);
+
+                        // make sure the returnUrl is still valid, and if yes - redirect back to authorize endpoint
+                        if (_interaction.IsValidReturnUrl(returnUrl))
+                        {
+                            return Redirect(returnUrl);
+                        }
+                    }
+                    
                     return RedirectToAction("login", "account", new { returnUrl = returnUrl });
+                }
                 else
+                {
                     return View(model);
+                }
             }
 
             return RedirectToAction("index", "home");
