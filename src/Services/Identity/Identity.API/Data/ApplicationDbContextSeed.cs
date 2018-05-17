@@ -109,23 +109,11 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Data
             }
 
             var user = new ApplicationUser
-            {
-                CardHolderName = column[Array.IndexOf(headers, "cardholdername")].Trim('"').Trim(),
-                CardNumber = column[Array.IndexOf(headers, "cardnumber")].Trim('"').Trim(),
-                CardType = cardtype,
-                City = column[Array.IndexOf(headers, "city")].Trim('"').Trim(),
-                Country = column[Array.IndexOf(headers, "country")].Trim('"').Trim(),
+            {               
                 Email = column[Array.IndexOf(headers, "email")].Trim('"').Trim(),
-                Expiration = column[Array.IndexOf(headers, "expiration")].Trim('"').Trim(),
-                Id = Guid.NewGuid().ToString(),
-                LastName = column[Array.IndexOf(headers, "lastname")].Trim('"').Trim(),
-                Name = column[Array.IndexOf(headers, "name")].Trim('"').Trim(),
+                Id = Guid.NewGuid().ToString(),               
                 PhoneNumber = column[Array.IndexOf(headers, "phonenumber")].Trim('"').Trim(),
-                UserName = column[Array.IndexOf(headers, "username")].Trim('"').Trim(),
-                ZipCode = column[Array.IndexOf(headers, "zipcode")].Trim('"').Trim(),
-                State = column[Array.IndexOf(headers, "state")].Trim('"').Trim(),
-                Street = column[Array.IndexOf(headers, "street")].Trim('"').Trim(),
-                SecurityNumber = column[Array.IndexOf(headers, "securitynumber")].Trim('"').Trim(),
+                UserName = column[Array.IndexOf(headers, "username")].Trim('"').Trim(),               
                 NormalizedEmail = column[Array.IndexOf(headers, "normalizedemail")].Trim('"').Trim(),
                 NormalizedUserName = column[Array.IndexOf(headers, "normalizedusername")].Trim('"').Trim(),
                 SecurityStamp = Guid.NewGuid().ToString("D"),
@@ -142,22 +130,10 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Data
             var user =
             new ApplicationUser()
             {
-                CardHolderName = "DemoUser",
-                CardNumber = "4012888888881881",
-                CardType = 1,
-                City = "Redmond",
-                Country = "U.S.",
                 Email = "demouser@microsoft.com",
-                Expiration = "12/20",
                 Id = Guid.NewGuid().ToString(),
-                LastName = "DemoLastName",
-                Name = "DemoUser",
                 PhoneNumber = "1234567890",
                 UserName = "demouser@microsoft.com",
-                ZipCode = "98052",
-                State = "WA",
-                Street = "15703 NE 61st Ct",
-                SecurityNumber = "535",
                 NormalizedEmail = "DEMOUSER@MICROSOFT.COM",
                 NormalizedUserName = "DEMOUSER@MICROSOFT.COM",
                 SecurityStamp = Guid.NewGuid().ToString("D"),
