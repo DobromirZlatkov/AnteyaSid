@@ -285,7 +285,7 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
                     //Street = model.User.Street,
                     //State = model.User.State,
                     //ZipCode = model.User.ZipCode,
-                    PhoneNumber = model.User.PhoneNumber,
+                   // PhoneNumber = model.User.PhoneNumber,
                     //SecurityNumber = model.User.SecurityNumber
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
