@@ -8,6 +8,7 @@ services:
       dockerfile: src/WebApps/WebMVC/Dockerfile
     depends_on:
       - identity.api
+      - catalog.api
 
   identity.api:
     image: anteyasid/identity.api
@@ -15,9 +16,8 @@ services:
       context: .
       dockerfile: src/Services/Identity/Identity.API/Dockerfile
 
-  items.api:
-    image: items.api
+  catalog.api:
+    image: anteyasid/catalog.api
     build:
       context: .
-      dockerfile: src/Services/Items/Items.API/Dockerfile
-
+      dockerfile: src/Services/Catalog/Catalog.API/Dockerfile
