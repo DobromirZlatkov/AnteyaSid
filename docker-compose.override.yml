@@ -16,9 +16,10 @@ services:
       - MvcClient=http://localhost:5100
     ports:
       - "5105:80"
+
   items.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - "80"
+      - "5101:80"
 
