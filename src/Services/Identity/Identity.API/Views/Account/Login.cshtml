@@ -14,8 +14,8 @@
     </ul>
 </div>
 <div class="container account-login-container">
-    <div class="row">
-        <div class="col-md-12">
+    <div class="row-responsive">
+        <div class="col-md-4">
             <section>
                 <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
                     <input type="hidden" asp-for="ReturnUrl" />
@@ -59,7 +59,6 @@
         </div>
     </div>
 </div>
-
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
