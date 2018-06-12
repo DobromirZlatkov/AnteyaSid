@@ -9,14 +9,13 @@
     </ul>
 </div>
 <div class="container register-container">
-    <div class="col-md-4"></div>
-    <div class="col-md-4" style="margin:30px">
+    <div class="col-md-4 col-md-offset-4">
         <section>
             <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal" style="margin-top:100px;">
                 <h4 class="order-create-section-title text-center">CREATE NEW ACCOUNT</h4>
                 <div asp-validation-summary="All" class="text-danger"></div>
 
-                <div class="row">
+                <div>
                     <div class="form-group">
                         <label asp-for="Email" class="control-label form-label"></label>
                         <input asp-for="Email" class="form-control form-input-center" />
@@ -34,7 +33,7 @@
                     </div>
                 </div>
                 <br /><br />
-                <div class="form-group">
+                <div class="form-group text-right">
                     <button type="submit" class="btn btn-default btn-brand">&nbsp;Register&nbsp;</button>
                 </div>
                 <br /><br />

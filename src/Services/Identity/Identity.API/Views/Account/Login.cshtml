@@ -15,13 +15,13 @@
 </div>
 <div class="container account-login-container">
     <div class="row">
-        <div class="col-md-4"> </div>
-        <div class="col-md-4" style="margin:30px">
+        <div class="col-md-4 col-md-offset-4">
             <section>
                 <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
                     <input type="hidden" asp-for="ReturnUrl" />
+                    <br />
                     <div class="text-center"><h4>ARE YOU REGISTERED?</h4></div>
-                    
+
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="Email" class="control-label form-label"></label>
@@ -41,21 +41,12 @@
                             </label>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group text-right">
                         <button type="submit" class="btn btn-default btn-brand btn-brand-big">&nbsp;LOG IN&nbsp;</button>
                     </div>
-                    <p>
+                    <div class="form-group text-right">
                         <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" class="text">Register as a new user?</a>
-                    </p>
-                    <p>
-                        Note that for demo purposes you don't need to register and can login with these credentials:
-                    </p>
-                    <p>
-                        User:     <b>demouser@microsoft.com</b>
-                    </p>
-                    <p>
-                        Password: <b>Pass@word1</b>
-                    </p>
+                    </div>
                 </form>
             </section>
         </div>
