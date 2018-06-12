@@ -68,12 +68,6 @@ body {
 }
 
 /* Set widths on the form inputs since otherwise they're 100% wide */
-input,
-select,
-textarea {
-    max-width: 280px;
-}
-
 .select-filter {
     background-color: transparent;
     padding: 10px;
@@ -172,7 +166,7 @@ select::-ms-expand {
     padding: 10px 20px 10px 20px;
     border-radius: 0px;
     border: none;
-    width: 255px;
+    width: 100%;
     display: inline-block;
     text-align: center;
     text-transform: uppercase;
@@ -911,3 +905,6 @@ form .col-md-4 {
         padding-left: 0px;
     }
 }
+
+
+
