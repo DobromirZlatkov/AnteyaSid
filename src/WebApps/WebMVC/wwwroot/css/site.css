@@ -33,3 +33,13 @@
         display: none;
     }
 }
+
+#logoutForm {
+    text-align: center;
+}
+
+#logoutForm > a {
+    color: white;
+}
+
+
