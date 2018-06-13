@@ -7,22 +7,19 @@
 @{
     ViewData["Title"] = "Log in";
 }
-<div class="brand-header-block">
-    <ul class="container">
-        <li><a asp-area="" asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">REGISTER</a></li>
-        <li class="active" style="margin-right: 65px;">LOGIN</li>
-    </ul>
-</div>
+
 <div class="container account-login-container">
     <div class="row">
-        <div class="col-md-4 col-md-offset-4">
+        <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 text-left">
             <section>
                 <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
                     <input type="hidden" asp-for="ReturnUrl" />
                     <br />
                     <div class="text-center"><h4>ARE YOU REGISTERED?</h4></div>
 
-                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div asp-validation-summary="All" class="text-danger">
+
+                    </div>
                     <div>
                         <label asp-for="Email" class="control-label form-label"></label>
                         <input asp-for="Email" class="form-control form-input form-input-center" />
@@ -41,10 +38,10 @@
                             </label>
                         </div>
                     </div>
-                    <div class="form-group text-right">
+                    <div class="text-right">
                         <button type="submit" class="btn btn-default btn-brand btn-brand-big">&nbsp;LOG IN&nbsp;</button>
                     </div>
-                    <div class="form-group text-right">
+                    <div class="text-right">
                         <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" class="text">Register as a new user?</a>
                     </div>
                 </form>
