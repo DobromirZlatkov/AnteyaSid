@@ -17,6 +17,7 @@ jobs:
 
       - run: | 
          heroku help
+         heroku container --help
 
       # build image
       - run: |
