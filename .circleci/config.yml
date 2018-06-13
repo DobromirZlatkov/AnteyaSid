@@ -31,7 +31,10 @@ jobs:
          docker push registry.heroku.com/$HEROKU_IDENTITY_API_NAME/web:latest
          docker tag anteyasid/webmvc registry.heroku.com/$HEROKU_WEB_MVC_NAME/web
          docker push registry.heroku.com/$HEROKU_WEB_MVC_NAME/web
+
+      - run: |
          heroku plugins:install heroku-container-registry
+      - run: |
          heroku container:release web --app $HEROKU_IDENTITY_API_NAME
          heroku container:release web --app $HEROKU_WEB_MVC_NAME
       
