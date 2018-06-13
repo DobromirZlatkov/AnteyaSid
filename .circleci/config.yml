@@ -38,6 +38,11 @@ jobs:
 
       - run: |
          heroku plugins:install heroku-container-registry
+         heroku container --help
+
+      - run: | 
+         heroku container --help
+
       - run: |
          heroku docker:release web --app $HEROKU_IDENTITY_API_NAME
          heroku docker:release web --app $HEROKU_WEB_MVC_NAME
