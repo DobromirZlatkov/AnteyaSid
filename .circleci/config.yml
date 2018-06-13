@@ -37,13 +37,13 @@ jobs:
          docker push registry.heroku.com/$HEROKU_WEB_MVC_NAME/web
 
       - run: |
-         heroku plugins:install heroku-container-registry
+         heroku plugins:install heroku-container-registry --force
          heroku container --help
 
       - run: | 
          heroku container --help
 
       - run: |
-         heroku docker:release web --app $HEROKU_IDENTITY_API_NAME
-         heroku docker:release web --app $HEROKU_WEB_MVC_NAME
+         heroku container:release web --app $HEROKU_IDENTITY_API_NAME
+         heroku container:release web --app $HEROKU_WEB_MVC_NAME
       
