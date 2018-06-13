@@ -33,7 +33,7 @@ jobs:
          docker push registry.heroku.com/$HEROKU_WEB_MVC_NAME/web
 
       # release images not wirking with current circleci config
-      - run: |
-         heroku container:release web --app $HEROKU_IDENTITY_API_NAME
-         heroku container:release web --app $HEROKU_WEB_MVC_NAME
+      #- run: |
+         #heroku container:release web --app $HEROKU_IDENTITY_API_NAME
+         #heroku container:release web --app $HEROKU_WEB_MVC_NAME
       
