@@ -33,7 +33,7 @@ jobs:
          docker push registry.heroku.com/$HEROKU_WEB_MVC_NAME/web
 
       - run: |
-         heroku plugins:install @heroku-cli/plugin-container-registry --force
+         heroku plugins:install @heroku-cli/plugin-container-registry
 
       # release images 
       - run: |
