@@ -34,8 +34,8 @@ jobs:
          docker tag anteyasid/webmvc registry.heroku.com/$HEROKU_WEB_MVC_NAME/web
          docker push registry.heroku.com/$HEROKU_WEB_MVC_NAME/web
 
-      - run: |
-          heroku plugins:install plugin-container-registry
+      #- run: |
+         #heroku plugins:install plugin-container-registry
 
       # release images 
       - run: |
