@@ -15,6 +15,7 @@ jobs:
 
       - run: |
          heroku --version
+         heroku update
 
       # build image
       - run: |
