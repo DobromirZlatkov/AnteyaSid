@@ -5,9 +5,15 @@ general:
     only:
      - master
 
-dependencies:
-  cache_directories:
-    - ~/docker
+
+deployment:
+  prod:
+    branch: master
+    commands:
+      - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
+      - heroku plugins:install plugin-container-registry
+      - heroku plugins:install @heroku-cli/plugin-container-registry
+      - heroku --version #whatever command you want
 
 jobs:
   build:
@@ -32,8 +38,8 @@ jobs:
          docker tag anteyasid/webmvc registry.heroku.com/$HEROKU_WEB_MVC_NAME/web
          docker push registry.heroku.com/$HEROKU_WEB_MVC_NAME/web
 
-      - run: |
-         heroku plugins:install @heroku-cli/plugin-container-registry
+      #- run: |
+         # heroku plugins:install @heroku-cli/plugin-container-registry
 
       # release images 
       - run: |
