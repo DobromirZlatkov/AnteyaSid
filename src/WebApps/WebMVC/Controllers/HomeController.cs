@@ -1,10 +1,12 @@
-﻿using AnteyaSidOnContainers.WebApps.WebMVC.WebMVC.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-
-namespace AnteyaSidOnContainers.WebApps.WebMVC.Controllers
+﻿namespace AnteyaSidOnContainers.WebApps.WebMVC.Controllers
 {
+    using System.Diagnostics;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    
+    using AnteyaSidOnContainers.WebApps.WebMVC.WebMVC.Models;
+    
     public class HomeController : Controller
     {
         public IActionResult Index()
@@ -26,6 +28,7 @@ namespace AnteyaSidOnContainers.WebApps.WebMVC.Controllers
 
             return View();
         }
+
 
         public IActionResult Error()
         {

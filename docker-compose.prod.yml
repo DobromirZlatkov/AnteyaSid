@@ -6,6 +6,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - IdentityUrl=http://anteya-identity-api.herokuapp.com
+      - CatalogUrl=http://anteya-catalog-api.herokuapp.com
       - CallBackUrl=http://anteya-web-mvc.herokuapp.com
     ports:
       - "5100:80"
@@ -17,3 +18,11 @@ services:
       - MvcClient=http://anteya-web-mvc.herokuapp.com
     ports:
       - "5105:80"
+
+  catalog.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - NpgConnectionString=${ANTEYA_SID_IDENTITY_DB:-User ID = postgres;Password=56;Server=192.168.1.125;Port=5432;Database=Catalog.db;Integrated Security=true; Pooling=true}
+    ports:
+      - "5101:80"
+

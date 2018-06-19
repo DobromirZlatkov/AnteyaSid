@@ -1,26 +1,28 @@
-﻿using AnteyaSidOnContainers.BuildingBlocks.HealthChecks.Microsoft.Extensions.HealthChecks;
-using AnteyaSidOnContainers.BuildingBlocks.Resilience.Http;
-using AnteyaSidOnContainers.HealthCHecks.Resilience.Http;
-using AnteyaSidOnContainers.HealthCHecks.Resilience.Http.Contracts;
-using AnteyaSidOnContainers.WebApps.WebMVC.Infrastructure;
-using AnteyaSidOnContainers.WebApps.WebMVC.Infrastructure.Middlewares;
-using Microsoft.ApplicationInsights.Extensibility;
-using Microsoft.ApplicationInsights.ServiceFabric;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using StackExchange.Redis;
-using System;
-using System.IdentityModel.Tokens.Jwt;
-
-namespace AnteyaSidOnContainers.WebApps.WebMVC
+﻿namespace AnteyaSidOnContainers.WebApps.WebMVC
 {
+    using System.IdentityModel.Tokens.Jwt;
+
+    using Microsoft.ApplicationInsights.Extensibility;
+    using Microsoft.ApplicationInsights.ServiceFabric;
+    using Microsoft.AspNetCore.Authentication.Cookies;
+    using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.DataProtection;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
+
+    using AnteyaSidOnContainers.BuildingBlocks.Resilience.Http;
+    using AnteyaSidOnContainers.WebApps.WebMVC.Infrastructure;
+    using AnteyaSidOnContainers.WebApps.WebMVC.Infrastructure.Middlewares;
+    using AnteyaSidOnContainers.WebApps.WebMVC.Services;
+    using AnteyaSidOnContainers.WebApps.WebMVC.Services.Contracts;
+
+    using StackExchange.Redis;
+    using AnteyaSidOnContainers.BuildingBlocks.Resilience.Http.Contracts;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -67,7 +69,7 @@ namespace AnteyaSidOnContainers.WebApps.WebMVC
 
             // Add application services.
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            //services.AddTransient<ICatalogService, CatalogService>();
+            services.AddTransient<ICatalogService, CatalogService>();
             //services.AddTransient<IOrderingService, OrderingService>();
             //services.AddTransient<IBasketService, BasketService>();
             //services.AddTransient<ICampaignService, CampaignService>();

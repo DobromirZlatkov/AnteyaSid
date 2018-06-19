@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace AnteyaSidOnContainers.HealthCHecks.Resilience.Http.Contracts
+namespace AnteyaSidOnContainers.BuildingBlocks.Resilience.Http.Contracts
 {
     public interface IHttpClient
     {

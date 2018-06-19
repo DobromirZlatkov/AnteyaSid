@@ -1,0 +1,51 @@
+﻿@using Kendo.Mvc.UI
+@using AnteyaSidOnContainers.WebApps.WebMVC.ViewModels.Catalog
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="container-fluid">
+    <br /><br />
+    <div>
+        @(Html.Kendo()
+            .Grid<CatalogItemListViewModel>()
+            .Name("CBSAGrid")
+            .Columns(col =>
+            {
+                col.Bound(x => x.Id);
+                col.Bound(x => x.Name);
+                col.Bound(x => x.Price);
+                col.Bound(x => x.Color);
+            })
+            .Filterable(filter =>
+            {
+                filter.Enabled(true);
+            })
+            .Sortable(sort =>
+            {
+                sort.Enabled(true);
+            })
+            .Pageable(page =>
+            {
+                page.Refresh(true);
+            })
+            .Scrollable()
+            .HtmlAttributes(new { style = "height: 600px;" })
+            .DataSource(data =>
+            {
+                data.Ajax()
+                    .PageSize(10)
+                    .Read("GetCatalogItems", "Catalog");
+            }))
+    </div>
+</div>
+
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.6.1/jszip.min.js"></script>
+    <script src="~/js/kendo/kendo.all.min.js" asp-append-version="true"></script>
+    <script src="~/js/kendo/kendo.aspnetmvc.min.js" asp-append-version="true"></script>
+}
+
+
+

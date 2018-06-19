@@ -1,12 +1,15 @@
-﻿using AnteyaSidOnContainers.HealthCHecks.Resilience.Http;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using Polly;
-using System;
-using System.Net.Http;
-
-namespace AnteyaSidOnContainers.WebApps.WebMVC.Infrastructure
+﻿namespace AnteyaSidOnContainers.WebApps.WebMVC.Infrastructure
 {
+    using System;
+    using System.Net.Http;
+
+    using AnteyaSidOnContainers.BuildingBlocks.Resilience.Http;
+
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Logging;
+
+    using Polly;
+
     public class ResilientHttpClientFactory : IResilientHttpClientFactory
     {
         private readonly ILogger<ResilientHttpClient> _logger;

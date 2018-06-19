@@ -18,9 +18,5 @@ services:
     ports:
       - "5105:80"
 
-  catalog.api:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    ports:
-      - "5101:80"
+
 

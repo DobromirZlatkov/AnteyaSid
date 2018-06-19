@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - WebMVC</title>
 
+    <link rel="stylesheet" href="~/css/kendo/kendo.common-material.min.css" /> 
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"
             asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
     <link rel="stylesheet" href="~/css/bootstrap.3-darkly.css" />
@@ -28,6 +30,7 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li><a asp-area="" asp-controller="Catalog" asp-action="Index">Catalog</a></li>
                 </ul>
 
                 @Html.Partial("_LoginPartial.cshtml")
