@@ -16,3 +16,8 @@ services:
       context: .
       dockerfile: src/Services/Identity/Identity.API/Dockerfile
 
+  catalog.api:
+    image: anteyasid/catalog.api
+    build:
+      context: .
+      dockerfile: src/Services/Catalog/Catalog.API/Dockerfile
