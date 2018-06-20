@@ -36,7 +36,9 @@
         {
             var itemsQuery = _catalogContext.CatalogItems.AsQueryable();
 
-            return Ok(itemsQuery.ToDataSourceResult(request, this.ModelState));
+            var response = itemsQuery.ToDataSourceResult(request, this.ModelState);
+
+            return Ok(response);
         }
     }
 }
