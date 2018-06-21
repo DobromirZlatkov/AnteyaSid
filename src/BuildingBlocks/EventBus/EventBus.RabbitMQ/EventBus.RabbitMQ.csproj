@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.RabbitMQ</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.8.1" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.5.0-rc1" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.1.0-rc1-final" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
+    <PackageReference Include="Polly" Version="6.0.1" />
+    <PackageReference Include="RabbitMQ.Client" Version="5.1.0-rc1" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0-rc1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EventBus.AnteyaSid\EventBus.AnteyaSid.csproj" />
+  </ItemGroup>
+
+</Project>

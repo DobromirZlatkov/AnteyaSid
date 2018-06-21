@@ -1,0 +1,65 @@
+﻿@using Kendo.Mvc.UI
+@using AnteyaSidOnContainers.WebApps.WebMVC.ViewModels.Catalog
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="container-fluid">
+    <br /><br />
+    <div id="grid">
+    </div>
+</div>
+
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.6.1/jszip.min.js"></script>
+    <script src="~/js/kendo/kendo.all.min.js" asp-append-version="true"></script>
+    <script src="~/js/kendo/kendo.aspnetmvc.min.js" asp-append-version="true"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $("#grid").kendoGrid({
+                dataSource: {
+                    transport: {
+                        read: {
+                            type: "GET",
+                            dataType: "json",
+                            url: "/Catalog/GetCatalogItems",
+                        },
+                    },  
+                    schema: {
+                        aggregateResults: "aggregateResults",
+                        type: "json",
+                        data: "data",
+                        total: "total",
+                        errors: "Errors"
+                    },
+                    pageSize: 20,
+                    serverPaging: true,
+                    //serverSorting: true,
+                    //serverFiltering: true,
+                 //   serverAggregates: true,
+                },
+                height: 700,
+               // groupable: true,
+                pageable: true,
+                sortable: true,
+                filterable: true,
+                columns: [{
+                    field: "id",
+                }, {
+                    field: "name",
+                }, {
+                    field: "price",
+                }, {
+                    field: "color",
+                }]
+            });
+        });
+    </script>
+
+}
+
+
+

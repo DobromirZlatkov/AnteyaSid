@@ -1,20 +1,24 @@
-﻿using AnteyaSidOnContainers.HealthCHecks.Resilience.Http.Contracts;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Polly;
-using Polly.Wrap;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-
-namespace AnteyaSidOnContainers.HealthCHecks.Resilience.Http
+﻿namespace AnteyaSidOnContainers.BuildingBlocks.Resilience.Http
 {
+    using System;
+    using System.Collections.Concurrent;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
+    using System.Threading.Tasks;
+
+    using AnteyaSidOnContainers.BuildingBlocks.Resilience.Http.Contracts;
+
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Logging;
+
+    using Newtonsoft.Json;
+
+    using Polly;
+    using Polly.Wrap;
+    
     /// <summary>
     /// HttpClient wrapper that integrates Retry and Circuit
     /// breaker policies when invoking HTTP services. 
