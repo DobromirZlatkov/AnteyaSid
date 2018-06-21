@@ -1,17 +1,18 @@
-﻿using AnteyaSidOnContainers.HealthCHecks.Resilience.Http.Contracts;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-
-
-namespace AnteyaSidOnContainers.BuildingBlocks.Resilience.Http
+﻿namespace AnteyaSidOnContainers.BuildingBlocks.Resilience.Http
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Net;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
+    using System.Threading.Tasks;
+    
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Logging;
+    using Newtonsoft.Json;
+    
+    using AnteyaSidOnContainers.BuildingBlocks.Resilience.Http.Contracts;
+    
     public class StandardHttpClient : IHttpClient
     {
         private HttpClient _client;

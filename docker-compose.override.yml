@@ -1,4 +1,4 @@
-version: '3'
+version: '3.4'
 
 services:
   webmvc:
@@ -21,6 +21,7 @@ services:
   catalog.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - NpgConnectionString=${ANTEYA_SID_IDENTITY_DB:-User ID = postgres;Password=56;Server=192.168.1.125;Port=5432;Database=Catalog.db;Integrated Security=true; Pooling=true}
     ports:
       - "5101:80"
 

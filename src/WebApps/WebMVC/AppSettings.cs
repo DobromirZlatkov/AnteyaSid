@@ -3,7 +3,7 @@
     public class AppSettings
     {
         public Connectionstrings ConnectionStrings { get; set; }
-        //public string CatalogUrl { get; set; }
+        public string CatalogUrl { get; set; }
         //public string OrderingUrl { get; set; }
         //public string BasketUrl { get; set; }
         //public string MarketingUrl { get; set; }

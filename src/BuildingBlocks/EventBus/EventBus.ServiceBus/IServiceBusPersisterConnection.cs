@@ -1,4 +1,4 @@
-﻿namespace EventBus.ServiceBus
+﻿namespace AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.ServiceBus
 {
     using Microsoft.Azure.ServiceBus;
     using System;
