@@ -18,40 +18,40 @@
 
     <script>
         $(document).ready(function () {
+
             $("#grid").kendoGrid({
                 dataSource: {
                     transport: {
-                        read: "/Catalog/GetCatalogItems"
-                    },
+                        read: {
+                            type: "GET",
+                            dataType: "json",
+                            url: "/Catalog/GetCatalogItems",
+                        },
+                    },  
                     schema: {
-                        model: {
-                            fields: {
-                                id: { type: "number" },
-                                name: { type: "string" },
-                                price: { type: "number" },
-                                color: { type: "string" },
-                            }
-                        }
+                        aggregateResults: "aggregateResults",
+                        type: "json",
+                        data: "data",
+                        total: "total",
+                        errors: "Errors"
                     },
                     pageSize: 20,
                     serverPaging: true,
-                    serverFiltering: true,
-                    serverSorting: true
-
+                    //serverSorting: true,
+                    //serverFiltering: true,
+                 //   serverAggregates: true,
                 },
-                height: 550,
+                height: 700,
+               // groupable: true,
+                pageable: true,
                 sortable: true,
-                pageable: {
-                    refresh: true,
-                    pageSizes: true,
-                },
+                filterable: true,
                 columns: [{
                     field: "id",
                 }, {
                     field: "name",
                 }, {
                     field: "price",
-                    title: "Company Name"
                 }, {
                     field: "color",
                 }]

@@ -24,11 +24,13 @@
         
         public async Task<IActionResult> GetCatalogItems(DataSourceRequest request)
         {
-            var catalogResponse = await _catalogSvc.GetCatalogItemsJson(string.Format("?page={0}&pageSize={1}", request.Page, request.PageSize));
 
-            var catalogAsDatasourceResult = JsonConvert.DeserializeObject<CatalogItemDataSourceResult>(catalogResponse);
+            var test = Request.QueryString.ToUriComponent();
+            var catalogResponse = await _catalogSvc.GetCatalogItemsJson(Request.QueryString.ToUriComponent());
 
-            return this.Json(catalogAsDatasourceResult.data.ToDataSourceResult(request, this.ModelState));
+            //var catalogAsDatasourceResult = JsonConvert.DeserializeObject<CatalogItemDataSourceResult>(catalogResponse);
+
+            return this.Ok(catalogResponse);
         }
     }
 }
