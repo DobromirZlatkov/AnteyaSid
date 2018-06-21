@@ -35,9 +35,6 @@
                 options.Filters.Add(typeof(HttpGlobalExceptionFilter));
             }).AddControllersAsServices();
 
-            Console.WriteLine(Configuration["NpgConnectionString"]);
-            Console.WriteLine("Connection String");
-
             services.AddEntityFrameworkNpgsql().AddDbContext<CatalogContext>(options =>
                 options.UseNpgsql(Configuration["NpgConnectionString"],
                   npgsqlOptionsAction: npgsqlOption =>
@@ -59,6 +56,8 @@
 
             // Setup settings class from settings file
             services.Configure<CatalogSettings>(Configuration);
+
+            services.AddKendo();
 
             // Add swagger documentation for the microservice
             services.AddSwaggerGen(options =>

@@ -32,7 +32,7 @@
         // POST api/v1/[controller]/items[?PageSize=3&Page=10]
         // TODO document api, Add service layer, data layer, repository pattern, etc. For now until deploy and consumed by main MVC app can stay like this
         [Route("[action]")]
-        public ActionResult Items(DataSourceRequest request)
+        public ActionResult Items([DataSourceRequest]DataSourceRequest request)
         {
             var itemsQuery = _catalogContext.CatalogItems.AsQueryable();
 

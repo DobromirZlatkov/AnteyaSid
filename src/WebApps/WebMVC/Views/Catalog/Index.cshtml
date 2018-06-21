@@ -1,63 +1,137 @@
-﻿@using Kendo.Mvc.UI
-@using AnteyaSidOnContainers.WebApps.WebMVC.ViewModels.Catalog
+﻿@using Kendo.Mvc.UI;
+@using AnteyaSidOnContainers.WebApps.WebMVC.ViewModels.Catalog;
 
 @{
     ViewBag.Title = "Index";
 }
 
-<div class="container-fluid">
+<div class="container">
     <br /><br />
-    <div id="grid">
-    </div>
+          <div>
+              @(Html.Kendo()
+                    .Grid<CatalogItemListViewModel>()
+                    .Name("grid")
+                    .Columns(col =>
+                    {
+                        col.Bound(x => x.Id);
+                        col.Bound(x => x.Name);
+                        col.Bound(x => x.Price);
+                        col.Bound(x => x.Color);
+                    })
+                    .Filterable(filter =>
+                    {
+                        filter.Enabled(true);
+                    })
+                    .Sortable(sort =>
+                    {
+                        sort.Enabled(true);
+                    })
+                    .Pageable(page =>
+                    {
+                        page.Refresh(true);
+                    })
+                    .Scrollable()
+                    .HtmlAttributes(new { style = "height: 600px;" })
+                    .DataSource(data =>
+                    {
+                        data.Ajax()
+                            .PageSize(10)
+                            .Read("GetCatalogItems", "Catalog");
+
+                    }))
+
+
+
+              @*@(Html.Kendo().Grid<CatalogItemListViewModel>()
+                                            .Sortable(true)
+                                            .Name("logGrid")
+                                            .HtmlAttributes(new { @class = "table-fixed" })
+                                            .Pageable(pageableBuilder => pageableBuilder.Refresh(true).PageSizes(new[] { 5, 10, 25, 50, 100, 500, 1000 }))
+                                            .Columns(columns =>
+                                            {
+                                                columns.Bound(d => d.Id);
+                                                columns.Bound(d => d.Name);
+                                                columns.Bound(d => d.Price);
+                                                columns.Bound(d => d.Color);
+                                            })
+                                            .Events(events => events.Edit("edit"))
+                                            .Editable(editable => editable.Mode(GridEditMode.PopUp)
+                                                .TemplateName("Log")
+                                                .Window(w => w.Title("Log Details")))
+                                            .DataSource(dataSource => dataSource
+                                                .Ajax()
+                                                .ServerOperation(true)
+                                                .PageSize(10)
+                                                .Read(read => read.Action("List", "Logs").Data("additionalData"))
+                                                .Model(model => model.Id(m => m.Id))
+                                                .Update(update => update.Action("ActionDoesNotExist", "ControllerDoesNotExist"))
+                                                .Events(events => events.RequestStart("requestStart").RequestEnd("requestEnd").Error("displayGridError"))))*@
+
+          </div>
 </div>
 
 @section Scripts{
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.6.1/jszip.min.js"></script>
-    <script src="~/js/kendo/kendo.all.min.js" asp-append-version="true"></script>
-    <script src="~/js/kendo/kendo.aspnetmvc.min.js" asp-append-version="true"></script>
 
-    <script>
-        $(document).ready(function () {
-
-            $("#grid").kendoGrid({
-                dataSource: {
-                    transport: {
-                        read: {
-                            type: "GET",
-                            dataType: "json",
-                            url: "/Catalog/GetCatalogItems",
-                        },
-                    },  
-                    schema: {
-                        aggregateResults: "aggregateResults",
-                        type: "json",
-                        data: "data",
-                        total: "total",
-                        errors: "Errors"
-                    },
-                    pageSize: 20,
-                    serverPaging: true,
-                    //serverSorting: true,
-                    //serverFiltering: true,
-                 //   serverAggregates: true,
-                },
-                height: 700,
-               // groupable: true,
-                pageable: true,
-                sortable: true,
-                filterable: true,
-                columns: [{
-                    field: "id",
-                }, {
-                    field: "name",
-                }, {
-                    field: "price",
-                }, {
-                    field: "color",
-                }]
-            });
-        });
+    <script src="https://kendo.cdn.telerik.com/2017.3.913/js/kendo.all.min.js"
+            asp-fallback-src="~/js/kendo/kendo.all.min.js"
+            asp-fallback-test="window.kendo">
     </script>
+    <script src="https://kendo.cdn.telerik.com/2017.3.913/js/kendo.aspnetmvc.min.js"
+            asp-fallback-src="~/js/kendo/kendo.aspnetmvc.min.js"
+            asp-fallback-test="kendo.data.transports['aspnetmvc-ajax']">
+    </script>
+
+    @*<script src="https://kendo.cdn.telerik.com/2017.2.621/js/kendo.all.min.js"
+                asp-fallback-src="~/lib/kendo-ui/js/kendo.all.min.js"
+                asp-fallback-test="window.kendo">
+        </script>
+        <script src="https://kendo.cdn.telerik.com/2017.2.621/js/kendo.aspnetmvc.min.js"
+                asp-fallback-src="~/lib/kendo-ui/js/kendo.aspnetmvc.min.js"
+                asp-fallback-test="kendo.data.transports['aspnetmvc-ajax']">
+        </script>*@
+
+    @*<script>
+            $(document).ready(function () {
+
+                $("#grid").kendoGrid({
+                    dataSource: {
+                        transport: {
+                            read: {
+                                type: "POST",
+                                dataType: "json",
+                                url: "/Catalog/GetCatalogItems",
+                            },
+                        },
+                        schema: {
+                            aggregateResults: "aggregateResults",
+                            type: "json",
+                            data: "data",
+                            total: "total",
+                            errors: "Errors"
+                        },
+                        pageSize: 20,
+                        serverPaging: true,
+                        serverSorting: true,
+                        serverFiltering: true,
+                        serverAggregates: true,
+                    },
+                    height: 700,
+                    // groupable: true,
+                    pageable: true,
+                    sortable: true,
+                    filterable: true,
+                    columns: [{
+                        field: "id",
+                    }, {
+                        field: "name",
+                    }, {
+                        field: "price",
+                    }, {
+                        field: "color",
+                    }]
+                });
+            });
+        </script>*@
 
 }
 

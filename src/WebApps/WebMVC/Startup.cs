@@ -22,6 +22,7 @@
 
     using StackExchange.Redis;
     using AnteyaSidOnContainers.BuildingBlocks.Resilience.Http.Contracts;
+    using Newtonsoft.Json.Serialization;
 
     public class Startup
     {
@@ -37,7 +38,12 @@
         {
             RegisterAppInsights(services);
 
-            services.AddMvc();
+            services
+                .AddMvc()
+                .AddJsonOptions(options =>
+                    options.SerializerSettings.ContractResolver = new DefaultContractResolver()); ;
+
+            services.AddKendo();
 
             services.AddSession();
 
@@ -163,6 +169,7 @@
 
             app.UseSession();
             app.UseStaticFiles();
+            app.UseKendo(env);
 
             if (Configuration.GetValue<bool>("UseLoadTest"))
             {
