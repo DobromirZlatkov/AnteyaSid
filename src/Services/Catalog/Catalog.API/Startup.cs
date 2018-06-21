@@ -35,6 +35,9 @@
                 options.Filters.Add(typeof(HttpGlobalExceptionFilter));
             }).AddControllersAsServices();
 
+            Console.WriteLine(Configuration["NpgConnectionString"]);
+            Console.WriteLine("Connection String");
+
             services.AddEntityFrameworkNpgsql().AddDbContext<CatalogContext>(options =>
                 options.UseNpgsql(Configuration["NpgConnectionString"],
                   npgsqlOptionsAction: npgsqlOption =>
