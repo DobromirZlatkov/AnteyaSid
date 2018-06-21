@@ -22,7 +22,7 @@ services:
   catalog.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - NpgConnectionString=${ANTEYA_SID_CATALOG_DB:-User ID = mnhdwojhhbpmpf;Password=6835916197c1f887d21f8ce7c460595c66746a9ed38dd768e531d3f62dcef72a;Server=ec2-54-75-239-237.eu-west-1.compute.amazonaws.com;Port=5432;Database=ddqbiasuitkvbj;Integrated Security=true; Pooling=true}
+      - NpgConnectionString=${ANTEYA_SID_CATALOG_DB:-User ID = mnhdwojhhbpmpf;Password=6835916197c1f887d21f8ce7c460595c66746a9ed38dd768e531d3f62dcef72a;Server=ec2-54-75-239-237.eu-west-1.compute.amazonaws.com;Port=5432;Database=ddqbiasuitkvbj;Integrated Security=true; Pooling=true; sslmode=Require;Trust Server Certificate=true}
     ports:
       - "5101:80"
 
