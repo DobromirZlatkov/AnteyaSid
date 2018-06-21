@@ -39,5 +39,6 @@ jobs:
       # release images 
       - run: |
          heroku container:release web --app $HEROKU_IDENTITY_API_NAME
+         heroku container:release web --app $HEROKU_CATALOG_API_NAME
          heroku container:release web --app $HEROKU_WEB_MVC_NAME
       
