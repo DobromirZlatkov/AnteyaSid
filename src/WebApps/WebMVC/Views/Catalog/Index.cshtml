@@ -1,138 +1,88 @@
-﻿@using Kendo.Mvc.UI;
-@using AnteyaSidOnContainers.WebApps.WebMVC.ViewModels.Catalog;
-
-@{
+﻿@{
     ViewBag.Title = "Index";
 }
 
-<div class="container">
-    <br /><br />
-          <div>
-              @(Html.Kendo()
-                    .Grid<CatalogItemListViewModel>()
-                    .Name("grid")
-                    .Columns(col =>
-                    {
-                        col.Bound(x => x.Id);
-                        col.Bound(x => x.Name);
-                        col.Bound(x => x.Price);
-                        col.Bound(x => x.Color);
-                    })
-                    .Filterable(filter =>
-                    {
-                        filter.Enabled(true);
-                    })
-                    .Sortable(sort =>
-                    {
-                        sort.Enabled(true);
-                    })
-                    .Pageable(page =>
-                    {
-                        page.Refresh(true);
-                    })
-                    .Scrollable()
-                    .HtmlAttributes(new { style = "height: 600px;" })
-                    .DataSource(data =>
-                    {
-                        data.Ajax()
-                            .PageSize(10)
-                            .Read("GetCatalogItems", "Catalog");
-
-                    }))
-
-
-
-              @*@(Html.Kendo().Grid<CatalogItemListViewModel>()
-                                            .Sortable(true)
-                                            .Name("logGrid")
-                                            .HtmlAttributes(new { @class = "table-fixed" })
-                                            .Pageable(pageableBuilder => pageableBuilder.Refresh(true).PageSizes(new[] { 5, 10, 25, 50, 100, 500, 1000 }))
-                                            .Columns(columns =>
-                                            {
-                                                columns.Bound(d => d.Id);
-                                                columns.Bound(d => d.Name);
-                                                columns.Bound(d => d.Price);
-                                                columns.Bound(d => d.Color);
-                                            })
-                                            .Events(events => events.Edit("edit"))
-                                            .Editable(editable => editable.Mode(GridEditMode.PopUp)
-                                                .TemplateName("Log")
-                                                .Window(w => w.Title("Log Details")))
-                                            .DataSource(dataSource => dataSource
-                                                .Ajax()
-                                                .ServerOperation(true)
-                                                .PageSize(10)
-                                                .Read(read => read.Action("List", "Logs").Data("additionalData"))
-                                                .Model(model => model.Id(m => m.Id))
-                                                .Update(update => update.Action("ActionDoesNotExist", "ControllerDoesNotExist"))
-                                                .Events(events => events.RequestStart("requestStart").RequestEnd("requestEnd").Error("displayGridError"))))*@
-
-          </div>
+<div id="grid">
 </div>
 
+
 @section Scripts{
-
-    <script src="https://kendo.cdn.telerik.com/2017.3.913/js/kendo.all.min.js"
-            asp-fallback-src="~/js/kendo/kendo.all.min.js"
-            asp-fallback-test="window.kendo">
-    </script>
-    <script src="https://kendo.cdn.telerik.com/2017.3.913/js/kendo.aspnetmvc.min.js"
-            asp-fallback-src="~/js/kendo/kendo.aspnetmvc.min.js"
-            asp-fallback-test="kendo.data.transports['aspnetmvc-ajax']">
-    </script>
-
-    @*<script src="https://kendo.cdn.telerik.com/2017.2.621/js/kendo.all.min.js"
-                asp-fallback-src="~/lib/kendo-ui/js/kendo.all.min.js"
-                asp-fallback-test="window.kendo">
-        </script>
-        <script src="https://kendo.cdn.telerik.com/2017.2.621/js/kendo.aspnetmvc.min.js"
-                asp-fallback-src="~/lib/kendo-ui/js/kendo.aspnetmvc.min.js"
-                asp-fallback-test="kendo.data.transports['aspnetmvc-ajax']">
-        </script>*@
-
-    @*<script>
-            $(document).ready(function () {
-
-                $("#grid").kendoGrid({
-                    dataSource: {
-                        transport: {
-                            read: {
-                                type: "POST",
-                                dataType: "json",
-                                url: "/Catalog/GetCatalogItems",
-                            },
+    <script>
+        $(document).ready(function () {
+            $("#grid").kendoGrid({
+                rowTemplate: kendo.template($("#template").html()),
+                dataSource: {
+                    transport: {
+                        read: {
+                            type: "POST",
+                            dataType: "json",
+                            url: "/Catalog/GetCatalogItems",
                         },
-                        schema: {
-                            aggregateResults: "aggregateResults",
-                            type: "json",
-                            data: "data",
-                            total: "total",
-                            errors: "Errors"
+                        update: {
+                            url: "/Catalog/Update",
+                            dataType: "jsonp"
                         },
-                        pageSize: 20,
-                        serverPaging: true,
-                        serverSorting: true,
-                        serverFiltering: true,
-                        serverAggregates: true,
+                        destroy: {
+                            url: "/Catalog/Destroy",
+                            dataType: "jsonp"
+                        },
+                        create: {
+                            url: "/Catalog/Create",
+                            dataType: "jsonp"
+                        },
+                        //parameterMap: function (options, operation) {
+                        //    console.log(options, operation)
+                        //    if (operation !== "read" && options.models) {
+                        //        return { models: kendo.stringify(options.models) };
+                        //    }
+                        //}
                     },
-                    height: 700,
-                    // groupable: true,
-                    pageable: true,
-                    sortable: true,
-                    filterable: true,
-                    columns: [{
-                        field: "id",
-                    }, {
-                        field: "name",
-                    }, {
-                        field: "price",
-                    }, {
-                        field: "color",
-                    }]
-                });
+                    schema: {
+                        AggregateResults: "aggregateResults",
+                        type: "json",
+                        data: "data",
+                        total: "total",
+                        errors: "errors",
+                        model: {
+                            id: "id",
+                            fields: {
+                                id: { editable: false, nullable: true },
+                                name: { validation: { required: true } },
+                                price: { type: "number", validation: { required: true, min: 1 } },
+                                color: { validation: { required: true } },
+                            }
+                        }
+                    },
+                    batch: true,
+                    serverPaging: true,
+                    pageSize: 15,
+                },
+                toolbar: ["create"],
+                height: 700,
+                columns: [
+                    { field: "id" },
+                    { field: "name" },
+                    { field: "price" },
+                    { command: "edit", title: "&nbsp;", width: "250px" }
+                ],
+                editable: "popup",
             });
-        </script>*@
+        });
+    </script>
 
+    <script id="template" type="text/x-kendo-template">
+        <tr data-uid="#= uid #" style="background-color:#: color #">
+            <td>
+                <strong>#: id #</strong>  
+            </td>
+            <td>
+                <strong>#: name #</strong>
+            </td>
+            <td>
+                <strong>#: price #</strong>
+            </td>
+        </tr>
+    </script>
 }
 
 

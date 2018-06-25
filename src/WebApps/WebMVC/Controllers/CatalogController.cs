@@ -25,7 +25,7 @@
             return View();
         }
         
-        public async Task<IActionResult> GetCatalogItems([DataSourceRequest]DataSourceRequest request)
+        public async Task<IActionResult> GetCatalogItems(DataSourceRequest request)
         {
             Request.Form.TryGetValue("page", out StringValues page);
             Request.Form.TryGetValue("pageSize", out StringValues pageSize);
@@ -35,9 +35,7 @@
 
             var catalogResponse = await _catalogSvc.GetCatalogItemsJson($"?page={page}&pageSize={pageSize}&sort={sort}&group={group}&filter={filter}");
 
-            var catalogAsDatasourceResult = JsonConvert.DeserializeObject<CatalogItemDataSourceResult>(catalogResponse);
-
-            return this.Json(catalogAsDatasourceResult.data.ToDataSourceResult(request));
+            return this.Ok(catalogResponse);
         }
     }
 }
