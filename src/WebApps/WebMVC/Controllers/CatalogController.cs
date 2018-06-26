@@ -1,16 +1,14 @@
 ﻿namespace AnteyaSidOnContainers.WebApps.WebMVC.Controllers
 {
-    using AnteyaSidOnContainers.WebApps.WebMVC.Extensions;
-    using AnteyaSidOnContainers.WebApps.WebMVC.Services.Contracts;
-    using AnteyaSidOnContainers.WebApps.WebMVC.ViewModels.Catalog;
-    using Kendo.Mvc.Extensions;
-    using Kendo.Mvc.UI;
+    using System.Threading.Tasks;
+    
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Primitives;
-    using Newtonsoft.Json;
-    using System.Text;
-    using System.Threading.Tasks;
 
+    using Kendo.Mvc.UI;
+    
+    using AnteyaSidOnContainers.WebApps.WebMVC.Services.Contracts;
+    
     public class CatalogController: Controller
     {
         private ICatalogService _catalogSvc;
