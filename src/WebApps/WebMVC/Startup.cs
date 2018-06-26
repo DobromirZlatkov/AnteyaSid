@@ -23,6 +23,10 @@
     using StackExchange.Redis;
     using AnteyaSidOnContainers.BuildingBlocks.Resilience.Http.Contracts;
     using Newtonsoft.Json.Serialization;
+    using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Abstractions;
+    using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.RabbitMQ;
+    using Autofac;
+    using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid;
 
     public class Startup
     {
@@ -47,14 +51,14 @@
 
             services.AddSession();
 
-            if (Configuration.GetValue<string>("IsClusterEnv") == bool.TrueString)
-            {
-                services.AddDataProtection(opts =>
-                {
-                    opts.ApplicationDiscriminator = "eshop.webmvc";
-                })
-                .PersistKeysToRedis(ConnectionMultiplexer.Connect(Configuration["DPConnectionString"]), "DataProtection-Keys");
-            }
+            //if (Configuration.GetValue<string>("IsClusterEnv") == bool.TrueString)
+            //{
+            //    services.AddDataProtection(opts =>
+            //    {
+            //        opts.ApplicationDiscriminator = "eshop.webmvc";
+            //    })
+            //    .PersistKeysToRedis(ConnectionMultiplexer.Connect(Configuration["DPConnectionString"]), "DataProtection-Keys");
+            //}
 
             services.Configure<AppSettings>(Configuration);
 
@@ -138,6 +142,8 @@
                 //options.Scope.Add("marketing");
                 //options.Scope.Add("locations");
             });
+
+            RegisterEventBus(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -210,6 +216,29 @@
                 services.AddSingleton<ITelemetryInitializer>((serviceProvider) =>
                     new FabricTelemetryInitializer());
             }
+        }
+
+        private void RegisterEventBus(IServiceCollection services)
+        {
+            var subscriptionClientName = Configuration["SubscriptionClientName"];
+
+            services.AddSingleton<IEventBus, EventBusRabbitMQ>(sp =>
+            {
+                var rabbitMQPersistentConnection = sp.GetRequiredService<IRabbitMQPersistentConnection>();
+                var iLifetimeScope = sp.GetRequiredService<ILifetimeScope>();
+                var logger = sp.GetRequiredService<ILogger<EventBusRabbitMQ>>();
+                var eventBusSubcriptionsManager = sp.GetRequiredService<IEventBusSubscriptionsManager>();
+
+                var retryCount = 5;
+                if (!string.IsNullOrEmpty(Configuration["EventBusRetryCount"]))
+                {
+                    retryCount = int.Parse(Configuration["EventBusRetryCount"]);
+                }
+
+                return new EventBusRabbitMQ(rabbitMQPersistentConnection, logger, iLifetimeScope, eventBusSubcriptionsManager, subscriptionClientName, retryCount);
+            });
+            
+            services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{ECA86D3D-BCC8-4802-9270-8D61C1DAEA21}"
 EndProject
@@ -38,6 +38,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{1C7BF2A7-A
 	ProjectSection(SolutionItems) = preProject
 		Architecture.txt = Architecture.txt
 		docs\enableSqlServerTcpConnection.txt = docs\enableSqlServerTcpConnection.txt
+		ImportantCommands.txt = ImportantCommands.txt
 		RoadMap.txt = RoadMap.txt
 	EndProjectSection
 EndProject
@@ -72,7 +73,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBus.RabbitMQ", "src\Bu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBus.ServiceBus", "src\BuildingBlocks\EventBus\EventBus.ServiceBus\EventBus.ServiceBus.csproj", "{3AEADE09-CB3F-4363-B2F7-5FFCA7FFF541}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationEventLogEF", "src\BuildingBlocks\EventBus\IntegrationEventLogEF\IntegrationEventLogEF.csproj", "{062A4362-F142-47D1-BB84-D5FEA3AB3334}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationEventLogEF", "src\BuildingBlocks\EventBus\IntegrationEventLogEF\IntegrationEventLogEF.csproj", "{062A4362-F142-47D1-BB84-D5FEA3AB3334}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

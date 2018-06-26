@@ -13,7 +13,7 @@ services:
   identity.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - NpgConnectionString=${ANTEYA_SID_IDENTITY_DB:-User ID = postgres;Password=56;Server=192.168.1.125;Port=5432;Database=identity.db;Integrated Security=true; Pooling=true}
+      - NpgConnectionString=${ANTEYA_SID_IDENTITY_DB:-User ID = postgres;Password=56;Server=192.168.1.11;Port=5432;Database=identity.db;Integrated Security=true; Pooling=true}
       - MvcClient=http://localhost:5100
     ports:
       - "5105:80"
@@ -21,7 +21,7 @@ services:
   catalog.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - NpgConnectionString=${ANTEYA_SID_IDENTITY_DB:-User ID = postgres;Password=56;Server=192.168.1.125;Port=5432;Database=Catalog.db;Integrated Security=true; Pooling=true}
+      - NpgConnectionString=${ANTEYA_SID_IDENTITY_DB:-User ID = postgres;Password=56;Server=192.168.1.11;Port=5432;Database=Catalog.db;Integrated Security=true; Pooling=true}
     ports:
       - "5101:80"
 
