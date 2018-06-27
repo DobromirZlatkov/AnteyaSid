@@ -27,8 +27,9 @@
                             dataType: "jsonp"
                         },
                         create: {
+                            type: "POST",
                             url: "/Catalog/Create",
-                            dataType: "jsonp"
+                            dataType: "json"
                         },
                         //parameterMap: function (options, operation) {
                         //    console.log(options, operation)
@@ -37,7 +38,6 @@
                         //    }
                         //}
                     },
-                    batch: true,
                     schema: {
                         AggregateResults: "aggregateResults",
                         type: "json",
@@ -74,24 +74,24 @@
                     {
                         field: "id",
                         attributes: {
-                            style: "background-color: #=color#;"
+                            style: "border-color: #=color#;"
                         }
                     },
                     {
                         field: "name",
                         attributes: {
-                            style: "background-color: #=color#;"
+                            style: "border-color: #=color#;"
                         }
                     },
                     {
                         field: "price",
                         attributes: {
-                            style: "background-color: #=color#;"
+                            style: "border-color: #=color#;"
                         }
                     },
                     {
                         field: "color",
-                        editor: szinColorPickerEditor,
+                       // editor: szinColorPickerEditor,
                         attributes: {
                             style: "background-color: #=color#;"
                         }

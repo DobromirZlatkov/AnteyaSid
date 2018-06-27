@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AnteyaSidOnContainers.Services.Catalog.API.Infrastructure.Exceptions
+﻿namespace AnteyaSidOnContainers.Services.Catalog.API.Infrastructure.Exceptions
 {
+    using System;
+
     public class CatalogDomainException : Exception
     {
         public CatalogDomainException()

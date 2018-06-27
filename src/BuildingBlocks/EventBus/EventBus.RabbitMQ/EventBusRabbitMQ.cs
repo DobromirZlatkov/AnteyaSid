@@ -19,13 +19,13 @@ namespace AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.RabbitMQ
 {
     public class EventBusRabbitMQ : IEventBus, IDisposable
     {
-        const string BROKER_NAME = "eshop_event_bus";
+        const string BROKER_NAME = "anteya_sid_event_bus";
 
         private readonly IRabbitMQPersistentConnection _persistentConnection;
         private readonly ILogger<EventBusRabbitMQ> _logger;
         private readonly IEventBusSubscriptionsManager _subsManager;
         private readonly ILifetimeScope _autofac;
-        private readonly string AUTOFAC_SCOPE_NAME = "eshop_event_bus";
+        private readonly string AUTOFAC_SCOPE_NAME = "anteya_sid_event_bus";
         private readonly int _retryCount;
 
         private IModel _consumerChannel;
@@ -225,7 +225,10 @@ namespace AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.RabbitMQ
                             var eventType = _subsManager.GetEventTypeByName(eventName);
                             var integrationEvent = JsonConvert.DeserializeObject(message, eventType);
                             var handler = scope.ResolveOptional(subscription.HandlerType);
+                       
                             var concreteType = typeof(IIntegrationEventHandler<>).MakeGenericType(eventType);
+
+
                             await (Task)concreteType.GetMethod("Handle").Invoke(handler, new object[] { integrationEvent });
                         }
                     }

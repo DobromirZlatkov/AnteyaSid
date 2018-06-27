@@ -9,14 +9,12 @@
 
     public static class AutoMapperConfig
     {
-        public static void Execute()
+        public static void RegisterMappings()
         {
             var types = Assembly.GetExecutingAssembly().GetExportedTypes();
 
             LoadStandardMappings(types);
-
-            // LoadSimpleMappings(types);
-
+            
             LoadCustomMappings(types);
         }
 
@@ -35,8 +33,8 @@
 
             foreach (var map in maps)
             {
-                Mapper.Map(map.Source, map.Destination);
-                Mapper.Map(map.Destination, map.Source);
+                Mapper.CreateMap(map.Source, map.Destination);
+                Mapper.CreateMap(map.Destination, map.Source);
             }
         }
 

@@ -2,7 +2,9 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class CatalogItemEditViewModel
+    using AnteyaSidOnContainers.WebApps.WebMVC.ViewModels.Base;
+
+    public class CatalogItemEditViewModel : BaseIntegrationEventViewModel
     {
         public string Name { get; set; }
 

@@ -26,7 +26,12 @@
     using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Abstractions;
     using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.RabbitMQ;
     using Autofac;
+    using Autofac.Extensions.DependencyInjection;
     using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid;
+    using RabbitMQ.Client;
+    using Microsoft.Extensions.Options;
+    using System;
+    using AnteyaSidOnContainers.WebApps.WebMVC.Infrastructure.Mapping;
 
     public class Startup
     {
@@ -38,7 +43,7 @@
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             RegisterAppInsights(services);
 
@@ -51,31 +56,27 @@
 
             services.AddSession();
 
-            //if (Configuration.GetValue<string>("IsClusterEnv") == bool.TrueString)
-            //{
-            //    services.AddDataProtection(opts =>
-            //    {
-            //        opts.ApplicationDiscriminator = "eshop.webmvc";
-            //    })
-            //    .PersistKeysToRedis(ConnectionMultiplexer.Connect(Configuration["DPConnectionString"]), "DataProtection-Keys");
-            //}
+            AutoMapperConfig.RegisterMappings();
 
             services.Configure<AppSettings>(Configuration);
 
-            //services.AddHealthChecks(checks =>
+            //By connecting here we are making sure that our service
+            //cannot start until redis is ready. This might slow down startup,
+            //but given that there is a delay on resolving the ip address
+            //and then creating the connection it seems reasonable to move
+            //that cost to startup instead of having the first request pay the
+            //penalty.
+            //services.AddSingleton<ConnectionMultiplexer>(sp =>
             //{
-            //    var minutes = 1;
-            //    if (int.TryParse(Configuration["HealthCheck:Timeout"], out var minutesParsed))
-            //    {
-            //        minutes = minutesParsed;
-            //    }
+            //    var settings = sp.GetRequiredService<IOptions<AppSettings>>().Value;
+            //    var configuration = ConfigurationOptions.Parse(settings.ConnectionString, true);
 
-            //    //checks.AddUrlCheck(Configuration["CatalogUrlHC"], TimeSpan.FromMinutes(minutes));
-            //    //checks.AddUrlCheck(Configuration["OrderingUrlHC"], TimeSpan.FromMinutes(minutes));
-            //    //checks.AddUrlCheck(Configuration["BasketUrlHC"], TimeSpan.Zero); //No cache for this HealthCheck, better just for demos 
-            //    checks.AddUrlCheck(Configuration["IdentityUrlHC"], TimeSpan.FromMinutes(minutes));
-            //    //checks.AddUrlCheck(Configuration["MarketingUrlHC"], TimeSpan.FromMinutes(minutes));
+            //    configuration.ResolveDns = true;
+
+            //    return ConnectionMultiplexer.Connect(configuration);
             //});
+
+
 
             // Add application services.
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -113,12 +114,12 @@
             {
                 services.AddSingleton<IHttpClient, StandardHttpClient>();
             }
+
             var useLoadTest = Configuration.GetValue<bool>("UseLoadTest");
             var identityUrl = Configuration.GetValue<string>("IdentityUrl");
             var callBackUrl = Configuration.GetValue<string>("CallBackUrl");
 
-            // Add Authentication services          
-
+            // Add Authentication services
             services.AddAuthentication(options => {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
@@ -143,7 +144,35 @@
                 //options.Scope.Add("locations");
             });
 
+
+            // Setup event bus connection
+            services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
+            {
+                var logger = sp.GetRequiredService<ILogger<DefaultRabbitMQPersistentConnection>>();
+
+                var factory = new ConnectionFactory()
+                {
+                    Uri = new Uri("amqp://hvagcwtv:nRzJYkkqmmvPmmhrpxnqSzyZsXfGi4Nu@wolverine.rmq.cloudamqp.com/hvagcwtv")
+                };
+
+                var retryCount = 5;
+                if (!string.IsNullOrEmpty(Configuration["EventBusRetryCount"]))
+                {
+                    retryCount = int.Parse(Configuration["EventBusRetryCount"]);
+                }
+
+                return new DefaultRabbitMQPersistentConnection(factory, logger, retryCount);
+            });
+
             RegisterEventBus(services);
+
+
+            services.AddOptions();
+
+            var container = new ContainerBuilder();
+            container.Populate(services);
+
+            return new AutofacServiceProvider(container.Build());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

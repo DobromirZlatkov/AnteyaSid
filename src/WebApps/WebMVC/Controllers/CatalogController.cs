@@ -1,5 +1,6 @@
 ﻿namespace AnteyaSidOnContainers.WebApps.WebMVC.Controllers
 {
+    using System;
     using System.Threading.Tasks;
     
     using Microsoft.AspNetCore.Mvc;
@@ -48,11 +49,12 @@
         }
 
         [HttpPost]
-        public ActionResult Create(DataSourceRequest request, ViewModel model)
+        public ActionResult Create(DataSourceRequest request, ViewModel model, [FromHeader(Name = "x-requestid")] string requestId)
         {
-            var dbModel = this.Create<CatalogItemCreatedIntegrationEvent>(model);
-            //if (dbModel != null) model.Id = dbModel.Id;
+            model.RequestId = (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty) ?
+                guid : Guid.NewGuid();
 
+            var dbModel = this.Create<CatalogItemCreatedIntegrationEvent>(model);
             return this.GridOperation(model, request);
         }
 
