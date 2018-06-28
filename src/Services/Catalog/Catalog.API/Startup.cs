@@ -15,7 +15,6 @@
 
     using AnteyaSidOnContainers.BuildingBlocks.EventBus.IntegrationEventLogEF;
     using AnteyaSidOnContainers.BuildingBlocks.EventBus.IntegrationEventLogEF.Services;
-    using AnteyaSidOnContainers.Services.Catalog.API.Data;
     using AnteyaSidOnContainers.Services.Catalog.API.Infrastructure.Filters;
     using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.RabbitMQ;
     using Microsoft.Extensions.Logging;
@@ -23,8 +22,8 @@
     using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Abstractions;
     using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid;
     using AnteyaSidOnContainers.Services.Catalog.API.IntegrationEvents.Events;
-    using AnteyaSidOnContainers.Services.Catalog.API.IntegrationEvents.EventHandling;
     using AnteyaSidOnContainers.Services.Catalog.API.Infrastructure.AutofacModules;
+    using AnteyaSidOnContainers.Services.Catalog.Data;
 
     public class Startup
     {
@@ -42,8 +41,8 @@
             {
                 options.Filters.Add(typeof(HttpGlobalExceptionFilter));
             }).AddControllersAsServices();
-
-            services.AddEntityFrameworkNpgsql().AddDbContext<CatalogContext>(options =>
+            
+            services.AddEntityFrameworkNpgsql().AddDbContext<CatalogDbContext>(options =>
                 options.UseNpgsql(Configuration["NpgConnectionString"],
                   npgsqlOptionsAction: npgsqlOption =>
                   {
@@ -74,7 +73,7 @@
 
                 var factory = new ConnectionFactory()
                 {
-                    Uri = new Uri("amqp://hvagcwtv:nRzJYkkqmmvPmmhrpxnqSzyZsXfGi4Nu@wolverine.rmq.cloudamqp.com/hvagcwtv")
+                    Uri = new Uri(Configuration["EventBusConnectionUrl"])
                 };
 
                 var retryCount = 5;
@@ -115,7 +114,7 @@
 
             services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(
                 sp => (DbConnection c) => new IntegrationEventLogService(c));
-            
+
 
             // configure autofac
             var container = new ContainerBuilder();
@@ -123,6 +122,8 @@
 
             container.RegisterModule(new MediatorModule());
             container.RegisterModule(new ApplicationModule());
+            container.RegisterModule(new CatalogServicesModule());
+            container.RegisterModule(new CatalogDataModule());
 
             return new AutofacServiceProvider(container.Build());
         }

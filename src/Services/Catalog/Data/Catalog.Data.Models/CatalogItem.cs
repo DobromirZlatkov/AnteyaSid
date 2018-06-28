@@ -1,9 +1,11 @@
-﻿namespace AnteyaSidOnContainers.Services.Catalog.API.Models
+﻿namespace AnteyaSidOnContainers.Services.Catalog.Data.Models
 {
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    public class CatalogItem
+    using AnteyaSidOnContainers.Services.Catalog.Data.Common.Models;
+
+    public class CatalogItem : DeletableEntity
     {
         public int Id { get; set; }
 

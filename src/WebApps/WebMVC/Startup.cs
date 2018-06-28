@@ -144,7 +144,6 @@
                 //options.Scope.Add("locations");
             });
 
-
             // Setup event bus connection
             services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
             {
@@ -152,7 +151,7 @@
 
                 var factory = new ConnectionFactory()
                 {
-                    Uri = new Uri("amqp://hvagcwtv:nRzJYkkqmmvPmmhrpxnqSzyZsXfGi4Nu@wolverine.rmq.cloudamqp.com/hvagcwtv")
+                    Uri = new Uri(Configuration["EventBusConnectionUrl"])
                 };
 
                 var retryCount = 5;

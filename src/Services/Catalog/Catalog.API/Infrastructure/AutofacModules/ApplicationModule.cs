@@ -14,7 +14,6 @@
         {
             builder.RegisterAssemblyTypes(typeof(CatalogItemCreatedIntegrationEvent).GetTypeInfo().Assembly)
                 .AsClosedTypesOf(typeof(IIntegrationEventHandler<>));
-
         }
     }
 }
