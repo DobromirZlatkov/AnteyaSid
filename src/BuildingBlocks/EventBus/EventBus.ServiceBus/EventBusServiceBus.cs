@@ -1,16 +1,18 @@
 ﻿namespace AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.ServiceBus
 {
-    using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid;
-    using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Abstractions;
-    using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Events;
+    using System;
+    using System.Text;
+    using System.Threading.Tasks;
+
     using Autofac;
     using Microsoft.Azure.ServiceBus;
     using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
-    using System;
-    using System.Text;
-    using System.Threading.Tasks;
+
+    using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid;
+    using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Abstractions;
+    using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Events;
 
     public class EventBusServiceBus : IEventBus
     {
