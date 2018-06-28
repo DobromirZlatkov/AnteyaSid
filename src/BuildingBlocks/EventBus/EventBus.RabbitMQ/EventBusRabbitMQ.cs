@@ -1,22 +1,24 @@
-﻿using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid;
-using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Abstractions;
-using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Events;
-using Autofac;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Polly;
-using Polly.Retry;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
-using RabbitMQ.Client.Exceptions;
-using System;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.RabbitMQ
+﻿namespace AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.RabbitMQ
 {
+    using System;
+    using System.Net.Sockets;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    using Autofac;
+    using Microsoft.Extensions.Logging;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+    using Polly;
+    using Polly.Retry;
+    using global::RabbitMQ.Client;
+    using global::RabbitMQ.Client.Events;
+    using global::RabbitMQ.Client.Exceptions;
+
+    using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid;
+    using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Abstractions;
+    using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Events;
+
     public class EventBusRabbitMQ : IEventBus, IDisposable
     {
         const string BROKER_NAME = "anteya_sid_event_bus";
