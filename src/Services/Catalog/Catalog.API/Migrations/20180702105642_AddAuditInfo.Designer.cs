@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AnteyaSidOnContainers.Services.Catalog.API.Migrations
 {
     [DbContext(typeof(CatalogDbContext))]
-    [Migration("20180628134714_AddAudotInfoToCatalogItem")]
-    partial class AddAudotInfoToCatalogItem
+    [Migration("20180702105642_AddAuditInfo")]
+    partial class AddAuditInfo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,17 +28,19 @@ namespace AnteyaSidOnContainers.Services.Catalog.API.Migrations
 
                     b.Property<string>("Color");
 
-                    b.Property<byte[]>("CreatedOn")
-                        .IsRequired()
-                        .HasConversion(new ValueConverter<byte[], byte[]>(v => default(byte[]), v => default(byte[]), new ConverterMappingHints(size: 8)));
+                    b.Property<DateTime>("CreatedOn")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
 
-                    b.Property<byte[]>("DeletedOn")
-                        .HasConversion(new ValueConverter<byte[], byte[]>(v => default(byte[]), v => default(byte[]), new ConverterMappingHints(size: 8)));
+                    b.Property<DateTime?>("DeletedOn")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<byte[]>("ModifiedOn")
-                        .HasConversion(new ValueConverter<byte[], byte[]>(v => default(byte[]), v => default(byte[]), new ConverterMappingHints(size: 8)));
+                    b.Property<DateTime?>("ModifiedOn")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
 
                     b.Property<string>("Name");
 

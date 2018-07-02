@@ -1,4 +1,4 @@
-﻿namespace AnteyaSidOnContainers.Services.Catalog.API.IntegrationEvents.Events
+﻿namespace AnteyaSidOnContainers.Services.Catalog.API.Application.IntegrationEvents.Events
 {
     using System;
 

@@ -5,7 +5,7 @@
     using Autofac;
 
     using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Abstractions;
-    using AnteyaSidOnContainers.Services.Catalog.API.IntegrationEvents.Events;
+    using AnteyaSidOnContainers.Services.Catalog.API.Application.IntegrationEvents.Events;
 
     public class ApplicationModule
        : Autofac.Module

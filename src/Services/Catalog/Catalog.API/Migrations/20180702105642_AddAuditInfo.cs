@@ -3,17 +3,17 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AnteyaSidOnContainers.Services.Catalog.API.Migrations
 {
-    public partial class AddAudotInfoToCatalogItem : Migration
+    public partial class AddAuditInfo : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<byte[]>(
+            migrationBuilder.AddColumn<DateTime>(
                 name: "CreatedOn",
                 table: "CatalogItems",
                 nullable: false,
-                defaultValue: new byte[] {  });
+                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc));
 
-            migrationBuilder.AddColumn<byte[]>(
+            migrationBuilder.AddColumn<DateTime>(
                 name: "DeletedOn",
                 table: "CatalogItems",
                 nullable: true);
@@ -24,7 +24,7 @@ namespace AnteyaSidOnContainers.Services.Catalog.API.Migrations
                 nullable: false,
                 defaultValue: false);
 
-            migrationBuilder.AddColumn<byte[]>(
+            migrationBuilder.AddColumn<DateTime>(
                 name: "ModifiedOn",
                 table: "CatalogItems",
                 nullable: true);

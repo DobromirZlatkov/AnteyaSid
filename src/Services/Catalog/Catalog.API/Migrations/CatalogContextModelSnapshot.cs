@@ -26,17 +26,21 @@ namespace AnteyaSidOnContainers.Services.Catalog.API.Migrations
 
                     b.Property<string>("Color");
 
-                    b.Property<byte[]>("CreatedOn")
-                        .IsRequired()
-                        .HasConversion(new ValueConverter<byte[], byte[]>(v => default(byte[]), v => default(byte[]), new ConverterMappingHints(size: 8)));
+                    b.Property<DateTime>("CreatedOn")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("TIMESTAMP(6)");
 
-                    b.Property<byte[]>("DeletedOn")
-                        .HasConversion(new ValueConverter<byte[], byte[]>(v => default(byte[]), v => default(byte[]), new ConverterMappingHints(size: 8)));
+                    b.Property<DateTime?>("DeletedOn")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<byte[]>("ModifiedOn")
-                        .HasConversion(new ValueConverter<byte[], byte[]>(v => default(byte[]), v => default(byte[]), new ConverterMappingHints(size: 8)));
+                    b.Property<DateTime?>("ModifiedOn")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("TIMESTAMP(6)");
 
                     b.Property<string>("Name");
 

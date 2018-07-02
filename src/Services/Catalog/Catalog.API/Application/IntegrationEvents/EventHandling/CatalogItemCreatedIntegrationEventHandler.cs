@@ -1,4 +1,4 @@
-﻿namespace AnteyaSidOnContainers.Services.Catalog.API.IntegrationEvents.EventHandling
+﻿namespace AnteyaSidOnContainers.Services.Catalog.API.Application.IntegrationEvents.EventHandling
 {
     using System;
     using System.Threading.Tasks;
@@ -8,18 +8,19 @@
     using MediatR;
 
     using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Abstractions;
-    using AnteyaSidOnContainers.Services.Catalog.API.IntegrationEvents.Events;
+    using AnteyaSidOnContainers.Services.Catalog.API.Application.IntegrationEvents.Events;
+    using AnteyaSidOnContainers.Services.Catalog.API.Application.Commands;
 
     public class CatalogItemCreatedIntegrationEventHandler : IIntegrationEventHandler<CatalogItemCreatedIntegrationEvent>
     {
-       // private readonly IMediator _mediator;
+        private readonly IMediator _mediator;
         private readonly ILoggerFactory _logger;
 
         public CatalogItemCreatedIntegrationEventHandler(
-           // IMediator mediator,
+            IMediator mediator,
             ILoggerFactory logger)
         {
-           // _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
@@ -34,13 +35,11 @@
         {
             if (eventMsg.RequestId != Guid.Empty)
             {
-                //var createOrderCommand = new CreateOrderCommand(eventMsg.Basket.Items, eventMsg.UserId, eventMsg.City, eventMsg.Street,
-                //    eventMsg.State, eventMsg.Country, eventMsg.ZipCode,
-                //    eventMsg.CardNumber, eventMsg.CardHolderName, eventMsg.CardExpiration,
-                //    eventMsg.CardSecurityNumber, eventMsg.CardTypeId);
+                var createCatalogItemCommand = new CreateCatalogItemCommand(eventMsg.Name, eventMsg.Price, eventMsg.Color);
 
-                //var requestCreateOrder = new IdentifiedCommand<CreateOrderCommand, bool>(createOrderCommand, eventMsg.RequestId);
-                //result = await _mediator.Send(requestCreateOrder);
+                var requestCreateCatalogItem = new IdentifiedCommand<CreateCatalogItemCommand, int>(createCatalogItemCommand, eventMsg.RequestId);
+
+                var result = await _mediator.Send(requestCreateCatalogItem);
             }
 
             _logger.CreateLogger(nameof(CatalogItemCreatedIntegrationEventHandler))

@@ -20,7 +20,7 @@
             builder
                 .RegisterType<CatalogDbContext>()
                 .As<ICatalogDbContext>()
-                .InstancePerRequest();
+                .InstancePerLifetimeScope();
         }
     }
 }

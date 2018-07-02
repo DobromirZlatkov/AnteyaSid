@@ -13,6 +13,7 @@
         [Editable(false)]
         public bool IsDeleted { get; set; }
 
+        [Timestamp]
         [Editable(false)]
         public DateTime? DeletedOn { get; set; }
     }

@@ -21,9 +21,9 @@
     using RabbitMQ.Client;
     using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Abstractions;
     using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid;
-    using AnteyaSidOnContainers.Services.Catalog.API.IntegrationEvents.Events;
     using AnteyaSidOnContainers.Services.Catalog.API.Infrastructure.AutofacModules;
     using AnteyaSidOnContainers.Services.Catalog.Data;
+    using AnteyaSidOnContainers.Services.Catalog.API.Application.IntegrationEvents.Events;
 
     public class Startup
     {
