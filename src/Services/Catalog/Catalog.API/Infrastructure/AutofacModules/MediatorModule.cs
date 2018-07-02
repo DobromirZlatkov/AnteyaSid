@@ -18,17 +18,10 @@
             builder.RegisterAssemblyTypes(typeof(IMediator).GetTypeInfo().Assembly)
                 .AsImplementedInterfaces();
 
-            var test1 = typeof(IdentifiedCommand<,>).GetTypeInfo().Assembly;
-            var test2 = typeof(CreateCatalogItemCommand).GetTypeInfo().Assembly;
-            var gg = test1 == test2;
-
 
             // Register all the Command classes (they implement IRequestHandler) in assembly holding the Commands
             builder.RegisterAssemblyTypes(typeof(CreateCatalogItemCommand).GetTypeInfo().Assembly)
                 .AsClosedTypesOf(typeof(IRequestHandler<,>));
-
-            builder.RegisterAssemblyTypes(typeof(IdentifiedCommand<,>).GetTypeInfo().Assembly)
-               .AsClosedTypesOf(typeof(IRequestHandler<,>));
 
             // Register the Command's Validators (Validators based on FluentValidation library)
             builder
