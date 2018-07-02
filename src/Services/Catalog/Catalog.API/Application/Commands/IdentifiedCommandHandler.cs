@@ -1,5 +1,6 @@
 ﻿namespace AnteyaSidOnContainers.Services.Catalog.API.Application.Commands
 {
+    using AnteyaSidOnContainers.Services.Catalog.Services.Data.Contracts;
     using MediatR;
     using System.Threading;
     using System.Threading.Tasks;
@@ -13,14 +14,18 @@
     public class IdentifiedCommandHandler<T, R> : IRequestHandler<IdentifiedCommand<T, R>, R>
         where T : IRequest<R>
     {
-        private readonly IMediator _mediator;
-       // private readonly IRequestManager _requestManager;
+        //private readonly IMediator _mediator;
+        private readonly ICatalogItemService _catalogItemService;
+        // private readonly IRequestManager _requestManager;
 
-        public IdentifiedCommandHandler(IMediator mediator
+        public IdentifiedCommandHandler(
+            //IMediator mediator,
+           // ICatalogItemService catalogItemService
             //IRequestManager requestManager
             )
         {
-            _mediator = mediator;
+            //_mediator = mediator;
+            //_catalogItemService = catalogItemService;
            // _requestManager = requestManager;
         }
 
@@ -52,7 +57,7 @@
                 try
                 {
                     // Send the embeded business command to mediator so it runs its related CommandHandler 
-                    var result = await _mediator.Send(message.Command);
+                    var result = default(R); //await _mediator.Send(message.Command);
                     return result;
                 }
                 catch

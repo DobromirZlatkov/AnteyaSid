@@ -3,13 +3,13 @@
     using MediatR;
     using System;
 
-    public class IdentifiedCommand<T, R> : IRequest<R> where T : IRequest<R>
+    public class IdentifiedCommand : IRequest<int>
     {
-        public T Command { get; }
+        public CreateCatalogItemCommand Command { get; }
 
         public Guid Id { get; }
 
-        public IdentifiedCommand(T command, Guid id)
+        public IdentifiedCommand(CreateCatalogItemCommand command, Guid id)
         {
             Command = command;
             Id = id;
