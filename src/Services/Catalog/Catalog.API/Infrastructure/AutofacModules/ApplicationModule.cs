@@ -5,14 +5,14 @@
     using Autofac;
 
     using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Abstractions;
-    using AnteyaSidOnContainers.Services.Catalog.API.Application.IntegrationEvents.Events;
+    using AnteyaSidOnContainers.Services.Catalog.API.Application.Commands;
 
     public class ApplicationModule
        : Autofac.Module
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterAssemblyTypes(typeof(CatalogItemCreatedIntegrationEvent).GetTypeInfo().Assembly)
+            builder.RegisterAssemblyTypes(typeof(CreateCatalogItemCommand).GetTypeInfo().Assembly)
                 .AsClosedTypesOf(typeof(IIntegrationEventHandler<>));
         }
     }

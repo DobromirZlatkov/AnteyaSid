@@ -1,15 +1,15 @@
 ﻿namespace AnteyaSidOnContainers.Services.Catalog.API.Application.Commands
 {
-    using MediatR;
     using System;
+    using MediatR;
 
-    public class IdentifiedCommand : IRequest<int>
+    public class IdentifiedCommand<T, R> : IRequest<R> where T : IRequest<R>
     {
-        public CreateCatalogItemCommand Command { get; }
+        public T Command { get; }
 
         public Guid Id { get; }
 
-        public IdentifiedCommand(CreateCatalogItemCommand command, Guid id)
+        public IdentifiedCommand(T command, Guid id)
         {
             Command = command;
             Id = id;

@@ -11,11 +11,13 @@
         {
             builder
                  .RegisterGeneric(typeof(DeletableEntityRepository<>))
-                 .As(typeof(IDeletableEntityRepository<>));
+                 .As(typeof(IDeletableEntityRepository<>))
+                 .InstancePerLifetimeScope();
 
             builder
                 .RegisterGeneric(typeof(EfGenericRepository<>))
-                .As(typeof(IRepository<>));
+                .As(typeof(IRepository<>))
+                .InstancePerLifetimeScope();
 
             builder
                 .RegisterType<CatalogDbContext>()

@@ -4,10 +4,13 @@
 
     using AnteyaSidOnContainers.Services.Catalog.Data.Contracts;
     using AnteyaSidOnContainers.Services.Catalog.Data.Models;
+    using AnteyaSidOnContainers.Services.Catalog.Data.Models.Idempotency;
 
     public class CatalogDbContext : DbContext, ICatalogDbContext
     {
         public DbSet<CatalogItem> CatalogItems { get; set; }
+
+        public DbSet<ClientRequest> ClientRequests { get; set; }
 
         public DbContext DbContext
         {

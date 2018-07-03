@@ -49,6 +49,9 @@
             //builder.RegisterGeneric(typeof(LoggingBehavior<,>)).As(typeof(IPipelineBehavior<,>));
             builder.RegisterGeneric(typeof(ValidatorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
 
+            // Generic handlers has to have default implementation.
+            builder.RegisterGeneric(typeof(IdentifiedCommandHandler<,>)).AsImplementedInterfaces();
+
         }
     }
 }

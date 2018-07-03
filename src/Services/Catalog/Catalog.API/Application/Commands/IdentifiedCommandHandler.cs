@@ -1,9 +1,10 @@
 ﻿namespace AnteyaSidOnContainers.Services.Catalog.API.Application.Commands
 {
-    using AnteyaSidOnContainers.Services.Catalog.Services.Data.Contracts;
-    using MediatR;
+    using System;
     using System.Threading;
     using System.Threading.Tasks;
+
+    using MediatR;
 
     /// <summary>
     /// Provides a base implementation for handling duplicate request and ensuring idempotent updates, in the cases where
@@ -14,18 +15,15 @@
     public class IdentifiedCommandHandler<T, R> : IRequestHandler<IdentifiedCommand<T, R>, R>
         where T : IRequest<R>
     {
-        //private readonly IMediator _mediator;
-        private readonly ICatalogItemService _catalogItemService;
-        // private readonly IRequestManager _requestManager;
+        private readonly IMediator _mediator;
+       // private readonly IRequestManager _requestManager;
 
         public IdentifiedCommandHandler(
-            //IMediator mediator,
-           // ICatalogItemService catalogItemService
+            IMediator mediator
             //IRequestManager requestManager
             )
         {
-            //_mediator = mediator;
-            //_catalogItemService = catalogItemService;
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator)); ;
            // _requestManager = requestManager;
         }
 
@@ -53,11 +51,11 @@
             }
             else
             {
-               // await _requestManager.CreateRequestForCommandAsync<T>(message.Id);
+              //  await _requestManager.CreateRequestForCommandAsync<T>(message.Id);
                 try
                 {
                     // Send the embeded business command to mediator so it runs its related CommandHandler 
-                    var result = default(R); //await _mediator.Send(message.Command);
+                    var result = await _mediator.Send(message.Command);
                     return result;
                 }
                 catch
