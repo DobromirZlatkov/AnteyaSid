@@ -2,7 +2,11 @@
 {
     using Microsoft.AspNetCore.Mvc;
 
-    public abstract class KendoGridAdministrationController : Controller
+    public abstract class KendoGridAdministrationController : AdminController
     {
+        public KendoGridAdministrationController()
+        {
+
+        }
     }
 }
