@@ -1,6 +1,6 @@
 ﻿namespace AnteyaSidOnContainers.WebApps.WebMVC.Services.Contracts
 {
-    public interface ICatalogService : IRemoteCrudService, IService
+    public interface IService
     {
     }
 }

@@ -13,7 +13,7 @@
 
     using AnteyaSidOnContainers.Services.Catalog.Data;
     using AnteyaSidOnContainers.Services.Catalog.Services.Data.Contracts;
-
+    using AnteyaSidOnContainers.Services.Catalog.API.ViewModels;
 
     [Route("api/v1/[controller]")]
     public class CatalogController : ControllerBase
@@ -31,6 +31,22 @@
         {
             var itemsQuery = _catalogItemService.GetAll();
             return Ok(itemsQuery.ToDataSourceResult(request, this.ModelState));
+        }
+
+
+        // POST api/v1/Catalog/CreateItem/
+        // Data : { Name : <name>, Price: <price>, Color: <color> }
+        [Route("[action]")]
+        [HttpPost]
+        public async Task<ActionResult> CreateItem(CatalogItemCreateViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                await _catalogItemService.CreateNew(model.Name, model.Price, model.Color);
+                return this.Ok(model);
+            }
+
+            return this.BadRequest(ModelState);
         }
     }
 }

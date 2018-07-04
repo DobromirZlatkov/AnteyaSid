@@ -3,9 +3,11 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+
+    [Authorize]
     [Area("Admin")]
-    [Route("admin")]
-    [Authorize(Roles = "admin")]
+    [Route("admin/[controller]/[action]")]
+    //[Authorize(Roles = "admin")]
     public abstract class AdminController : Controller
     {
     }

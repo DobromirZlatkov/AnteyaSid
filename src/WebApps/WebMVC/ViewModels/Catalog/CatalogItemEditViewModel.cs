@@ -4,8 +4,10 @@
 
     using AnteyaSidOnContainers.WebApps.WebMVC.ViewModels.Base;
 
-    public class CatalogItemEditViewModel : BaseIntegrationEventViewModel
+    public class CatalogItemEditViewModel
     {
+        public int Id { get; set; }
+
         public string Name { get; set; }
 
         [Range(0, double.MaxValue)]

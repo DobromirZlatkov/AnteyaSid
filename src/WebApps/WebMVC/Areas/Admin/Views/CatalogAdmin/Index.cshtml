@@ -1,6 +1,4 @@
-﻿
-<h1>Not here</h1>
-@*@{
+﻿@{
     ViewBag.Title = "Index";
 }
 
@@ -18,10 +16,10 @@
                         read: {
                             type: "POST",
                             dataType: "json",
-                            url: "/Catalog/Read",
+                            url: "/Admin/CatalogAdmin/Read",
                         },
                         update: {
-                            url: "/Catalog/Update",
+                            url: "/Admin/CatalogAdmin/Update",
                             dataType: "jsonp"
                         },
                         destroy: {
@@ -30,7 +28,7 @@
                         },
                         create: {
                             type: "POST",
-                            url: "/Catalog/Create",
+                            url: "/Admin/CatalogAdmin/Create",
                             dataType: "json"
                         },
                         //parameterMap: function (options, operation) {
@@ -56,7 +54,7 @@
                             }
                         }
                     },
-                    serverPaging: true,  
+                    serverPaging: true,
                 },
                 pageable: {
                     refresh: true,
@@ -112,7 +110,7 @@
             }
         });
     </script>
-}*@
+}
 
 
 
