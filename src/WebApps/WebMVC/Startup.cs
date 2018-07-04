@@ -225,6 +225,10 @@
                 routes.MapRoute(
                     name: "defaultError",
                     template: "{controller=Error}/{action=Error}");
+
+                routes.MapRoute(
+                    name: "areaRoute",
+                    template: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
             });
         }
 
