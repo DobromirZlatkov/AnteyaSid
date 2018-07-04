@@ -3,7 +3,7 @@
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-
+    using AnteyaSidOnContainers.Services.Catalog.Services.Data.Contracts.Idempotency;
     using MediatR;
 
     /// <summary>
@@ -16,15 +16,15 @@
         where T : IRequest<R>
     {
         private readonly IMediator _mediator;
-       // private readonly IRequestManager _requestManager;
-
+        private readonly IClientRequestService _clientRequestService;
+       
         public IdentifiedCommandHandler(
-            IMediator mediator
-            //IRequestManager requestManager
+            IMediator mediator,
+            IClientRequestService clientRequestService
             )
         {
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator)); ;
-           // _requestManager = requestManager;
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _clientRequestService = clientRequestService ?? throw new ArgumentNullException(nameof(clientRequestService));
         }
 
         /// <summary>
@@ -44,14 +44,14 @@
         /// <returns>Return value of inner command or default value if request same ID was found</returns>
         public async Task<R> Handle(IdentifiedCommand<T, R> message, CancellationToken cancellationToken)
         {
-            var alreadyExists = true;//await _requestManager.ExistAsync(message.Id);
+            var alreadyExists = await _clientRequestService.DoExistAsync(message.Id);
             if (alreadyExists)
             {
                 return CreateResultForDuplicateRequest();
             }
             else
             {
-              //  await _requestManager.CreateRequestForCommandAsync<T>(message.Id);
+                await _clientRequestService.CreateRequestForCommandAsync<T>(message.Id);
                 try
                 {
                     // Send the embeded business command to mediator so it runs its related CommandHandler 

@@ -1,5 +1,6 @@
 ﻿namespace AnteyaSidOnContainers.Services.Catalog.Services.Data
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
     using AnteyaSidOnContainers.Services.Catalog.Data.Contracts;
@@ -12,9 +13,9 @@
 
         public CatalogItemService(
             IDeletableEntityRepository<CatalogItem> catalogItemsRepository
-            )
+        )
         {
-            this._catalogItemsRepository = catalogItemsRepository;
+            this._catalogItemsRepository = catalogItemsRepository ?? throw new ArgumentNullException(nameof(catalogItemsRepository));
         }
 
         public async Task<int> CreateNew(string name, decimal price, string color)
