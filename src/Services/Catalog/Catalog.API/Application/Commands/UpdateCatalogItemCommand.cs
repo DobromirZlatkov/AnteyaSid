@@ -1,5 +1,6 @@
 ﻿namespace AnteyaSidOnContainers.Services.Catalog.API.Application.Commands
 {
+    using AnteyaSidOnContainers.Services.Catalog.Data.Models;
     using MediatR;
     using System.Runtime.Serialization;
 
@@ -13,8 +14,11 @@
     // https://msdn.microsoft.com/en-us/library/bb383979.aspx
 
     [DataContract]
-    public class CreateCatalogItemCommand : IRequest<int>
+    public class UpdateCatalogItemCommand : IRequest<CatalogItem>
     {
+        [DataMember]
+        public int Id { get; private set; }
+
         [DataMember]
         public string Name { get; private set; }
 
@@ -24,8 +28,9 @@
         [DataMember]
         public string Color { get; private set; }
 
-        public CreateCatalogItemCommand(string name, decimal price, string color)
+        public UpdateCatalogItemCommand(int id, string name, decimal price, string color)
         {
+            this.Id = id;
             this.Name = name;
             this.Price = price;
             this.Color = color;

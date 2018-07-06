@@ -165,7 +165,6 @@
 
             RegisterEventBus(services);
 
-
             services.AddOptions();
 
             var container = new ContainerBuilder();

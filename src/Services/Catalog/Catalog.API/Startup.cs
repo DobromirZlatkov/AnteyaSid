@@ -180,7 +180,7 @@
         {
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
 
-            eventBus.Subscribe<CatalogItemCreatedIntegrationEvent, IIntegrationEventHandler<CatalogItemCreatedIntegrationEvent>>();
+            eventBus.Subscribe<CatalogItemUpdateIntegrationEvent, IIntegrationEventHandler<CatalogItemUpdateIntegrationEvent>>();
         }
     }
 }

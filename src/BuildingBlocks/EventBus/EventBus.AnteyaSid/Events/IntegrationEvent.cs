@@ -6,11 +6,11 @@ namespace AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Event
     {
         public IntegrationEvent()
         {
-            Id = Guid.NewGuid();
+            IntegrationEventId = Guid.NewGuid();
             CreationDate = DateTime.UtcNow;
         }
 
-        public Guid Id { get; set; }
+        public Guid IntegrationEventId { get; set; }
 
         public DateTime CreationDate { get; set; }
     }

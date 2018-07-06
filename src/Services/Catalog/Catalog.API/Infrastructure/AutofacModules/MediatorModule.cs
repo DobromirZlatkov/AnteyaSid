@@ -19,7 +19,7 @@
                 .AsImplementedInterfaces();
 
             // Register all the Command classes (they implement IRequestHandler) in assembly holding the Commands
-            builder.RegisterAssemblyTypes(typeof(CreateCatalogItemCommand).GetTypeInfo().Assembly)
+            builder.RegisterAssemblyTypes(typeof(UpdateCatalogItemCommand).GetTypeInfo().Assembly)
                 .AsClosedTypesOf(typeof(IRequestHandler<,>));
 
 

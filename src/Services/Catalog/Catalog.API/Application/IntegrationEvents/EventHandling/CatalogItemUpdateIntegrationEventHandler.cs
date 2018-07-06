@@ -10,13 +10,14 @@
     using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Abstractions;
     using AnteyaSidOnContainers.Services.Catalog.API.Application.IntegrationEvents.Events;
     using AnteyaSidOnContainers.Services.Catalog.API.Application.Commands;
+    using AnteyaSidOnContainers.Services.Catalog.Data.Models;
 
-    public class CatalogItemCreatedIntegrationEventHandler : IIntegrationEventHandler<CatalogItemCreatedIntegrationEvent>
+    public class CatalogItemUpdateIntegrationEventHandler : IIntegrationEventHandler<CatalogItemUpdateIntegrationEvent>
     {
         private readonly IMediator _mediator;
         private readonly ILoggerFactory _logger;
 
-        public CatalogItemCreatedIntegrationEventHandler(
+        public CatalogItemUpdateIntegrationEventHandler(
             IMediator mediator,
             ILoggerFactory logger)
         {
@@ -31,18 +32,18 @@
         /// Integration event message which is sent by the WebMvc once Catalog Item is successfully created from the ui and validated from the WebMvc.
         /// </param>
         /// <returns></returns>
-        public async Task Handle(CatalogItemCreatedIntegrationEvent eventMsg)
+        public async Task Handle(CatalogItemUpdateIntegrationEvent eventMsg)
         {
             if (eventMsg.RequestId != Guid.Empty)
             {
-                var createCatalogItemCommand = new CreateCatalogItemCommand(eventMsg.Name, eventMsg.Price, eventMsg.Color);
+                var updateCatalogItemCommand = new UpdateCatalogItemCommand(eventMsg.Id, eventMsg.Name, eventMsg.Price, eventMsg.Color);
 
-                var requestCreateCatalogItem = new IdentifiedCommand<CreateCatalogItemCommand, int>(createCatalogItemCommand, eventMsg.RequestId);
+                var requestUpdateCatalogItem = new IdentifiedCommand<UpdateCatalogItemCommand, CatalogItem>(updateCatalogItemCommand, eventMsg.RequestId);
 
-                var result = await _mediator.Send(requestCreateCatalogItem);
+                var result = await _mediator.Send(requestUpdateCatalogItem);
             }
 
-            _logger.CreateLogger(nameof(CatalogItemCreatedIntegrationEventHandler))
+            _logger.CreateLogger(nameof(CatalogItemUpdateIntegrationEventHandler))
                 .LogTrace(false ? $"UserCheckoutAccepted integration event has been received and a create new order process is started with requestId: {eventMsg.RequestId}" :
                     $"UserCheckoutAccepted integration event has been received but a new order process has failed with requestId: {eventMsg.RequestId}");
         }

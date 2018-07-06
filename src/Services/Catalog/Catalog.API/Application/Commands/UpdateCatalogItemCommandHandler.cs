@@ -4,16 +4,17 @@
     using System.Threading;
     using System.Threading.Tasks;
 
+    using AnteyaSidOnContainers.Services.Catalog.Data.Models;
     using AnteyaSidOnContainers.Services.Catalog.Services.Data.Contracts;
 
     using MediatR;
 
-    public class CreateCatalogItemCommandHandler : IRequestHandler<CreateCatalogItemCommand, int>
+    public class UpdateCatalogItemCommandHandler : IRequestHandler<UpdateCatalogItemCommand, CatalogItem>
     {
         private readonly ICatalogItemService _catalogItemService;
         private readonly IMediator _mediator;
 
-        public CreateCatalogItemCommandHandler(
+        public UpdateCatalogItemCommandHandler(
             IMediator mediator, 
             ICatalogItemService catalogItemService)
         {
@@ -21,9 +22,9 @@
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        public async Task<int> Handle(CreateCatalogItemCommand request, CancellationToken cancellationToken)
+        public async Task<CatalogItem> Handle(UpdateCatalogItemCommand request, CancellationToken cancellationToken)
         {
-            return await this._catalogItemService.CreateNew(request.Name, request.Price, request.Color);
+            return await this._catalogItemService.Update(request.Id, request.Name, request.Price, request.Color);
         }
     }
 }

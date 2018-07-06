@@ -36,5 +36,18 @@
         {
             return _catalogItemsRepository.All();
         }
+
+        public async Task<CatalogItem> Update(int id, string name, decimal price, string color)
+        {
+            var catalogItem = this._catalogItemsRepository.GetById(id);
+
+            catalogItem.Name = name;
+            catalogItem.Price = price;
+            catalogItem.Color = color;
+
+            await _catalogItemsRepository.SaveChangesAsync();
+
+            return catalogItem;
+        }
     }
 }

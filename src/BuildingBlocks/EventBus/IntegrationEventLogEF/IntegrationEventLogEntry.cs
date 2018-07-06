@@ -10,7 +10,7 @@
 
         public IntegrationEventLogEntry(IntegrationEvent @event)
         {
-            EventId = @event.Id;
+            EventId = @event.IntegrationEventId;
             CreationTime = @event.CreationDate;
             EventTypeName = @event.GetType().FullName;
             Content = JsonConvert.SerializeObject(@event);

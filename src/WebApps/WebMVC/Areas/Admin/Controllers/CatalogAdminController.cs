@@ -3,28 +3,23 @@
     using System;
     using System.Threading.Tasks;
 
+    using Kendo.Mvc.UI;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Primitives;
 
-    using Kendo.Mvc.UI;
-    using Kendo.Mvc.Extensions;
-
+    using AnteyaSidOnContainers.WebApps.WebMVC.Areas.Admin.Controllers.Base;
     using AnteyaSidOnContainers.WebApps.WebMVC.Services.Contracts;
-
-    using ViewModel = AnteyaSidOnContainers.WebApps.WebMVC.ViewModels.Catalog.CatalogItemEditViewModel;
+    using AnteyaSidOnContainers.WebApps.WebMVC.ViewModels.Catalog;
     using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Abstractions;
     using AnteyaSidOnContainers.WebApps.WebMVC.IntegrationEvents.Events.Catalog;
-    using AutoMapper;
-    using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Events;
-    using AnteyaSidOnContainers.WebApps.WebMVC.Areas.Admin.Controllers.Base;
-    using System.Collections;
 
     //[Route("admin/catalog")]
     public class CatalogAdminController : KendoGridAdministrationController
     {
         public CatalogAdminController(
-            ICatalogService catalogService
-        ) : base(catalogService)
+            ICatalogService catalogService,
+            IEventBus eventBus
+        ) : base(catalogService, eventBus)
         {
         }
 
@@ -50,9 +45,20 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(DataSourceRequest request, ViewModel model, [FromHeader(Name = "x-requestid")] string requestId)
+        public async Task<IActionResult> Create(DataSourceRequest request, CatalogItemCreateViewModel model, [FromHeader(Name = "x-requestid")] string requestId)
         {
-            var dbModel = await this.Create<CatalogItemCreatedIntegrationEvent>(model);
+            var dbModel = await this.Create<CatalogItemCreateViewModel>(model);
+            return this.GridOperation(model, request);
+        }
+
+        [HttpPost]
+        public IActionResult Update(DataSourceRequest request, CatalogItemEditViewModel model, [FromHeader(Name = "x-requestid")] string requestId)
+        {
+            model.RequestId = (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty) ?
+                guid : Guid.NewGuid();
+
+            this.Update<CatalogItemUpdateIntegrationEvent>(model);
+
             return this.GridOperation(model, request);
         }
 

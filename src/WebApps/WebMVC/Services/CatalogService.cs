@@ -39,13 +39,13 @@
         }
 
 
-        public async Task<string> Create(string jsonObject)
+        public async Task<string> Create(object jsonObject)
         {
             var url = API.Catalog.CreateCatalogItem(_remoteServiceBaseUrl);
 
-            var dataString = await _apiClient.PostAsync(url, jsonObject);
+            var response = await _apiClient.PostAsync(url, jsonObject);
 
-            return dataString;
+            return await response.Content.ReadAsStringAsync();
         }
 
         public Task<string> Delete(object id)

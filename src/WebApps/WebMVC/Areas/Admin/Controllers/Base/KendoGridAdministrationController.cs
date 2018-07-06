@@ -1,24 +1,28 @@
 ﻿namespace AnteyaSidOnContainers.WebApps.WebMVC.Areas.Admin.Controllers.Base
 {
-    using AnteyaSidOnContainers.WebApps.WebMVC.Services.Contracts;
-    using AutoMapper;
+    using System;
+    using System.Threading.Tasks;
+
     using Kendo.Mvc.Extensions;
     using Kendo.Mvc.UI;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
     using Newtonsoft.Json;
-    using System;
-    using System.Collections;
-    using System.Threading.Tasks;
+
+    using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Abstractions;
+    using AnteyaSidOnContainers.WebApps.WebMVC.Services.Contracts;
+    using AutoMapper;
+    using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Events;
 
     public abstract class KendoGridAdministrationController : AdminController
     {
         protected readonly IRemoteCrudService _remoteCrudService;
+        protected readonly IEventBus _eventBus;
 
-        public KendoGridAdministrationController(IRemoteCrudService remoteCrudService)
+        public KendoGridAdministrationController(IRemoteCrudService remoteCrudService, IEventBus eventBus)
            : base()
         {
             _remoteCrudService = remoteCrudService ?? throw new ArgumentNullException(nameof(remoteCrudService));
+            _eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
         }
 
         protected abstract Task<string> GetData(DataSourceRequest request);
@@ -43,18 +47,30 @@
             return null;
         }
 
+        [NonAction]
+        protected virtual void Update<T>(object model) where T : IntegrationEvent
+        {
+            if (model != null && ModelState.IsValid)
+            {
+                var eventModel = Mapper.Map<T>(model);
+                _eventBus.Publish(eventModel);
+            }
+        }
+
         //[NonAction]
-        //protected virtual void Update<TModel, TViewModel>(TViewModel model, object id)
-        //    where TModel : class
-        //    where TViewModel : class
+        //protected virtual T Create<T>(object model) where T : IntegrationEvent
         //{
         //    if (model != null && ModelState.IsValid)
         //    {
-        //        var dbModel = this.GetById<TModel>(id);
-        //        Mapper.Map<TViewModel, TModel>(model, dbModel);
-        //        this.ChangeEntityStateAndSave(dbModel, EntityState.Modified);
+        //        var eventModel = Mapper.Map<T>(model);
+        //        _eventBus.Publish(eventModel);
+
+        //        return eventModel;
         //    }
+
+        //    return null;
         //}
+
 
         protected JsonResult GridOperation<T>(T model, DataSourceRequest request)
         {

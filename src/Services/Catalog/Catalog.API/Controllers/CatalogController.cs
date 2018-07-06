@@ -38,7 +38,7 @@
         // Data : { Name : <name>, Price: <price>, Color: <color> }
         [Route("[action]")]
         [HttpPost]
-        public async Task<ActionResult> CreateItem(CatalogItemCreateViewModel model)
+        public async Task<ActionResult> CreateItem([FromBody]CatalogItemCreateViewModel model)
         {
             if (ModelState.IsValid)
             {

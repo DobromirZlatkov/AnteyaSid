@@ -3,7 +3,7 @@
     using AnteyaSidOnContainers.Services.Catalog.API.Application.Commands;
     using FluentValidation;
 
-    public class CreateCatalogItemCommandValidator : AbstractValidator<CreateCatalogItemCommand>
+    public class CreateCatalogItemCommandValidator : AbstractValidator<UpdateCatalogItemCommand>
     {
         public CreateCatalogItemCommandValidator()
         {

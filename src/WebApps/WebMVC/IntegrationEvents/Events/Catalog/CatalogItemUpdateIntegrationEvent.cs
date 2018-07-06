@@ -6,9 +6,11 @@
     using AnteyaSidOnContainers.WebApps.WebMVC.Infrastructure.Mapping;
     using AnteyaSidOnContainers.WebApps.WebMVC.ViewModels.Catalog;
 
-    public class CatalogItemCreatedIntegrationEvent : IntegrationEvent, IMapFrom<CatalogItemEditViewModel>
+    public class CatalogItemUpdateIntegrationEvent : IntegrationEvent, IMapFrom<CatalogItemEditViewModel>
     {
         public Guid RequestId { get; set; }
+
+        public int Id { get; set; }
 
         public string Name { get; set; }
         

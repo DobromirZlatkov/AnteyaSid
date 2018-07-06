@@ -10,5 +10,7 @@
         IQueryable<CatalogItem> GetAll();
 
         Task<int> CreateNew(string name, decimal price, string color);
+
+        Task<CatalogItem> Update(int id, string name, decimal price, string color);
     }
 }
