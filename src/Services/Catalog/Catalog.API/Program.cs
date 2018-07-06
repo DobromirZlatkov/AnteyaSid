@@ -1,23 +1,22 @@
 ﻿namespace AnteyaSidOnContainers.Services.Catalog.API
 {
+    using System.IO;
+
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
 
-    using AnteyaSidOnContainers.BuildingBlocks.WebHost.Customization;
-    using AnteyaSidOnContainers.Services.Catalog.API.Data;
     using AnteyaSidOnContainers.BuildingBlocks.EventBus.IntegrationEventLogEF;
-    using System.IO;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Options;
+    using AnteyaSidOnContainers.BuildingBlocks.WebHost.Customization;
+    using AnteyaSidOnContainers.Services.Catalog.Data;
 
     public class Program
     {
         public static void Main(string[] args)
         {
             BuildWebHost(args)
-              .MigrateDbContext<CatalogContext>((_, __) => { })
+              .MigrateDbContext<CatalogDbContext>((_, __) => { })
               .MigrateDbContext<IntegrationEventLogContext>((_, __) => { })
               .Run();
         }

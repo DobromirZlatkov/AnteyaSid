@@ -1,8 +1,9 @@
-﻿using RabbitMQ.Client;
-using System;
-
-namespace AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.RabbitMQ
+﻿namespace AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.RabbitMQ
 {
+    using System;
+
+    using global::RabbitMQ.Client;
+
     public interface IRabbitMQPersistentConnection
        : IDisposable
     {

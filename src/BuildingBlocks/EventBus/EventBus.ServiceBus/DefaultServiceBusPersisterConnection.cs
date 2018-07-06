@@ -1,6 +1,7 @@
 ﻿namespace AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.ServiceBus
 {
     using System;
+
     using Microsoft.Azure.ServiceBus;
     using Microsoft.Extensions.Logging;
 

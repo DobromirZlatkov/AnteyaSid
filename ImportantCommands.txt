@@ -1,0 +1,6 @@
+1. docker stop all containers and remove them
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+
+2. migrations
+dotnet ef migrations add <MIGRATION_NAME> --context <CONTEXT_NAME>

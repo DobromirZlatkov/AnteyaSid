@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-namespace AnteyaSidOnContainers.Services.Catalog.API.Infrastructure.ActionResults
+﻿namespace AnteyaSidOnContainers.Services.Catalog.API.Infrastructure.ActionResults
 {
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+
     public class InternalServerErrorObjectResult : ObjectResult
     {
         public InternalServerErrorObjectResult(object error)

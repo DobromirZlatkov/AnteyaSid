@@ -42,7 +42,7 @@
 
         public Task MarkEventAsPublishedAsync(IntegrationEvent @event)
         {
-            var eventLogEntry = _integrationEventLogContext.IntegrationEventLogs.Single(ie => ie.EventId == @event.Id);
+            var eventLogEntry = _integrationEventLogContext.IntegrationEventLogs.Single(ie => ie.EventId == @event.IntegrationEventId);
             eventLogEntry.TimesSent++;
             eventLogEntry.State = EventStateEnum.Published;
 

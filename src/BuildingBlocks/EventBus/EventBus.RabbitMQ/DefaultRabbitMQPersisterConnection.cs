@@ -1,15 +1,16 @@
-﻿using Microsoft.Extensions.Logging;
-using Polly;
-using Polly.Retry;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
-using RabbitMQ.Client.Exceptions;
-using System;
-using System.IO;
-using System.Net.Sockets;
-
-namespace AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.RabbitMQ
+﻿namespace AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.RabbitMQ
 {
+    using System;
+    using System.IO;
+    using System.Net.Sockets;
+
+    using Microsoft.Extensions.Logging;
+    using Polly;
+    using Polly.Retry;
+    using global::RabbitMQ.Client;
+    using global::RabbitMQ.Client.Events;
+    using global::RabbitMQ.Client.Exceptions;
+
     public class DefaultRabbitMQPersistentConnection
       : IRabbitMQPersistentConnection
     {

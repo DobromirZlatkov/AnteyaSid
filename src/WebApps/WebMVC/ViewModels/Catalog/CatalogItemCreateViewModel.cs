@@ -1,15 +1,12 @@
-﻿namespace AnteyaSidOnContainers.Services.Catalog.API.Models
+﻿namespace AnteyaSidOnContainers.WebApps.WebMVC.ViewModels.Catalog
 {
-    using System;
     using System.ComponentModel.DataAnnotations;
 
-    public class CatalogItem
+    public class CatalogItemCreateViewModel
     {
-        public int Id { get; set; }
-
         public string Name { get; set; }
 
-        [Range(0.0, Double.MaxValue)]
+        [Range(0, double.MaxValue)]
         public decimal Price { get; set; }
 
         public string Color { get; set; }
