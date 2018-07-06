@@ -1,4 +1,6 @@
-﻿@{
+﻿
+<h1>Not here</h1>
+@*@{
     ViewBag.Title = "Index";
 }
 
@@ -10,13 +12,13 @@
     <script>
         $(document).ready(function () {
             $("#grid").kendoGrid({
-                rowTemplate: kendo.template($("#template").html()),
+              //  rowTemplate: kendo.template($("#template").html()),
                 dataSource: {
                     transport: {
                         read: {
                             type: "POST",
                             dataType: "json",
-                            url: "/Catalog/GetCatalogItems",
+                            url: "/Catalog/Read",
                         },
                         update: {
                             url: "/Catalog/Update",
@@ -27,8 +29,9 @@
                             dataType: "jsonp"
                         },
                         create: {
+                            type: "POST",
                             url: "/Catalog/Create",
-                            dataType: "jsonp"
+                            dataType: "json"
                         },
                         //parameterMap: function (options, operation) {
                         //    console.log(options, operation)
@@ -53,37 +56,63 @@
                             }
                         }
                     },
-                    batch: true,
-                    serverPaging: true,
-                    pageSize: 15,
+                    serverPaging: true,  
                 },
+                pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    pageSize: 10,
+                    buttonCount: 5
+                },
+                selectable: "multiple cell",
+                allowCopy: true,
+                columnMenu: true,
+                navigatable: true,
+                reorderable: true,
+                resizable: true,
                 toolbar: ["create"],
-                height: 700,
+               // height: 700,
                 columns: [
-                    { field: "id" },
-                    { field: "name" },
-                    { field: "price" },
-                    { command: "edit", title: "&nbsp;", width: "250px" }
+                    {
+                        field: "id",
+                        attributes: {
+                            style: "border-color: #=color#;"
+                        }
+                    },
+                    {
+                        field: "name",
+                        attributes: {
+                            style: "border-color: #=color#;"
+                        }
+                    },
+                    {
+                        field: "price",
+                        attributes: {
+                            style: "border-color: #=color#;"
+                        }
+                    },
+                    {
+                        field: "color",
+                       // editor: szinColorPickerEditor,
+                        attributes: {
+                            style: "background-color: #=color#;"
+                        }
+                    },
+                    { command: ["edit", "destroy"], title: "&nbsp;", width: 250 }
                 ],
                 editable: "popup",
             });
+
+            function szinColorPickerEditor(container, options) {
+                $("<input type='color' data-bind='value:" + options.field + "' />")
+                    .appendTo(container)
+                    .kendoColorPicker({
+                        buttons: true
+                    });
+            }
         });
     </script>
-
-    <script id="template" type="text/x-kendo-template">
-        <tr data-uid="#= uid #" style="background-color:#: color #">
-            <td>
-                <strong>#: id #</strong>  
-            </td>
-            <td>
-                <strong>#: name #</strong>
-            </td>
-            <td>
-                <strong>#: price #</strong>
-            </td>
-        </tr>
-    </script>
-}
+}*@
 
 
 

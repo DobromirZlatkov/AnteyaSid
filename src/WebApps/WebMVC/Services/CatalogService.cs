@@ -9,7 +9,7 @@
     using AnteyaSidOnContainers.WebApps.WebMVC.Services.Contracts;
     using AnteyaSidOnContainers.BuildingBlocks.Resilience.Http.Contracts;
 
-    public class CatalogService : ICatalogService
+    public class CatalogService : ICatalogService, IRemoteCrudService
     {
         private readonly IOptionsSnapshot<AppSettings> _settings;
         private readonly IHttpClient _apiClient;
@@ -29,13 +29,33 @@
             _remoteServiceBaseUrl = $"{_settings.Value.CatalogUrl}/api/v1/catalog/";
         }
 
-        public async Task<string> GetCatalogItemsJson(string queryParams)
+        public async Task<string> GetData(string queryParams)
         {
             var allcatalogItemsUri = API.Catalog.GetAllCatalogItems(_remoteServiceBaseUrl, queryParams);
 
             var dataString = await _apiClient.GetStringAsync(allcatalogItemsUri);
-            
+
             return dataString;
+        }
+
+
+        public async Task<string> Create(object jsonObject)
+        {
+            var url = API.Catalog.CreateCatalogItem(_remoteServiceBaseUrl);
+
+            var response = await _apiClient.PostAsync(url, jsonObject);
+
+            return await response.Content.ReadAsStringAsync();
+        }
+
+        public Task<string> Delete(object id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<string> Update(object id, string jsonObject)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

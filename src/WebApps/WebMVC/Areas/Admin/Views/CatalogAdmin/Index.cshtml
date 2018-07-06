@@ -1,0 +1,117 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<div id="grid">
+</div>
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#grid").kendoGrid({
+              //  rowTemplate: kendo.template($("#template").html()),
+                dataSource: {
+                    transport: {
+                        read: {
+                            type: "POST",
+                            dataType: "json",
+                            url: "/Admin/CatalogAdmin/Read",
+                        },
+                        update: {
+                            type: "POST",
+                            url: "/Admin/CatalogAdmin/Update",
+                            dataType: "json"
+                        },
+                        destroy: {
+                            url: "/Catalog/Destroy",
+                            dataType: "jsonp"
+                        },
+                        create: {
+                            type: "POST",
+                            url: "/Admin/CatalogAdmin/Create",
+                            dataType: "json"
+                        },
+                        //parameterMap: function (options, operation) {
+                        //    console.log(options, operation)
+                        //    if (operation !== "read" && options.models) {
+                        //        return { models: kendo.stringify(options.models) };
+                        //    }
+                        //}
+                    },
+                    schema: {
+                        AggregateResults: "aggregateResults",
+                        type: "json",
+                        data: "data",
+                        total: "total",
+                        errors: "errors",
+                        model: {
+                            id: "id",
+                            fields: {
+                                id: { editable: false, nullable: true },
+                                name: { validation: { required: true } },
+                                price: { type: "number", validation: { required: true, min: 1 } },
+                                color: { validation: { required: true } },
+                            }
+                        }
+                    },
+                    serverPaging: true,
+                },
+                pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    pageSize: 10,
+                    buttonCount: 5
+                },
+                selectable: "multiple cell",
+                allowCopy: true,
+                columnMenu: true,
+                navigatable: true,
+                reorderable: true,
+                resizable: true,
+                toolbar: ["create"],
+               // height: 700,
+                columns: [
+                    {
+                        field: "id",
+                        attributes: {
+                            style: "border-color: #=color#;"
+                        }
+                    },
+                    {
+                        field: "name",
+                        attributes: {
+                            style: "border-color: #=color#;"
+                        }
+                    },
+                    {
+                        field: "price",
+                        attributes: {
+                            style: "border-color: #=color#;"
+                        }
+                    },
+                    {
+                        field: "color",
+                       // editor: szinColorPickerEditor,
+                        attributes: {
+                            style: "background-color: #=color#;"
+                        }
+                    },
+                    { command: ["edit", "destroy"], title: "&nbsp;", width: 250 }
+                ],
+                editable: "popup",
+            });
+
+            function szinColorPickerEditor(container, options) {
+                $("<input type='color' data-bind='value:" + options.field + "' />")
+                    .appendTo(container)
+                    .kendoColorPicker({
+                        buttons: true
+                    });
+            }
+        });
+    </script>
+}
+
+
+

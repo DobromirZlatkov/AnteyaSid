@@ -1,4 +1,4 @@
-﻿namespace AnteyaSidOnContainers.Services.Catalog.API.Extensions
+﻿namespace AnteyaSidOnContainers.Services.Catalog.API.Infrastructure.Extensions
 {
     using System;
     using System.Collections.Generic;

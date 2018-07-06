@@ -9,6 +9,11 @@
                 var filterQs = queryStringParams;
                 return $"{baseUri}items{filterQs}";
             }
+
+            public static string CreateCatalogItem(string baseUri)
+            {
+                return $"{baseUri}CreateItem/";
+            }
         }
     }
 }

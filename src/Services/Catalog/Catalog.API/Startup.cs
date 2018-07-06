@@ -15,8 +15,15 @@
 
     using AnteyaSidOnContainers.BuildingBlocks.EventBus.IntegrationEventLogEF;
     using AnteyaSidOnContainers.BuildingBlocks.EventBus.IntegrationEventLogEF.Services;
-    using AnteyaSidOnContainers.Services.Catalog.API.Data;
     using AnteyaSidOnContainers.Services.Catalog.API.Infrastructure.Filters;
+    using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.RabbitMQ;
+    using Microsoft.Extensions.Logging;
+    using RabbitMQ.Client;
+    using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Abstractions;
+    using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid;
+    using AnteyaSidOnContainers.Services.Catalog.API.Infrastructure.AutofacModules;
+    using AnteyaSidOnContainers.Services.Catalog.Data;
+    using AnteyaSidOnContainers.Services.Catalog.API.Application.IntegrationEvents.Events;
 
     public class Startup
     {
@@ -34,8 +41,8 @@
             {
                 options.Filters.Add(typeof(HttpGlobalExceptionFilter));
             }).AddControllersAsServices();
-
-            services.AddEntityFrameworkNpgsql().AddDbContext<CatalogContext>(options =>
+            
+            services.AddEntityFrameworkNpgsql().AddDbContext<CatalogDbContext>(options =>
                 options.UseNpgsql(Configuration["NpgConnectionString"],
                   npgsqlOptionsAction: npgsqlOption =>
                   {
@@ -58,6 +65,29 @@
             services.Configure<CatalogSettings>(Configuration);
 
             services.AddKendo();
+
+            // Setup event bus connection
+            services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
+            {
+                var logger = sp.GetRequiredService<ILogger<DefaultRabbitMQPersistentConnection>>();
+
+                var factory = new ConnectionFactory()
+                {
+                    Uri = new Uri(Configuration["EventBusConnectionUrl"])
+                };
+
+                var retryCount = 5;
+                if (!string.IsNullOrEmpty(Configuration["EventBusRetryCount"]))
+                {
+                    retryCount = int.Parse(Configuration["EventBusRetryCount"]);
+                }
+
+                return new DefaultRabbitMQPersistentConnection(factory, logger, retryCount);
+            });
+
+            RegisterEventBus(services);
+
+            services.AddOptions();
 
             // Add swagger documentation for the microservice
             services.AddSwaggerGen(options =>
@@ -85,10 +115,15 @@
             services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(
                 sp => (DbConnection c) => new IntegrationEventLogService(c));
 
-            //services.AddTransient<ICatalogIntegrationEventService, CatalogIntegrationEventService>();
 
+            // configure autofac
             var container = new ContainerBuilder();
             container.Populate(services);
+
+            container.RegisterModule(new MediatorModule());
+            container.RegisterModule(new ApplicationModule());
+            container.RegisterModule(new CatalogServicesModule());
+            container.RegisterModule(new CatalogDataModule());
 
             return new AutofacServiceProvider(container.Build());
         }
@@ -114,6 +149,38 @@
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            ConfigureEventBus(app);
+        }
+
+        private void RegisterEventBus(IServiceCollection services)
+        {
+            var subscriptionClientName = Configuration["SubscriptionClientName"];
+
+            services.AddSingleton<IEventBus, EventBusRabbitMQ>(sp =>
+            {
+                var rabbitMQPersistentConnection = sp.GetRequiredService<IRabbitMQPersistentConnection>();
+                var iLifetimeScope = sp.GetRequiredService<ILifetimeScope>();
+                var logger = sp.GetRequiredService<ILogger<EventBusRabbitMQ>>();
+                var eventBusSubcriptionsManager = sp.GetRequiredService<IEventBusSubscriptionsManager>();
+
+                var retryCount = 5;
+                if (!string.IsNullOrEmpty(Configuration["EventBusRetryCount"]))
+                {
+                    retryCount = int.Parse(Configuration["EventBusRetryCount"]);
+                }
+
+                return new EventBusRabbitMQ(rabbitMQPersistentConnection, logger, iLifetimeScope, eventBusSubcriptionsManager, subscriptionClientName, retryCount);
+            });
+
+            services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
+        }
+
+        private void ConfigureEventBus(IApplicationBuilder app)
+        {
+            var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+
+            eventBus.Subscribe<CatalogItemUpdateIntegrationEvent, IIntegrationEventHandler<CatalogItemUpdateIntegrationEvent>>();
         }
     }
 }
