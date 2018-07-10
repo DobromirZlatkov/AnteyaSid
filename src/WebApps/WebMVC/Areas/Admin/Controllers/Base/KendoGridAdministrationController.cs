@@ -48,7 +48,7 @@
         }
 
         [NonAction]
-        protected virtual void Update<T>(object model) where T : IntegrationEvent
+        protected virtual void SendEvent<T>(object model) where T : IntegrationEvent
         {
             if (model != null && ModelState.IsValid)
             {
@@ -57,31 +57,9 @@
             }
         }
 
-        //[NonAction]
-        //protected virtual T Create<T>(object model) where T : IntegrationEvent
-        //{
-        //    if (model != null && ModelState.IsValid)
-        //    {
-        //        var eventModel = Mapper.Map<T>(model);
-        //        _eventBus.Publish(eventModel);
-
-        //        return eventModel;
-        //    }
-
-        //    return null;
-        //}
-
-
         protected JsonResult GridOperation<T>(T model, DataSourceRequest request)
         {
             return Json(new[] { model }.ToDataSourceResult(request, ModelState));
         }
-
-        //private void ChangeEntityStateAndSave(object dbModel, EntityState state)
-        //{
-        //    var entry = this.Data.Context.Entry(dbModel);
-        //    entry.State = state;
-        //    this.Data.SaveChanges();
-        //}
     }
 }

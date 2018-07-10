@@ -57,7 +57,18 @@
             model.RequestId = (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty) ?
                 guid : Guid.NewGuid();
 
-            this.Update<CatalogItemUpdateIntegrationEvent>(model);
+            this.SendEvent<CatalogItemUpdateIntegrationEvent>(model);
+
+            return this.GridOperation(model, request);
+        }
+
+        [HttpPost]
+        public ActionResult Destroy(DataSourceRequest request, CatalogItemEditViewModel model, [FromHeader(Name = "x-requestid")] string requestId)
+        {
+            model.RequestId = (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty) ?
+               guid : Guid.NewGuid();
+
+            this.SendEvent<CatalogItemDeleteIntegrationEvent>(model);
 
             return this.GridOperation(model, request);
         }
