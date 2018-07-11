@@ -6,7 +6,7 @@
     using AnteyaSidOnContainers.WebApps.WebMVC.Infrastructure.Mapping;
     using AnteyaSidOnContainers.WebApps.WebMVC.ViewModels.Catalog;
 
-    public class CatalogItemDeleteIntegrationEvent : IntegrationEvent, IMapFrom<CatalogItemEditViewModel>
+    public class CatalogItemDeleteIntegrationEvent : IntegrationEvent, IMapFrom<CatalogItemDeleteViewModel>
     {
         public Guid RequestId { get; set; }
 

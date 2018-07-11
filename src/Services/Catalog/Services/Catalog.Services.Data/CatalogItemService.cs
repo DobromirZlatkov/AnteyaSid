@@ -32,6 +32,13 @@
             return await _catalogItemsRepository.SaveChangesAsync();
         }
 
+        public async Task<int> Delete(int id)
+        {
+            _catalogItemsRepository.Delete(id);
+
+            return await this._catalogItemsRepository.SaveChangesAsync();
+        }
+
         public IQueryable<CatalogItem> GetAll()
         {
             return _catalogItemsRepository.All();

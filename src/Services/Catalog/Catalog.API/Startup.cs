@@ -24,6 +24,7 @@
     using AnteyaSidOnContainers.Services.Catalog.API.Infrastructure.AutofacModules;
     using AnteyaSidOnContainers.Services.Catalog.Data;
     using AnteyaSidOnContainers.Services.Catalog.API.Application.IntegrationEvents.Events;
+    using System.Collections.Generic;
 
     public class Startup
     {
@@ -181,6 +182,7 @@
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
 
             eventBus.Subscribe<CatalogItemUpdateIntegrationEvent, IIntegrationEventHandler<CatalogItemUpdateIntegrationEvent>>();
+            eventBus.Subscribe<CatalogItemDeleteIntegrationEvent, IIntegrationEventHandler<CatalogItemDeleteIntegrationEvent>>();
         }
     }
 }
