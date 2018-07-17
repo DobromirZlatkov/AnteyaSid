@@ -52,12 +52,9 @@
         }
 
         [HttpPost]
-        public IActionResult Update(DataSourceRequest request, CatalogItemEditViewModel model, [FromHeader(Name = "x-requestid")] string requestId)
+        public async Task<IActionResult> Update(DataSourceRequest request, CatalogItemEditViewModel model)
         {
-            model.RequestId = (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty) ?
-                guid : Guid.NewGuid();
-
-            this.SendEvent<CatalogItemUpdateIntegrationEvent>(model);
+            var dbModel = await this.Update<CatalogItemEditViewModel>(model);
 
             return this.GridOperation(model, request);
         }

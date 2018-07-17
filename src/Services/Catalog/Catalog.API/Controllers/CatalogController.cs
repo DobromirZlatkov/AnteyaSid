@@ -48,5 +48,20 @@
 
             return this.BadRequest(ModelState);
         }
+
+        // POST api/v1/Catalog/UpdateItem/
+        // Data : { Id: <Catalog Item ID>, Name : <name>, Price: <price>, Color: <color> }
+        [Route("[action]")]
+        [HttpPost]
+        public async Task<ActionResult> UpdateItem([FromBody]CatalogItemUpdateViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var updatedModel = await _catalogItemService.Update(model.Id, model.Name, model.Price, model.Color);
+                return this.Ok(model);
+            }
+
+            return this.BadRequest(ModelState);
+        }
     }
 }

@@ -14,6 +14,11 @@
             {
                 return $"{baseUri}CreateItem/";
             }
+
+            public static string UpdateCatalogItem(string baseUri)
+            {
+                return $"{baseUri}UpdateItem/";
+            }
         }
     }
 }

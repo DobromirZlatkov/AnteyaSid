@@ -53,9 +53,13 @@
             throw new System.NotImplementedException();
         }
 
-        public Task<string> Update(object id, string jsonObject)
+        public async Task<string> Update(object jsonObject)
         {
-            throw new System.NotImplementedException();
+            var url = API.Catalog.UpdateCatalogItem(_remoteServiceBaseUrl);
+
+            var response = await _apiClient.PostAsync(url, jsonObject);
+
+            return await response.Content.ReadAsStringAsync();
         }
     }
 }

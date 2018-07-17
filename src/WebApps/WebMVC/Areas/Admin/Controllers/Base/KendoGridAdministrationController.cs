@@ -48,6 +48,18 @@
         }
 
         [NonAction]
+        protected virtual async Task<T> Update<T>(object model) where T : class
+        {
+            if (model != null && ModelState.IsValid)
+            {
+                var jsonResponse = await this._remoteCrudService.Update(model);
+                return JsonConvert.DeserializeObject<T>(jsonResponse);
+            }
+
+            return null;
+        }
+
+        [NonAction]
         protected virtual void SendEvent<T>(object model) where T : IntegrationEvent
         {
             if (model != null && ModelState.IsValid)
