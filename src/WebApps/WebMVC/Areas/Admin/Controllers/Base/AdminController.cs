@@ -4,7 +4,7 @@
     using Microsoft.AspNetCore.Mvc;
 
 
-    //[Authorize]
+    [Authorize]
     [Area("Admin")]
     [Route("admin/[controller]/[action]")]
     //[Authorize(Roles = "admin")]

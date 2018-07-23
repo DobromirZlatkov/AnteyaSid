@@ -6,6 +6,7 @@
     using AnteyaSidOnContainers.Services.Catalog.Data.Contracts;
     using AnteyaSidOnContainers.Services.Catalog.Data.Models;
     using AnteyaSidOnContainers.Services.Catalog.Services.Data.Contracts;
+    using Microsoft.EntityFrameworkCore;
 
     public class CatalogItemService : ICatalogItemService
     {
@@ -37,6 +38,11 @@
             _catalogItemsRepository.Delete(id);
 
             return await this._catalogItemsRepository.SaveChangesAsync();
+        }
+
+        public async Task<bool> doExistsById(int itemId)
+        {
+            return await GetAll().Where(x => x.Id == itemId).AnyAsync();
         }
 
         public IQueryable<CatalogItem> GetAll()

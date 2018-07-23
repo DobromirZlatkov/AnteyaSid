@@ -14,5 +14,7 @@
         Task<CatalogItem> Update(int id, string name, decimal price, string color);
 
         Task<int> Delete(int id);
+
+        Task<bool> doExistsById(int itemId);
     }
 }

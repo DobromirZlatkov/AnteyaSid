@@ -17,9 +17,8 @@
     public class CatalogAdminController : KendoGridAdministrationController
     {
         public CatalogAdminController(
-            ICatalogService catalogService,
-            IEventBus eventBus
-        ) : base(catalogService, eventBus)
+            ICatalogService catalogService
+        ) : base(catalogService)
         {
         }
 
@@ -45,7 +44,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(DataSourceRequest request, CatalogItemCreateViewModel model, [FromHeader(Name = "x-requestid")] string requestId)
+        public async Task<IActionResult> Create(DataSourceRequest request, CatalogItemCreateViewModel model)
         {
             var dbModel = await this.Create<CatalogItemCreateViewModel>(model);
             return this.GridOperation(model, request);
@@ -60,12 +59,9 @@
         }
 
         [HttpPost]
-        public ActionResult Destroy(DataSourceRequest request, CatalogItemDeleteViewModel model, [FromHeader(Name = "x-requestid")] string requestId)
+        public async Task<ActionResult> Destroy(DataSourceRequest request, CatalogItemDeleteViewModel model)
         {
-            model.RequestId = (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty) ?
-               guid : Guid.NewGuid();
-
-            this.SendEvent<CatalogItemDeleteIntegrationEvent>(model);
+            await this._remoteCrudService.Delete(model.Id);
 
             return this.GridOperation(model, request);
         }

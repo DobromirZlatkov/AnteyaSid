@@ -10,19 +10,15 @@
 
     using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Abstractions;
     using AnteyaSidOnContainers.WebApps.WebMVC.Services.Contracts;
-    using AutoMapper;
-    using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Events;
 
     public abstract class KendoGridAdministrationController : AdminController
     {
         protected readonly IRemoteCrudService _remoteCrudService;
-        protected readonly IEventBus _eventBus;
 
-        public KendoGridAdministrationController(IRemoteCrudService remoteCrudService, IEventBus eventBus)
+        public KendoGridAdministrationController(IRemoteCrudService remoteCrudService)
            : base()
         {
             _remoteCrudService = remoteCrudService ?? throw new ArgumentNullException(nameof(remoteCrudService));
-            _eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
         }
 
         protected abstract Task<string> GetData(DataSourceRequest request);
@@ -57,16 +53,6 @@
             }
 
             return null;
-        }
-
-        [NonAction]
-        protected virtual void SendEvent<T>(object model) where T : IntegrationEvent
-        {
-            if (model != null && ModelState.IsValid)
-            {
-                var eventModel = Mapper.Map<T>(model);
-                _eventBus.Publish(eventModel);
-            }
         }
 
         protected JsonResult GridOperation<T>(T model, DataSourceRequest request)

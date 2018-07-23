@@ -25,43 +25,76 @@
             _catalogItemService = catalogItemService ?? throw new ArgumentNullException(nameof(catalogItemService));
         }
         
-        // POST api/v1/[controller]/items[?PageSize=3&Page=10]
+        /// <summary>
+        /// POST or GET api/v1/[controller]/items[?PageSize=3&Page=10]
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [Route("[action]")]
-        public ActionResult Items(DataSourceRequest request)
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public IActionResult Items(DataSourceRequest request)
         {
             var itemsQuery = _catalogItemService.GetAll();
-            return Ok(itemsQuery.ToDataSourceResult(request, this.ModelState));
+            return Ok(itemsQuery.ToDataSourceResult(request, ModelState));
         }
 
-
-        // POST api/v1/Catalog/CreateItem/
-        // Data : { Name : <name>, Price: <price>, Color: <color> }
+        /// <summary>
+        /// POST api/v1/Catalog/CreateItem/
+        /// Data : { Name : <name>, Price: <price>, Color: <color> }
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [Route("[action]")]
         [HttpPost]
-        public async Task<ActionResult> CreateItem([FromBody]CatalogItemCreateViewModel model)
+        public async Task<IActionResult> CreateItem([FromBody]CatalogItemCreateViewModel model)
         {
             if (ModelState.IsValid)
             {
                 await _catalogItemService.CreateNew(model.Name, model.Price, model.Color);
-                return this.Ok(model);
+                return Ok(model);
             }
 
-            return this.BadRequest(ModelState);
+            return BadRequest(ModelState);
         }
 
-        // POST api/v1/Catalog/UpdateItem/
-        // Data : { Id: <Catalog Item ID>, Name : <name>, Price: <price>, Color: <color> }
+        /// <summary>
+        /// POST api/v1/Catalog/UpdateItem/
+        /// Data : { Id: <Catalog Item ID>, Name : <name>, Price: <price>, Color: <color> }
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [Route("[action]")]
         [HttpPost]
-        public async Task<ActionResult> UpdateItem([FromBody]CatalogItemUpdateViewModel model)
+        public async Task<IActionResult> UpdateItem([FromBody]CatalogItemUpdateViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var updatedModel = await _catalogItemService.Update(model.Id, model.Name, model.Price, model.Color);
-                return this.Ok(model);
+                return Ok(model);
             }
 
-            return this.BadRequest(ModelState);
+            return BadRequest(ModelState);
+        }
+
+        /// <summary>
+        /// POST api/v1/Catalog/DeleteItem/<ItemId>
+        /// 
+        /// Deletes catalog item from the database
+        /// </summary>
+        /// <param name="itemId"></param>
+        /// <returns></returns>
+        [Route("[action]")]
+        [HttpPost]
+        public async Task<IActionResult> DeleteItem(int itemId)
+        {
+            if (!await _catalogItemService.doExistsById(itemId))
+            {
+                return NotFound($"Catalog items with id: {itemId} does not exists");
+            }
+
+            var catalogItemToBeDeleted = await _catalogItemService.Delete(itemId);
+
+            return Ok();
         }
     }
 }

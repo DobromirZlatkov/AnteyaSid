@@ -7,7 +7,5 @@
     {
         [Required]
         public int Id { get; set; }
-
-        public Guid RequestId { get; set; }
     }
 }
