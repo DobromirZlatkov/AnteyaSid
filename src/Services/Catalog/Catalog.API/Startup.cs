@@ -42,7 +42,7 @@
             {
                 options.Filters.Add(typeof(HttpGlobalExceptionFilter));
             }).AddControllersAsServices();
-            
+
             services.AddEntityFrameworkNpgsql().AddDbContext<CatalogDbContext>(options =>
                 options.UseNpgsql(Configuration["NpgConnectionString"],
                   npgsqlOptionsAction: npgsqlOption =>
@@ -50,7 +50,6 @@
                       npgsqlOption.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
                       npgsqlOption.EnableRetryOnFailure(maxRetryCount: 2, maxRetryDelay: TimeSpan.FromSeconds(2), errorCodesToAdd: null);
                   }));
-
 
             services.AddEntityFrameworkNpgsql().AddDbContext<IntegrationEventLogContext>(options =>
             {
@@ -150,6 +149,14 @@
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            var pathBase = Configuration["PATH_BASE"];
+
+            app.UseSwagger()
+               .UseSwaggerUI(c =>
+               {
+                   c.SwaggerEndpoint($"{ (!string.IsNullOrEmpty(pathBase) ? pathBase : string.Empty) }/swagger/v1/swagger.json", "Catalog.API V1");
+               });
 
             ConfigureEventBus(app);
         }
