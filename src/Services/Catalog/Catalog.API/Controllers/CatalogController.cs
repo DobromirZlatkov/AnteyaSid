@@ -83,16 +83,16 @@
         /// </summary>
         /// <param name="itemId"></param>
         /// <returns></returns>
-        [Route("[action]")]
+        [Route("[action]/[id]")]
         [HttpPost]
-        public async Task<IActionResult> DeleteItem(int itemId)
+        public async Task<IActionResult> DeleteItem(int id)
         {
-            if (!await _catalogItemService.doExistsById(itemId))
+            if (!await _catalogItemService.doExistsById(id))
             {
-                return NotFound($"Catalog items with id: {itemId} does not exists");
+                return NotFound($"Catalog items with id: {id} does not exists");
             }
 
-            var catalogItemToBeDeleted = await _catalogItemService.Delete(itemId);
+            var catalogItemToBeDeleted = await _catalogItemService.Delete(id);
 
             return Ok();
         }

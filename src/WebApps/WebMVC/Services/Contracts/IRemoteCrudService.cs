@@ -10,6 +10,6 @@
 
         Task<string> Update(object jsonObject);
 
-        Task<string> Delete(object id);
+        Task<string> Delete(int id);
     }
 }

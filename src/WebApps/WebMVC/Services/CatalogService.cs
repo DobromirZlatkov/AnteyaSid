@@ -48,9 +48,13 @@
             return await response.Content.ReadAsStringAsync();
         }
 
-        public Task<string> Delete(object id)
+        public async Task<string> Delete(int id)
         {
-            throw new System.NotImplementedException();
+            var url = API.Catalog.DeleteCatalogItem(_remoteServiceBaseUrl, id);
+
+            var response = await _apiClient.PostAsync(url, id);
+
+            return await response.Content.ReadAsStringAsync();
         }
 
         public async Task<string> Update(object jsonObject)
