@@ -1,38 +1,27 @@
 ﻿namespace AnteyaSidOnContainers.WebApps.WebMVC
 {
-    using System.IdentityModel.Tokens.Jwt;
-
+    using AnteyaSidOnContainers.BuildingBlocks.Resilience.Http;
+    using AnteyaSidOnContainers.BuildingBlocks.Resilience.Http.Contracts;
+    using AnteyaSidOnContainers.WebApps.WebMVC.Infrastructure;
+    using AnteyaSidOnContainers.WebApps.WebMVC.Infrastructure.Mapping;
+    using AnteyaSidOnContainers.WebApps.WebMVC.Infrastructure.Middlewares;
+    using AnteyaSidOnContainers.WebApps.WebMVC.Services;
+    using AnteyaSidOnContainers.WebApps.WebMVC.Services.Contracts;
+    using Autofac;
+    using Autofac.Extensions.DependencyInjection;
     using Microsoft.ApplicationInsights.Extensibility;
     using Microsoft.ApplicationInsights.ServiceFabric;
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Authentication.OpenIdConnect;
     using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.DataProtection;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
-
-    using AnteyaSidOnContainers.BuildingBlocks.Resilience.Http;
-    using AnteyaSidOnContainers.WebApps.WebMVC.Infrastructure;
-    using AnteyaSidOnContainers.WebApps.WebMVC.Infrastructure.Middlewares;
-    using AnteyaSidOnContainers.WebApps.WebMVC.Services;
-    using AnteyaSidOnContainers.WebApps.WebMVC.Services.Contracts;
-
-    using StackExchange.Redis;
-    using AnteyaSidOnContainers.BuildingBlocks.Resilience.Http.Contracts;
     using Newtonsoft.Json.Serialization;
-    using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Abstractions;
-    using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.RabbitMQ;
-    using Autofac;
-    using Autofac.Extensions.DependencyInjection;
-    using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid;
-    using RabbitMQ.Client;
-    using Microsoft.Extensions.Options;
     using System;
-    using AnteyaSidOnContainers.WebApps.WebMVC.Infrastructure.Mapping;
-    using System.Collections.Generic;
+    using System.IdentityModel.Tokens.Jwt;
 
     public class Startup
     {
@@ -146,25 +135,25 @@
             });
 
             // Setup event bus connection
-            services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
-            {
-                var logger = sp.GetRequiredService<ILogger<DefaultRabbitMQPersistentConnection>>();
+            //services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
+            //{
+            //    var logger = sp.GetRequiredService<ILogger<DefaultRabbitMQPersistentConnection>>();
 
-                var factory = new ConnectionFactory()
-                {
-                    Uri = new Uri(Configuration["EventBusConnectionUrl"])
-                };
+            //    var factory = new ConnectionFactory()
+            //    {
+            //        Uri = new Uri(Configuration["EventBusConnectionUrl"])
+            //    };
 
-                var retryCount = 5;
-                if (!string.IsNullOrEmpty(Configuration["EventBusRetryCount"]))
-                {
-                    retryCount = int.Parse(Configuration["EventBusRetryCount"]);
-                }
+            //    var retryCount = 5;
+            //    if (!string.IsNullOrEmpty(Configuration["EventBusRetryCount"]))
+            //    {
+            //        retryCount = int.Parse(Configuration["EventBusRetryCount"]);
+            //    }
 
-                return new DefaultRabbitMQPersistentConnection(factory, logger, retryCount);
-            });
+            //    return new DefaultRabbitMQPersistentConnection(factory, logger, retryCount);
+            //});
 
-            RegisterEventBus(services);
+            //RegisterEventBus(services);
 
             services.AddOptions();
 
@@ -250,27 +239,27 @@
             }
         }
 
-        private void RegisterEventBus(IServiceCollection services)
-        {
-            var subscriptionClientName = Configuration["SubscriptionClientName"];
+        //private void RegisterEventBus(IServiceCollection services)
+        //{
+        //    var subscriptionClientName = Configuration["SubscriptionClientName"];
 
-            services.AddSingleton<IEventBus, EventBusRabbitMQ>(sp =>
-            {
-                var rabbitMQPersistentConnection = sp.GetRequiredService<IRabbitMQPersistentConnection>();
-                var iLifetimeScope = sp.GetRequiredService<ILifetimeScope>();
-                var logger = sp.GetRequiredService<ILogger<EventBusRabbitMQ>>();
-                var eventBusSubcriptionsManager = sp.GetRequiredService<IEventBusSubscriptionsManager>();
+        //    services.AddSingleton<IEventBus, EventBusRabbitMQ>(sp =>
+        //    {
+        //        var rabbitMQPersistentConnection = sp.GetRequiredService<IRabbitMQPersistentConnection>();
+        //        var iLifetimeScope = sp.GetRequiredService<ILifetimeScope>();
+        //        var logger = sp.GetRequiredService<ILogger<EventBusRabbitMQ>>();
+        //        var eventBusSubcriptionsManager = sp.GetRequiredService<IEventBusSubscriptionsManager>();
 
-                var retryCount = 5;
-                if (!string.IsNullOrEmpty(Configuration["EventBusRetryCount"]))
-                {
-                    retryCount = int.Parse(Configuration["EventBusRetryCount"]);
-                }
+        //        var retryCount = 5;
+        //        if (!string.IsNullOrEmpty(Configuration["EventBusRetryCount"]))
+        //        {
+        //            retryCount = int.Parse(Configuration["EventBusRetryCount"]);
+        //        }
 
-                return new EventBusRabbitMQ(rabbitMQPersistentConnection, logger, iLifetimeScope, eventBusSubcriptionsManager, subscriptionClientName, retryCount);
-            });
+        //        return new EventBusRabbitMQ(rabbitMQPersistentConnection, logger, iLifetimeScope, eventBusSubcriptionsManager, subscriptionClientName, retryCount);
+        //    });
             
-            services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
-        }
+        //    services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
+        //}
     }
 }

@@ -16,6 +16,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - NpgConnectionString=${ANTEYA_SID_IDENTITY_DB:-User ID = xrmpnarghogfdr;Password=d2184e0d31696c50040ea6f883f515f88f1096516fc506cf2ce087340970c47f;Server=ec2-54-246-96-76.eu-west-1.compute.amazonaws.com;Port=5432;Database=da7rmjmheg88d4;Integrated Security=true; Pooling=true; sslmode=Require;Trust Server Certificate=true}
       - MvcClient=http://anteya-web-mvc.herokuapp.com
+      - CatalogUrl=http://anteya-catalog-api.herokuapp.com
     ports:
       - "5105:80"
 
@@ -23,6 +24,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - NpgConnectionString=${ANTEYA_SID_CATALOG_DB:-User ID = mnhdwojhhbpmpf;Password=6835916197c1f887d21f8ce7c460595c66746a9ed38dd768e531d3f62dcef72a;Server=ec2-54-75-239-237.eu-west-1.compute.amazonaws.com;Port=5432;Database=ddqbiasuitkvbj;Integrated Security=true; Pooling=true; sslmode=Require;Trust Server Certificate=true}
-    ports:
+      - MvcClient=http://anteya-web-mvc.herokuapp.com
+      - IdentityUrl==http://anteya-identity-api.herokuapp.com
+   ports:
       - "5101:80"
 

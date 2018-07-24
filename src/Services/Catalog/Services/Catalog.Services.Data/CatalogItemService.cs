@@ -19,7 +19,7 @@
             this._catalogItemsRepository = catalogItemsRepository ?? throw new ArgumentNullException(nameof(catalogItemsRepository));
         }
 
-        public async Task<int> CreateNew(string name, decimal price, string color)
+        public async Task<CatalogItem> CreateNew(string name, decimal price, string color)
         {
             var catalogItem = new CatalogItem()
             {
@@ -30,7 +30,9 @@
 
             _catalogItemsRepository.Add(catalogItem);
 
-            return await _catalogItemsRepository.SaveChangesAsync();
+            await _catalogItemsRepository.SaveChangesAsync();
+
+            return catalogItem;
         }
 
         public async Task<int> Delete(int id)

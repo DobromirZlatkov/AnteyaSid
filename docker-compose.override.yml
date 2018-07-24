@@ -16,6 +16,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - NpgConnectionString=${ANTEYA_SID_IDENTITY_DB:-User ID = postgres;Password=56;Server=192.168.1.125;Port=5432;Database=identity.db;Integrated Security=true; Pooling=true}
       - MvcClient=http://localhost:5100
+      - CatalogUrl=http://localhost:5101
     ports:
       - "5105:80"
 
@@ -24,6 +25,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - NpgConnectionString=${ANTEYA_SID_IDENTITY_DB:-User ID = postgres;Password=56;Server=192.168.1.125;Port=5432;Database=Catalog.db;Integrated Security=true; Pooling=true}
       - EventBusConnectionUrl=${EVENT_BUS_CONNECTION_URL:-amqp://hvagcwtv:nRzJYkkqmmvPmmhrpxnqSzyZsXfGi4Nu@wolverine.rmq.cloudamqp.com/hvagcwtv}
+      - MvcClient=http://localhost:5100
+      - IdentityUrl=http://10.0.75.1:5105
     ports:
       - "5101:80"
 
