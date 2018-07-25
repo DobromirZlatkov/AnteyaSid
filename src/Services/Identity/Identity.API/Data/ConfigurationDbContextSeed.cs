@@ -19,6 +19,7 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Data
             clientUrls.Add("Mvc", configuration.GetValue<string>("MvcClient"));
             clientUrls.Add("CatalogApi", configuration.GetValue<string>("CatalogUrl"));
 
+            /// Delete all clients and repopulated, to make dev process easier
             var clientsToDelete = context.Clients;
 
             foreach (var client in clientsToDelete)
@@ -26,7 +27,26 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Data
                 context.Remove(client);
                 await context.SaveChangesAsync();
             }
-            
+
+            /// Delete all IdentityResources and repopulated, to make dev process easier
+            var identityResourcesToDelete = context.IdentityResources;
+
+            foreach (var identityResource in identityResourcesToDelete)
+            {
+                context.Remove(identityResource);
+                await context.SaveChangesAsync();
+            }
+
+            /// Delete all ApiResources and repopulated, to make dev process easier
+            var apiResourcesToDelete = context.ApiResources;
+
+            foreach (var apiResource in apiResourcesToDelete)
+            {
+                context.Remove(apiResource);
+                await context.SaveChangesAsync();
+            }
+
+            /// Populate all resources and clients
             if (!context.Clients.Any())
             {
                 foreach (var client in Config.GetClients(clientUrls))

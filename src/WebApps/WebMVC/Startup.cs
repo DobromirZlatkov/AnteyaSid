@@ -128,32 +128,8 @@
                 options.RequireHttpsMetadata = false;
                 options.Scope.Add("openid");
                 options.Scope.Add("profile");
-                //options.Scope.Add("orders");
-                //options.Scope.Add("basket");
-                //options.Scope.Add("marketing");
-                //options.Scope.Add("locations");
+                options.Scope.Add("catalog");
             });
-
-            // Setup event bus connection
-            //services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
-            //{
-            //    var logger = sp.GetRequiredService<ILogger<DefaultRabbitMQPersistentConnection>>();
-
-            //    var factory = new ConnectionFactory()
-            //    {
-            //        Uri = new Uri(Configuration["EventBusConnectionUrl"])
-            //    };
-
-            //    var retryCount = 5;
-            //    if (!string.IsNullOrEmpty(Configuration["EventBusRetryCount"]))
-            //    {
-            //        retryCount = int.Parse(Configuration["EventBusRetryCount"]);
-            //    }
-
-            //    return new DefaultRabbitMQPersistentConnection(factory, logger, retryCount);
-            //});
-
-            //RegisterEventBus(services);
 
             services.AddOptions();
 
@@ -238,28 +214,5 @@
                     new FabricTelemetryInitializer());
             }
         }
-
-        //private void RegisterEventBus(IServiceCollection services)
-        //{
-        //    var subscriptionClientName = Configuration["SubscriptionClientName"];
-
-        //    services.AddSingleton<IEventBus, EventBusRabbitMQ>(sp =>
-        //    {
-        //        var rabbitMQPersistentConnection = sp.GetRequiredService<IRabbitMQPersistentConnection>();
-        //        var iLifetimeScope = sp.GetRequiredService<ILifetimeScope>();
-        //        var logger = sp.GetRequiredService<ILogger<EventBusRabbitMQ>>();
-        //        var eventBusSubcriptionsManager = sp.GetRequiredService<IEventBusSubscriptionsManager>();
-
-        //        var retryCount = 5;
-        //        if (!string.IsNullOrEmpty(Configuration["EventBusRetryCount"]))
-        //        {
-        //            retryCount = int.Parse(Configuration["EventBusRetryCount"]);
-        //        }
-
-        //        return new EventBusRabbitMQ(rabbitMQPersistentConnection, logger, iLifetimeScope, eventBusSubcriptionsManager, subscriptionClientName, retryCount);
-        //    });
-            
-        //    services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
-        //}
     }
 }

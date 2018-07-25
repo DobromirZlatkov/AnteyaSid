@@ -29,6 +29,7 @@
     using Swashbuckle.AspNetCore.Swagger;
     using System.Collections.Generic;
     using AnteyaSidOnContainers.Services.Catalog.API.Infrastructure.Infrastructure;
+    using AnteyaSidOnContainers.Services.Catalog.API.Auth.Server;
 
     public class Startup
     {
@@ -75,6 +76,7 @@
                     });
 
                     options.OperationFilter<AuthorizeCheckOperationFilter>();
+                    options.OperationFilter<AuthorizationHeaderParameterOperationFilter>();
                 })
                 .AddCors(options =>  // Configure CORS
                 {
@@ -136,10 +138,8 @@
 
             ConfigureAuth(app);
             
-
             ConfigureEventBus(app);
         }
-
 
         protected virtual void ConfigureAuth(IApplicationBuilder app)
         {
@@ -150,7 +150,6 @@
 
             app.UseAuthentication();
         }
-
 
         private void ConfigureEventBus(IApplicationBuilder app)
         {

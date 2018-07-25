@@ -1,9 +1,9 @@
-﻿using IdentityServer4;
-using IdentityServer4.Models;
-using System.Collections.Generic;
-
-namespace AnteyaSidOnContainers.Services.Identity.API.Configuration
+﻿namespace AnteyaSidOnContainers.Services.Identity.API.Configuration
 {
+    using IdentityServer4;
+    using IdentityServer4.Models;
+    using System.Collections.Generic;
+
     public class Config
     {
         /// <summary>
@@ -49,7 +49,7 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Configuration
                     {
                         new Secret("secret".Sha256())
                     },
-                    ClientUri = $"{clientsUrl["Mvc"]}",                             // public uri of the client
+                    ClientUri = $"{clientsUrl["Mvc"]}",
                     AllowedGrantTypes = GrantTypes.Hybrid,
                     AllowAccessTokensViaBrowser = false,
                     RequireConsent = false,
@@ -68,10 +68,7 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Configuration
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.OfflineAccess,
-                        //"orders",
-                        //"basket",
-                        //"locations",
-                        //"marketing"
+                        "catalog"
                     },
                 },
                 new Client
