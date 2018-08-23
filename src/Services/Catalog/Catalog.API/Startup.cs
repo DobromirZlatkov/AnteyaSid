@@ -120,6 +120,7 @@
 
             app.UseCors("CorsPolicy");
 
+            //// IMPORTANT ! Configuring auth should be before configuring swagger because authentication doesn't work.
             ConfigureAuth(app);
 
             app.UseMvc(routes =>
