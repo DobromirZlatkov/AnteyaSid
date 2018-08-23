@@ -76,7 +76,7 @@
                     });
 
                     options.OperationFilter<AuthorizeCheckOperationFilter>();
-                    options.OperationFilter<AuthorizationHeaderParameterOperationFilter>();
+                   // options.OperationFilter<AuthorizationHeaderParameterOperationFilter>();
                 })
                 .AddCors(options =>  // Configure CORS
                 {
