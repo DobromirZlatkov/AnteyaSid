@@ -46,7 +46,6 @@
             services
                 .AddRabbitMqPersistenConnection(Configuration)
                 .AddEventBus(Configuration)
-                .AddCustomAuthentication(Configuration)
                 .AddDatabase(Configuration)
                 .AddKendo()
                 .AddOptions()
@@ -76,8 +75,8 @@
                     });
 
                     options.OperationFilter<AuthorizeCheckOperationFilter>();
-                   // options.OperationFilter<AuthorizationHeaderParameterOperationFilter>();
                 })
+                .AddCustomAuthentication(Configuration)
                 .AddCors(options =>  // Configure CORS
                 {
                     options.AddPolicy("CorsPolicy",
@@ -116,8 +115,12 @@
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
+         
             app.UseStaticFiles();
+
+            app.UseCors("CorsPolicy");
+
+            ConfigureAuth(app);
 
             app.UseMvc(routes =>
             {
@@ -132,12 +135,11 @@
                .UseSwaggerUI(c =>
                {
                    c.SwaggerEndpoint($"{ (!string.IsNullOrEmpty(pathBase) ? pathBase : string.Empty) }/swagger/v1/swagger.json", "Catalog.API V1");
+                 //  c.ConfigureOAuth2("Microsoft.eShopOnContainers.Mobile.Shopping.HttpAggregatorwaggerui", "", "", "Purchase BFF Swagger UI");
                    c.OAuthClientId("catalogswaggerui");
                    c.OAuthAppName("Catalog Swagger UI");
                });
-
-            ConfigureAuth(app);
-            
+             
             ConfigureEventBus(app);
         }
 
@@ -163,8 +165,7 @@
     {
         public static IServiceCollection AddCustomAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
-            // prevent from mapping "sub" claim to nameidentifier.
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             var identityUrl = configuration.GetValue<string>("IdentityUrl");
 
