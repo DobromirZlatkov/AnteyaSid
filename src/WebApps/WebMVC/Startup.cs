@@ -3,6 +3,7 @@
     using AnteyaSidOnContainers.BuildingBlocks.Resilience.Http;
     using AnteyaSidOnContainers.BuildingBlocks.Resilience.Http.Contracts;
     using AnteyaSidOnContainers.WebApps.WebMVC.Infrastructure;
+    using AnteyaSidOnContainers.WebApps.WebMVC.Infrastructure.AutofacMidules;
     using AnteyaSidOnContainers.WebApps.WebMVC.Infrastructure.Mapping;
     using AnteyaSidOnContainers.WebApps.WebMVC.Infrastructure.Middlewares;
     using AnteyaSidOnContainers.WebApps.WebMVC.Services;
@@ -70,12 +71,6 @@
 
             // Add application services.
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddTransient<ICatalogService, CatalogService>();
-            //services.AddTransient<IOrderingService, OrderingService>();
-            //services.AddTransient<IBasketService, BasketService>();
-            //services.AddTransient<ICampaignService, CampaignService>();
-            //services.AddTransient<ILocationService, LocationService>();
-            //services.AddTransient<IIdentityParser<ApplicationUser>, IdentityParser>();
 
             if (Configuration.GetValue<string>("UseResilientHttp") == bool.TrueString)
             {
@@ -135,6 +130,7 @@
 
             var container = new ContainerBuilder();
             container.Populate(services);
+            container.RegisterModule(new ServicesModule());
 
             return new AutofacServiceProvider(container.Build());
         }
