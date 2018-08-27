@@ -170,6 +170,8 @@
 
             var identityUrl = configuration.GetValue<string>("IdentityUrl");
 
+            Console.WriteLine(identityUrl, "identity url");
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -212,7 +214,6 @@
 
         public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
         {
-
             services.AddEntityFrameworkNpgsql().AddDbContext<CatalogDbContext>(options =>
                 options.UseNpgsql(configuration.GetValue<string>("NpgConnectionString"),
                   npgsqlOptionsAction: npgsqlOption =>
