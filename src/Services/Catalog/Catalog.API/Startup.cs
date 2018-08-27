@@ -170,8 +170,6 @@
 
             var identityUrl = configuration.GetValue<string>("IdentityUrl");
 
-            Console.WriteLine(identityUrl, "identity url");
-
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
