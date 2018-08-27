@@ -14,6 +14,16 @@
             {
                 return $"{baseUri}CreateItem/";
             }
+
+            public static string UpdateCatalogItem(string baseUri)
+            {
+                return $"{baseUri}UpdateItem/";
+            }
+
+            public static string DeleteCatalogItem(string baseUri, int itemId)
+            {
+                return $"{baseUri}DeleteItem/{itemId}";
+            }
         }
     }
 }

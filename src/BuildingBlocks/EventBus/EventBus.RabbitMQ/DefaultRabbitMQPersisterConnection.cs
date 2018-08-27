@@ -10,6 +10,7 @@
     using global::RabbitMQ.Client;
     using global::RabbitMQ.Client.Events;
     using global::RabbitMQ.Client.Exceptions;
+    using System.Collections.Generic;
 
     public class DefaultRabbitMQPersistentConnection
       : IRabbitMQPersistentConnection
@@ -81,6 +82,7 @@
                 {
                     _connection = _connectionFactory
                           .CreateConnection();
+
                 });
 
                 if (IsConnected)

@@ -7,19 +7,19 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class UpdateCatalogItemCommandHandler : IRequestHandler<UpdateCatalogItemCommand, CatalogItem>
+    public class CreateCatalogItemCommandHandler : IRequestHandler<CreateCatalogItemCommand, CatalogItem>
     {
         private readonly ICatalogItemService _catalogItemService;
 
-        public UpdateCatalogItemCommandHandler(
+        public CreateCatalogItemCommandHandler(
             ICatalogItemService catalogItemService)
         {
             _catalogItemService = catalogItemService ?? throw new ArgumentNullException(nameof(catalogItemService));
         }
 
-        public async Task<CatalogItem> Handle(UpdateCatalogItemCommand request, CancellationToken cancellationToken)
+        public async Task<CatalogItem> Handle(CreateCatalogItemCommand request, CancellationToken cancellationToken)
         {
-            return await this._catalogItemService.Update(request.Id, request.Name, request.Price, request.Color);
+            return await _catalogItemService.CreateNew(request.Name, request.Price, request.Color);
         }
     }
 }

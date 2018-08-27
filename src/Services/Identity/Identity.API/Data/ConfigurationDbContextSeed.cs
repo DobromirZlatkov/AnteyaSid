@@ -13,18 +13,13 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Data
     {
         public async Task SeedAsync(ConfigurationDbContext context, IConfiguration configuration)
         {
-
             //callbacks urls from config:
             var clientUrls = new Dictionary<string, string>();
 
             clientUrls.Add("Mvc", configuration.GetValue<string>("MvcClient"));
-            //clientUrls.Add("Spa", configuration.GetValue<string>("SpaClient"));
-            //clientUrls.Add("Xamarin", configuration.GetValue<string>("XamarinCallback"));
-            //clientUrls.Add("LocationsApi", configuration.GetValue<string>("LocationApiClient"));
-            //clientUrls.Add("MarketingApi", configuration.GetValue<string>("MarketingApiClient"));
-            //clientUrls.Add("BasketApi", configuration.GetValue<string>("BasketApiClient"));
-            //clientUrls.Add("OrderingApi", configuration.GetValue<string>("OrderingApiClient"));
+            clientUrls.Add("CatalogApi", configuration.GetValue<string>("CatalogUrl"));
 
+            /// Delete all clients and repopulated, to make dev process easier
             var clientsToDelete = context.Clients;
 
             foreach (var client in clientsToDelete)
@@ -32,7 +27,26 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Data
                 context.Remove(client);
                 await context.SaveChangesAsync();
             }
-            
+
+            /// Delete all IdentityResources and repopulated, to make dev process easier
+            var identityResourcesToDelete = context.IdentityResources;
+
+            foreach (var identityResource in identityResourcesToDelete)
+            {
+                context.Remove(identityResource);
+                await context.SaveChangesAsync();
+            }
+
+            /// Delete all ApiResources and repopulated, to make dev process easier
+            var apiResourcesToDelete = context.ApiResources;
+
+            foreach (var apiResource in apiResourcesToDelete)
+            {
+                context.Remove(apiResource);
+                await context.SaveChangesAsync();
+            }
+
+            /// Populate all resources and clients
             if (!context.Clients.Any())
             {
                 foreach (var client in Config.GetClients(clientUrls))

@@ -1,4 +1,4 @@
-version: '3.2'
+version: '3.4'
 
 services:
   webmvc:
@@ -21,3 +21,5 @@ services:
     build:
       context: .
       dockerfile: src/Services/Catalog/Catalog.API/Dockerfile
+    depends_on:
+      - identity.api

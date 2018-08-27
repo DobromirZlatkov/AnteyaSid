@@ -1,16 +1,13 @@
 ﻿namespace AnteyaSidOnContainers.Services.Catalog.API.Application.IntegrationEvents.EventHandling
 {
+    using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Abstractions;
+    using AnteyaSidOnContainers.Services.Catalog.API.Application.Commands;
+    using AnteyaSidOnContainers.Services.Catalog.API.Application.IntegrationEvents.Events;
+    using AnteyaSidOnContainers.Services.Catalog.Data.Models;
+    using MediatR;
+    using Microsoft.Extensions.Logging;
     using System;
     using System.Threading.Tasks;
-
-    using Microsoft.Extensions.Logging;
-
-    using MediatR;
-
-    using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Abstractions;
-    using AnteyaSidOnContainers.Services.Catalog.API.Application.IntegrationEvents.Events;
-    using AnteyaSidOnContainers.Services.Catalog.API.Application.Commands;
-    using AnteyaSidOnContainers.Services.Catalog.Data.Models;
 
     public class CatalogItemUpdateIntegrationEventHandler : IIntegrationEventHandler<CatalogItemUpdateIntegrationEvent>
     {
@@ -29,7 +26,7 @@
         ///  Integration event handler which starts the Catalog Item create proccess
         /// </summary>
         /// <param name="eventMsg">
-        /// Integration event message which is sent by the WebMvc once Catalog Item is successfully created from the ui and validated from the WebMvc.
+        ///  Integration event message which is sent by the WebMvc once Catalog Item is successfully created from the ui and validated from the WebMvc.
         /// </param>
         /// <returns></returns>
         public async Task Handle(CatalogItemUpdateIntegrationEvent eventMsg)
@@ -44,8 +41,8 @@
             }
 
             _logger.CreateLogger(nameof(CatalogItemUpdateIntegrationEventHandler))
-                .LogTrace(false ? $"UserCheckoutAccepted integration event has been received and a create new order process is started with requestId: {eventMsg.RequestId}" :
-                    $"UserCheckoutAccepted integration event has been received but a new order process has failed with requestId: {eventMsg.RequestId}");
+                .LogTrace(false ? $"CatalogItemUpdate integration event has been received and a create new order process is started with requestId: {eventMsg.RequestId}" :
+                    $"CatalogItemUpdate integration event has been received but a new order process has failed with requestId: {eventMsg.RequestId}");
         }
     }
 }

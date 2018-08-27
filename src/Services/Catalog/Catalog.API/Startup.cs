@@ -24,6 +24,12 @@
     using AnteyaSidOnContainers.Services.Catalog.API.Infrastructure.AutofacModules;
     using AnteyaSidOnContainers.Services.Catalog.Data;
     using AnteyaSidOnContainers.Services.Catalog.API.Application.IntegrationEvents.Events;
+    using System.IdentityModel.Tokens.Jwt;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Swashbuckle.AspNetCore.Swagger;
+    using System.Collections.Generic;
+    using AnteyaSidOnContainers.Services.Catalog.API.Infrastructure.Infrastructure;
+    using AnteyaSidOnContainers.Services.Catalog.API.Auth.Server;
 
     public class Startup
     {
@@ -37,84 +43,53 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(options =>
-            {
-                options.Filters.Add(typeof(HttpGlobalExceptionFilter));
-            }).AddControllersAsServices();
-            
-            services.AddEntityFrameworkNpgsql().AddDbContext<CatalogDbContext>(options =>
-                options.UseNpgsql(Configuration["NpgConnectionString"],
-                  npgsqlOptionsAction: npgsqlOption =>
-                  {
-                      npgsqlOption.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
-                      npgsqlOption.EnableRetryOnFailure(maxRetryCount: 2, maxRetryDelay: TimeSpan.FromSeconds(2), errorCodesToAdd: null);
-                  }));
-
-
-            services.AddEntityFrameworkNpgsql().AddDbContext<IntegrationEventLogContext>(options =>
-            {
-                options.UseNpgsql(Configuration["NpgConnectionString"],
-                    npgsqlOptionsAction: sqlOptions =>
+            services
+                .AddRabbitMqPersistenConnection(Configuration)
+                .AddEventBus(Configuration)
+                .AddDatabase(Configuration)
+                .AddKendo()
+                .AddOptions()
+                .Configure<CatalogSettings>(Configuration) // Setup settings class from settings file
+                .AddTransient<Func<DbConnection, IIntegrationEventLogService>>(sp => (DbConnection c) => new IntegrationEventLogService(c))
+                .AddSwaggerGen(options => // Add swagger documentation for the microservice
+                {
+                    options.DescribeAllEnumsAsStrings();
+                    options.SwaggerDoc("v1", new Info
                     {
-                        sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
-                        sqlOptions.EnableRetryOnFailure(maxRetryCount: 2, maxRetryDelay: TimeSpan.FromSeconds(2), errorCodesToAdd: null);
+                        Title = "anteyaSidOnContainers - Catalog HTTP API",
+                        Version = "v1",
+                        Description = "The Catalog Microservice HTTP API. This is a Data-Driven/CRUD microservice sample",
+                        TermsOfService = "Terms Of Service"
                     });
-            });
 
-            // Setup settings class from settings file
-            services.Configure<CatalogSettings>(Configuration);
+                    options.AddSecurityDefinition("oauth2", new OAuth2Scheme
+                    {
+                        Type = "oauth2",
+                        Flow = "implicit",
+                        AuthorizationUrl = $"{Configuration.GetValue<string>("IdentityUrl")}/connect/authorize",
+                        TokenUrl = $"{Configuration.GetValue<string>("IdentityUrl")}/connect/token",
+                        Scopes = new Dictionary<string, string>()
+                        {
+                            { "catalog", "Catalog API" }
+                        }
+                    });
 
-            services.AddKendo();
-
-            // Setup event bus connection
-            services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
-            {
-                var logger = sp.GetRequiredService<ILogger<DefaultRabbitMQPersistentConnection>>();
-
-                var factory = new ConnectionFactory()
+                    options.OperationFilter<AuthorizeCheckOperationFilter>();
+                })
+                .AddCustomAuthentication(Configuration)
+                .AddCors(options =>  // Configure CORS
                 {
-                    Uri = new Uri(Configuration["EventBusConnectionUrl"])
-                };
-
-                var retryCount = 5;
-                if (!string.IsNullOrEmpty(Configuration["EventBusRetryCount"]))
+                    options.AddPolicy("CorsPolicy",
+                        builder => builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
+                })
+                .AddMvc(options =>
                 {
-                    retryCount = int.Parse(Configuration["EventBusRetryCount"]);
-                }
-
-                return new DefaultRabbitMQPersistentConnection(factory, logger, retryCount);
-            });
-
-            RegisterEventBus(services);
-
-            services.AddOptions();
-
-            // Add swagger documentation for the microservice
-            services.AddSwaggerGen(options =>
-            {
-                options.DescribeAllEnumsAsStrings();
-                options.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info
-                {
-                    Title = "anteyaSidOnContainers - Catalog HTTP API",
-                    Version = "v1",
-                    Description = "The Catalog Microservice HTTP API. This is a Data-Driven/CRUD microservice sample",
-                    TermsOfService = "Terms Of Service"
-                });
-            });
-
-            // Configure CORS
-            services.AddCors(options =>
-            {
-                options.AddPolicy("CorsPolicy",
-                    builder => builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials());
-            });
-
-            services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(
-                sp => (DbConnection c) => new IntegrationEventLogService(c));
-
+                    options.Filters.Add(typeof(HttpGlobalExceptionFilter));
+                })
+                .AddControllersAsServices();
 
             // configure autofac
             var container = new ContainerBuilder();
@@ -140,22 +115,79 @@
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
+         
             app.UseStaticFiles();
+
+            app.UseCors("CorsPolicy");
+
+            //// IMPORTANT ! Configuring auth should be before configuring swagger because authentication doesn't work.
+            ConfigureAuth(app);
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "api/v1/{controller=Home}/{action=Index}/{id?}");
             });
 
+            var pathBase = Configuration["PATH_BASE"];
+
+            app.UseSwagger()
+               .UseSwaggerUI(c =>
+               {
+                   c.SwaggerEndpoint($"{ (!string.IsNullOrEmpty(pathBase) ? pathBase : string.Empty) }/swagger/v1/swagger.json", "Catalog.API V1");
+                 //  c.ConfigureOAuth2("Microsoft.eShopOnContainers.Mobile.Shopping.HttpAggregatorwaggerui", "", "", "Purchase BFF Swagger UI");
+                   c.OAuthClientId("catalogswaggerui");
+                   c.OAuthAppName("Catalog Swagger UI");
+               });
+             
             ConfigureEventBus(app);
         }
 
-        private void RegisterEventBus(IServiceCollection services)
+        protected virtual void ConfigureAuth(IApplicationBuilder app)
         {
-            var subscriptionClientName = Configuration["SubscriptionClientName"];
+            if (Configuration.GetValue<bool>("UseLoadTest"))
+            {
+                app.UseMiddleware<ByPassAuthMiddleware>();
+            }
+
+            app.UseAuthentication();
+        }
+
+        private void ConfigureEventBus(IApplicationBuilder app)
+        {
+            var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+            eventBus.Subscribe<CatalogItemUpdateIntegrationEvent, IIntegrationEventHandler<CatalogItemUpdateIntegrationEvent>>();
+            eventBus.Subscribe<CatalogItemDeleteIntegrationEvent, IIntegrationEventHandler<CatalogItemDeleteIntegrationEvent>>();
+        }
+    }
+
+    static class CustomExtensionsMethods
+    {
+        public static IServiceCollection AddCustomAuthentication(this IServiceCollection services, IConfiguration configuration)
+        {
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+            var identityUrl = configuration.GetValue<string>("IdentityUrl");
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = identityUrl;
+                options.RequireHttpsMetadata = false;
+                options.Audience = "catalog";
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection AddEventBus(this IServiceCollection services, IConfiguration configuration)
+        {
+            var subscriptionClientName = configuration.GetValue<string>("SubscriptionClientName");
 
             services.AddSingleton<IEventBus, EventBusRabbitMQ>(sp =>
             {
@@ -165,22 +197,64 @@
                 var eventBusSubcriptionsManager = sp.GetRequiredService<IEventBusSubscriptionsManager>();
 
                 var retryCount = 5;
-                if (!string.IsNullOrEmpty(Configuration["EventBusRetryCount"]))
+                if (!string.IsNullOrEmpty(configuration.GetValue<string>("EventBusRetryCount")))
                 {
-                    retryCount = int.Parse(Configuration["EventBusRetryCount"]);
+                    retryCount = int.Parse(configuration.GetValue<string>("EventBusRetryCount"));
                 }
 
                 return new EventBusRabbitMQ(rabbitMQPersistentConnection, logger, iLifetimeScope, eventBusSubcriptionsManager, subscriptionClientName, retryCount);
             });
 
             services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
+
+            return services;
         }
 
-        private void ConfigureEventBus(IApplicationBuilder app)
+        public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
         {
-            var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
 
-            eventBus.Subscribe<CatalogItemUpdateIntegrationEvent, IIntegrationEventHandler<CatalogItemUpdateIntegrationEvent>>();
+            services.AddEntityFrameworkNpgsql().AddDbContext<CatalogDbContext>(options =>
+                options.UseNpgsql(configuration.GetValue<string>("NpgConnectionString"),
+                  npgsqlOptionsAction: npgsqlOption =>
+                  {
+                      npgsqlOption.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
+                      npgsqlOption.EnableRetryOnFailure(maxRetryCount: 2, maxRetryDelay: TimeSpan.FromSeconds(2), errorCodesToAdd: null);
+                  }));
+
+            services.AddEntityFrameworkNpgsql().AddDbContext<IntegrationEventLogContext>(options =>
+            {
+                options.UseNpgsql(configuration.GetValue<string>("NpgConnectionString"),
+                    npgsqlOptionsAction: sqlOptions =>
+                    {
+                        sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
+                        sqlOptions.EnableRetryOnFailure(maxRetryCount: 2, maxRetryDelay: TimeSpan.FromSeconds(2), errorCodesToAdd: null);
+                    });
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection AddRabbitMqPersistenConnection(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
+            {
+                var logger = sp.GetRequiredService<ILogger<DefaultRabbitMQPersistentConnection>>();
+
+                var factory = new ConnectionFactory()
+                {
+                    Uri = new Uri(configuration.GetValue<string>("EventBusConnectionUrl"))
+                };
+
+                var retryCount = 5;
+                if (!string.IsNullOrEmpty(configuration.GetValue<string>("EventBusRetryCount")))
+                {
+                    retryCount = int.Parse(configuration.GetValue<string>("EventBusRetryCount"));
+                }
+
+                return new DefaultRabbitMQPersistentConnection(factory, logger, retryCount);
+            });
+
+            return services;
         }
     }
 }

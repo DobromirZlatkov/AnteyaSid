@@ -10,16 +10,13 @@
     using AnteyaSidOnContainers.WebApps.WebMVC.Areas.Admin.Controllers.Base;
     using AnteyaSidOnContainers.WebApps.WebMVC.Services.Contracts;
     using AnteyaSidOnContainers.WebApps.WebMVC.ViewModels.Catalog;
-    using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Abstractions;
-    using AnteyaSidOnContainers.WebApps.WebMVC.IntegrationEvents.Events.Catalog;
 
     //[Route("admin/catalog")]
     public class CatalogAdminController : KendoGridAdministrationController
     {
         public CatalogAdminController(
-            ICatalogService catalogService,
-            IEventBus eventBus
-        ) : base(catalogService, eventBus)
+            ICatalogService catalogService
+        ) : base(catalogService)
         {
         }
 
@@ -45,40 +42,26 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(DataSourceRequest request, CatalogItemCreateViewModel model, [FromHeader(Name = "x-requestid")] string requestId)
+        public async Task<IActionResult> Create(DataSourceRequest request, CatalogItemCreateViewModel model)
         {
             var dbModel = await this.Create<CatalogItemCreateViewModel>(model);
             return this.GridOperation(model, request);
         }
 
         [HttpPost]
-        public IActionResult Update(DataSourceRequest request, CatalogItemEditViewModel model, [FromHeader(Name = "x-requestid")] string requestId)
+        public async Task<IActionResult> Update(DataSourceRequest request, CatalogItemEditViewModel model)
         {
-            model.RequestId = (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty) ?
-                guid : Guid.NewGuid();
-
-            this.Update<CatalogItemUpdateIntegrationEvent>(model);
+            var dbModel = await this.Update<CatalogItemEditViewModel>(model);
 
             return this.GridOperation(model, request);
         }
 
-        //[NonAction]
-        //protected virtual T Create<T>(object model) where T : IntegrationEvent
-        //{
-        //    if (model != null && ModelState.IsValid)
-        //    {
-        //        var eventModel = Mapper.Map<T>(model);
-        //        _eventBus.Publish(eventModel);
+        [HttpPost]
+        public async Task<ActionResult> Destroy(DataSourceRequest request, CatalogItemDeleteViewModel model)
+        {
+            await this._remoteCrudService.Delete(model.Id);
 
-        //        return eventModel;
-        //    }
-
-        //    return null;
-        //}
-
-        //protected JsonResult GridOperation<T>(T model, DataSourceRequest request)
-        //{
-        //    return Json(new[] { model }.ToDataSourceResult(request, ModelState));
-        //}
+            return this.GridOperation(model, request);
+        }
     }
 }

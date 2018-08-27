@@ -6,6 +6,7 @@
     using AnteyaSidOnContainers.Services.Catalog.Data.Contracts;
     using AnteyaSidOnContainers.Services.Catalog.Data.Models;
     using AnteyaSidOnContainers.Services.Catalog.Services.Data.Contracts;
+    using Microsoft.EntityFrameworkCore;
 
     public class CatalogItemService : ICatalogItemService
     {
@@ -18,7 +19,7 @@
             this._catalogItemsRepository = catalogItemsRepository ?? throw new ArgumentNullException(nameof(catalogItemsRepository));
         }
 
-        public async Task<int> CreateNew(string name, decimal price, string color)
+        public async Task<CatalogItem> CreateNew(string name, decimal price, string color)
         {
             var catalogItem = new CatalogItem()
             {
@@ -29,7 +30,21 @@
 
             _catalogItemsRepository.Add(catalogItem);
 
-            return await _catalogItemsRepository.SaveChangesAsync();
+            await _catalogItemsRepository.SaveChangesAsync();
+
+            return catalogItem;
+        }
+
+        public async Task<int> Delete(int id)
+        {
+            _catalogItemsRepository.Delete(id);
+
+            return await this._catalogItemsRepository.SaveChangesAsync();
+        }
+
+        public async Task<bool> doExistsById(int itemId)
+        {
+            return await GetAll().Where(x => x.Id == itemId).AnyAsync();
         }
 
         public IQueryable<CatalogItem> GetAll()

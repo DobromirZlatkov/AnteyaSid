@@ -9,8 +9,12 @@
     {
         IQueryable<CatalogItem> GetAll();
 
-        Task<int> CreateNew(string name, decimal price, string color);
+        Task<CatalogItem> CreateNew(string name, decimal price, string color);
 
         Task<CatalogItem> Update(int id, string name, decimal price, string color);
+
+        Task<int> Delete(int id);
+
+        Task<bool> doExistsById(int itemId);
     }
 }
