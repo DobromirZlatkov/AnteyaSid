@@ -7,8 +7,7 @@
     using Kendo.Mvc.UI;
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
-
-    using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Abstractions;
+    
     using AnteyaSidOnContainers.WebApps.WebMVC.Services.Contracts;
 
     public abstract class KendoGridAdministrationController : AdminController

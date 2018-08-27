@@ -10,8 +10,6 @@
     using AnteyaSidOnContainers.WebApps.WebMVC.Areas.Admin.Controllers.Base;
     using AnteyaSidOnContainers.WebApps.WebMVC.Services.Contracts;
     using AnteyaSidOnContainers.WebApps.WebMVC.ViewModels.Catalog;
-    using AnteyaSidOnContainers.BuildingBlocks.EventBus.EventBus.AnteyaSid.Abstractions;
-    using AnteyaSidOnContainers.WebApps.WebMVC.IntegrationEvents.Events.Catalog;
 
     //[Route("admin/catalog")]
     public class CatalogAdminController : KendoGridAdministrationController
