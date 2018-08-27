@@ -1,7 +1,6 @@
-version: '3.4'
+version: '3.2'
 
 services:
-
   webmvc:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -24,8 +23,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - NpgConnectionString=${ANTEYA_SID_CATALOG_DB:-User ID = mnhdwojhhbpmpf;Password=6835916197c1f887d21f8ce7c460595c66746a9ed38dd768e531d3f62dcef72a;Server=ec2-54-75-239-237.eu-west-1.compute.amazonaws.com;Port=5432;Database=ddqbiasuitkvbj;Integrated Security=true; Pooling=true; sslmode=Require;Trust Server Certificate=true}
+      - EventBusConnectionUrl=${EVENT_BUS_CONNECTION_URL:-amqp://hvagcwtv:nRzJYkkqmmvPmmhrpxnqSzyZsXfGi4Nu@wolverine.rmq.cloudamqp.com/hvagcwtv}
       - MvcClient=http://anteya-web-mvc.herokuapp.com
       - IdentityUrl==http://anteya-identity-api.herokuapp.com
-   ports:
+    ports:
       - "5101:80"
-
