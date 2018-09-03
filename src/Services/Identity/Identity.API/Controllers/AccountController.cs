@@ -156,7 +156,7 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
             {
                 // if the user is not authenticated, then just show logged out page
                 Console.WriteLine("Test 2");
-                Console.WriteLine("logoutId", logoutId)
+                Console.WriteLine(logoutId);
                 return await Logout(new LogoutViewModel { LogoutId = logoutId });
             }
 
@@ -178,7 +178,8 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
             {
                 LogoutId = logoutId
             };
-            Console.WriteLine("Test 6", logoutId);
+            Console.WriteLine("Test 6");
+            Console.WriteLine(logoutId);
             return View(vm);
         }
 
