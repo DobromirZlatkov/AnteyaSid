@@ -78,7 +78,8 @@
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
-                        "lykketradingapp://auth/callback"
+                        "lykketradingapp://auth/callback",
+                        "http://nova.lykkecloud.com"
                     },
                     AllowedGrantTypes = new List<string>
                     {

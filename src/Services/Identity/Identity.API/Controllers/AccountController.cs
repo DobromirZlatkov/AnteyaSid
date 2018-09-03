@@ -152,6 +152,8 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
         public async Task<IActionResult> Logout(string logoutId)
         {
             Console.WriteLine("Test 1");
+            Console.WriteLine(User.Identity);
+            Console.WriteLine(User.Identity.IsAuthenticated);
             if (User.Identity.IsAuthenticated == false)
             {
                 // if the user is not authenticated, then just show logged out page
