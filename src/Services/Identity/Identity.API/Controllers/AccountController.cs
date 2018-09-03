@@ -156,6 +156,7 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
             {
                 // if the user is not authenticated, then just show logged out page
                 Console.WriteLine("Test 2");
+                Console.WriteLine("logoutId", logoutId)
                 return await Logout(new LogoutViewModel { LogoutId = logoutId });
             }
 
@@ -177,7 +178,7 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
             {
                 LogoutId = logoutId
             };
-            Console.WriteLine("Test 6");
+            Console.WriteLine("Test 6", logoutId);
             return View(vm);
         }
 
@@ -188,6 +189,7 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout(LogoutViewModel model)
         {
+            Console.WriteLine("Test 1.1");
             var idp = User?.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
             var subjectId = HttpContext.User.Identity.GetSubjectId();
 
