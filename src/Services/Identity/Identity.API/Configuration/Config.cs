@@ -71,7 +71,7 @@
                 {
                     ClientId = "nova_mobile",
                     ClientName = "Lykke Mobile Client",
-                    ClientUri = "lykketradingapp://",
+                   // ClientUri = "lykketradingapp://",
                     RedirectUris = new List<string>
                     {
                         "lykketradingapp://auth/callback"
@@ -80,18 +80,23 @@
                     {
                         "lykketradingapp://auth/callback"
                     },
-                    AllowedGrantTypes = GrantTypes.Hybrid,
+                    AllowedGrantTypes = new List<string>
+                    {
+                        "authorization_code",
+                        "client_credentials"
+                    },
                     AllowAccessTokensViaBrowser = false,
                     AllowOfflineAccess = true,
+                    RequireClientSecret = false,
+                    Enabled = true,
                     RequirePkce = false,
                     RequireConsent = false,
-                    
+
                     AllowedScopes = new List<string>
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        IdentityServerConstants.StandardScopes.OfflineAccess,
-                        "catalog"
+                        IdentityServerConstants.StandardScopes.OfflineAccess
                     }
 
                 },
