@@ -40,7 +40,61 @@
         {
             return new List<Client>
             {
-                
+
+//                 {
+//   "id": "nova_mobile",
+//   "name": "Lykke Mobile Client",
+//   "allowed_cors_origins": [],
+//   "redirect_uris": [
+//     "lykketradingapp://auth/callback"
+//   ],
+//   "post_logout_redirect_uris": [],
+//   "allowed_scopes": [
+//     "openid",
+//     "profile",
+//     "email",
+//     "nova_api"
+//   ],
+//   "access_token_type": "Reference",
+//   "allowed_grant_types": [
+//     "authorization_code",
+//     "client_credentials"
+//   ],
+//   "allow_access_tokens_via_browser": false,
+//   "allow_offline_access": true,
+//   "require_client_secret": false,
+//   "require_pkce": false,
+//   "require_consent": false,
+//   "enabled": true
+// }
+                new Client
+                {
+                    ClientId = "nova_mobile",
+                    ClientName = "Lykke Mobile Client",
+                    ClientUri = "lykketradingapp://",
+                    RedirectUris = new List<string>
+                    {
+                        "lykketradingapp://auth/callback"
+                    },
+                    PostLogoutRedirectUris = new List<string>
+                    {
+                        "lykketradingapp://auth/callback"
+                    },
+                    AllowedGrantTypes = GrantTypes.Hybrid,
+                    AllowAccessTokensViaBrowser = false,
+                    AllowOfflineAccess = true,
+                    RequirePkce = false,
+                    RequireConsent = false,
+                    
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.OfflineAccess,
+                        "catalog"
+                    }
+
+                },
                 new Client
                 {
                     ClientId = "mvc",
