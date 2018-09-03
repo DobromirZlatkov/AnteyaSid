@@ -151,26 +151,33 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Logout(string logoutId)
         {
+            Console.WriteLine("Test 1");
             if (User.Identity.IsAuthenticated == false)
             {
                 // if the user is not authenticated, then just show logged out page
+                Console.WriteLine("Test 2");
                 return await Logout(new LogoutViewModel { LogoutId = logoutId });
             }
 
             //Test for Xamarin. 
+            Console.WriteLine("Test 3");
             var context = await _interaction.GetLogoutContextAsync(logoutId);
+            Console.WriteLine("Test 4");
             if (context?.ShowSignoutPrompt == false)
             {
+                Console.WriteLine("Test 5");
                 //it's safe to automatically sign-out
                 return await Logout(new LogoutViewModel { LogoutId = logoutId });
             }
 
             // show the logout prompt. this prevents attacks where the user
             // is automatically signed out by another malicious web page.
+
             var vm = new LogoutViewModel
             {
                 LogoutId = logoutId
             };
+            Console.WriteLine("Test 6");
             return View(vm);
         }
 
@@ -213,7 +220,8 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
 
             // delete authentication cookie
             await HttpContext.SignOutAsync();
-            await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+
+            //await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
 
             // set this so UI rendering sees an anonymous user
             HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity());
