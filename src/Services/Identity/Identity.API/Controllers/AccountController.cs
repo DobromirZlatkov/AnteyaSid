@@ -244,7 +244,7 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
             Console.WriteLine("Test 1.9.1");
 
             //// full user logout. Every time new credentials will be required.
-            //await _persistedGrantService.RemoveAllGrantsAsync(subjectId, "mvc");
+            await _persistedGrantService.RemoveAllGrantsAsync(subjectId, "nova_mobile");
 
 
             return Redirect(logout?.PostLogoutRedirectUri);

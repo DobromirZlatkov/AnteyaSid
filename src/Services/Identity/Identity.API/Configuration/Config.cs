@@ -81,7 +81,7 @@
                         "lykketradingapp://auth/callback",
                         "http://nova.lykkecloud.com",
                         "lykketradingapp://Login",
-                        "lykketradingapp://logout/success"
+                        "novaTradingApp://logout/callback"
                     },
                     AllowedGrantTypes = new List<string>
                     {
