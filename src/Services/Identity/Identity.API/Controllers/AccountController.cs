@@ -233,7 +233,7 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
             Console.WriteLine("Test 1.8");
             // delete authentication cookie
             await HttpContext.SignOutAsync();
-            await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+           // await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
 
             // set this so UI rendering sees an anonymous user
             HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity());
