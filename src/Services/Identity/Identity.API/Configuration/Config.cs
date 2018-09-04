@@ -74,7 +74,8 @@
                    // ClientUri = "lykketradingapp://",
                     RedirectUris = new List<string>
                     {
-                        "lykketradingapp://auth/callback"
+                        "lykketradingapp://auth/callback",
+                        "novaTradingApp://auth/callback"
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
