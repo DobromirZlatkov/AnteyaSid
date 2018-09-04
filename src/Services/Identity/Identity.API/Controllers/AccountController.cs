@@ -194,15 +194,21 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
         {
             Console.WriteLine("Test 1.1");
             var idp = User?.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
+            Console.WriteLine("Test 1.2");
+            Console.WriteLine(idp);
             var subjectId = HttpContext.User.Identity.GetSubjectId();
+            Console.WriteLine("Test 1.3");
+            Console.WriteLine(subjectId);
 
             if (idp != null && idp != IdentityServerConstants.LocalIdentityProvider)
             {
+                Console.WriteLine("Test 1.4");
                 if (model.LogoutId == null)
                 {
                     // if there's no current logout context, we need to create one
                     // this captures necessary info from the current logged in user
                     // before we signout and redirect away to the external IdP for signout
+                    Console.WriteLine("Test 1.5");
                     model.LogoutId = await _interaction.CreateLogoutContextAsync();
                 }
 
@@ -210,7 +216,7 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
 
                 try
                 {
-
+                    Console.WriteLine("Test 1.6");
                     // hack: try/catch to handle social providers that throw
                     await HttpContext.SignOutAsync(idp, new AuthenticationProperties
                     {
@@ -219,19 +225,23 @@ namespace AnteyaSidOnContainers.Services.Identity.API.Controllers
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine("Test 1.7");
                     _logger.LogCritical(ex.Message);
                 }
             }
 
+            Console.WriteLine("Test 1.8");
             // delete authentication cookie
             await HttpContext.SignOutAsync();
             await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
 
             // set this so UI rendering sees an anonymous user
             HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity());
+            Console.WriteLine("Test 1.9");
 
             // get context information (client name, post logout redirect URI and iframe for federated signout)
             var logout = await _interaction.GetLogoutContextAsync(model.LogoutId);
+            Console.WriteLine("Test 1.9.1");
 
             //// full user logout. Every time new credentials will be required.
             //await _persistedGrantService.RemoveAllGrantsAsync(subjectId, "mvc");
