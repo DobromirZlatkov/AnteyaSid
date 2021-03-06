@@ -11,6 +11,8 @@
 
         DbSet<ClientRequest> ClientRequests { get; }
 
+        DbSet<TradingOrder> TradingOrders { get; }
+
         DbContext DbContext { get; }
 
         DbSet<T> Set<T>() where T : class;

@@ -87,10 +87,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{E3
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.Services.Data", "src\Services\Catalog\Services\Catalog.Services.Data\Catalog.Services.Data.csproj", "{144392EC-324D-4EDD-841F-9C2E0A5A0C64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingSignals.API", "src\Services\TradingSignals\TradingSignals.API\TradingSignals.API.csproj", "{2EB534A4-A7A4-4B48-BEF1-088398AE478B}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TradingSignals", "TradingSignals", "{6DC5AD21-75C7-4000-A7B1-EA97CD69F28A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -165,10 +161,6 @@ Global
 		{144392EC-324D-4EDD-841F-9C2E0A5A0C64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{144392EC-324D-4EDD-841F-9C2E0A5A0C64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{144392EC-324D-4EDD-841F-9C2E0A5A0C64}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2EB534A4-A7A4-4B48-BEF1-088398AE478B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2EB534A4-A7A4-4B48-BEF1-088398AE478B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2EB534A4-A7A4-4B48-BEF1-088398AE478B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2EB534A4-A7A4-4B48-BEF1-088398AE478B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -201,8 +193,6 @@ Global
 		{151E03A5-BF32-4DFF-801B-788C62E15E83} = {71C3D8D9-753D-4669-9655-2BD9196B0320}
 		{E3B6C0DB-F0C3-4905-A818-51954CF6697E} = {B08F98C8-03EC-4A7C-9AD9-B2A6DB5F98A1}
 		{144392EC-324D-4EDD-841F-9C2E0A5A0C64} = {E3B6C0DB-F0C3-4905-A818-51954CF6697E}
-		{2EB534A4-A7A4-4B48-BEF1-088398AE478B} = {6DC5AD21-75C7-4000-A7B1-EA97CD69F28A}
-		{6DC5AD21-75C7-4000-A7B1-EA97CD69F28A} = {E4E7E5DB-511B-42A1-A275-B99BF43FD219}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8FEE6B85-5873-43C4-9122-E9050C652E7B}

@@ -3,15 +3,17 @@ using System;
 using AnteyaSidOnContainers.Services.Catalog.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace AnteyaSidOnContainers.Services.Catalog.API.Migrations
 {
     [DbContext(typeof(CatalogDbContext))]
-    partial class CatalogContextModelSnapshot : ModelSnapshot
+    [Migration("20210306170127_AddTradingOrder-Source")]
+    partial class AddTradingOrderSource
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

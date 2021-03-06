@@ -12,6 +12,8 @@
 
         public DbSet<ClientRequest> ClientRequests { get; set; }
 
+        public DbSet<TradingOrder> TradingOrders { get; set; }
+
         public DbContext DbContext
         {
             get
