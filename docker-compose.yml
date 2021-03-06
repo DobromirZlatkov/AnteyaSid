@@ -24,10 +24,3 @@ services:
     depends_on:
       - identity.api
 
-  tradingSignals.api:
-    image: anteyasid/tradingSignals.api
-    build:
-      context: .
-      dockerfile: src/Services/TradingSignals/TradingSignals.API/Dockerfile
-    depends_on:
-      - identity.api

@@ -29,13 +29,4 @@ services:
     ports:
       - "5101:80"
 
-  tradingSignals.api:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - NpgConnectionString=${ANTEYA_SID_IDENTITY_DB:-User ID = postgres;Password=56;Server=192.168.1.125;Port=5432;Database=TradingSignals.db;Integrated Security=true; Pooling=true}
-      - EventBusConnectionUrl=${EVENT_BUS_CONNECTION_URL:-amqp://hvagcwtv:nRzJYkkqmmvPmmhrpxnqSzyZsXfGi4Nu@wolverine.rmq.cloudamqp.com/hvagcwtv}
-      - MvcClient=http://localhost:5102
-      - IdentityUrl=http://10.0.75.1:5105
-    ports:
-      - "5102:80"
 
