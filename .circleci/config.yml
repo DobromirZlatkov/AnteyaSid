@@ -39,10 +39,13 @@ jobs:
          docker push registry.heroku.com/$HEROKU_CATALOG_API_NAME/web
          docker tag anteyasid/webmvc registry.heroku.com/$HEROKU_WEB_MVC_NAME/web
          docker push registry.heroku.com/$HEROKU_WEB_MVC_NAME/web
+         docker tag anteyasid/tradingSignals.api registry.heroku.com/$HEROKU_TRADING_SIGNALS_API_NAME/web
+         docker push registry.heroku.com/$HEROKU_TRADING_SIGNALS_API_NAME/web
 
       # release images 
       - run: |
          heroku container:release web --app $HEROKU_IDENTITY_API_NAME
          heroku container:release web --app $HEROKU_CATALOG_API_NAME
          heroku container:release web --app $HEROKU_WEB_MVC_NAME
+         heroku container:release web --app $HEROKU_TRADING_SIGNALS_API_NAME
       
